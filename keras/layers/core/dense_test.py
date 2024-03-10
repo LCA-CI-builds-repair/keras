@@ -234,6 +234,9 @@ class DenseTest(testing.TestCase):
     def test_lora_rank_argument(self):
         self.run_layer_test(
             layers.Dense,
+            rank=3,
+            _rng=np.random.RandomState(42),
+            _model_kwargs={'units': 2},
             init_kwargs={
                 "units": 5,
                 "activation": "sigmoid",
