@@ -2,10 +2,11 @@ import numpy as np
 import pytest
 
 from keras import callbacks
-from keras import layers
-from keras import metrics
-from keras import models
-from keras import testing
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras import metrics
+from tensorflow.keras import models
+from tensorflow.keras import testing
 
 
 class EarlyStoppingTest(testing.TestCase):

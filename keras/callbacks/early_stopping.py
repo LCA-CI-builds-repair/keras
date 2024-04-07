@@ -100,15 +100,15 @@ class EarlyStopping(Callback):
 
     def _set_monitor_op(self):
         if self.mode == "min":
-            self.monitor_op = ops.less
+            self.monitor_op = tf.math.less
             return
         elif self.mode == "max":
-            self.monitor_op = ops.greater
+            self.monitor_op = tf.math.greater
             return
         else:
             metric_name = self.monitor.removeprefix("val_")
             if metric_name == "loss":
-                self.monitor_op = ops.less
+                self.monitor_op = tf.math.less
                 return
             if hasattr(self.model, "metrics"):
                 all_metrics = []
