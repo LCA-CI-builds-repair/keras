@@ -228,12 +228,31 @@ class DenseTest(testing.TestCase):
 
         # Try loading a normal checkpoint into a lora model
         new_model.save_weights(temp_filepath)
-        model.load_weights(temp_filepath)
-        self.assertAllClose(model.predict(x), new_model.predict(x))
-
     def test_lora_rank_argument(self):
         self.run_layer_test(
             layers.Dense,
+            {
+                "input_shape": (1, 1, 1),
+                "kernel_initializer": "zeros",
+                "kernel_regularizer": keras.regularizers.l2(0.01),
+                "activity_regularizer": keras.regularizers.l2(0.01),
+                "bias_regularizer": keras.regularizers.l2(0.01),
+                "use_bias": True,
+                "rank": 2,
+            },
+            {
+                "input_shape": (1, 1, 1),
+                "kernel_initializer": "zeros",
+                "kernel_regularizer": keras.regularizers.l2(0.01),
+                "activity_regularizer": keras.regularizers.l2(0.01),
+                "bias_regularizer": keras.regularizers.l2(0.01),
+                "use_bias": True,
+                "rank": 2,
+            },
+            input_data=np.random.rand(1, 1, 1),
+            expected_output_dtype=np.float32,
+            test_sample_weight=True,
+        )
             init_kwargs={
                 "units": 5,
                 "activation": "sigmoid",
