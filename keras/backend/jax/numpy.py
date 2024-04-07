@@ -205,10 +205,25 @@ def argmax(x, axis=None):
 def argmin(x, axis=None):
     return jnp.argmin(x, axis=axis)
 
+```python
+import jax.numpy as jnp
 
 def argsort(x, axis=-1):
     return jnp.argsort(x, axis=axis)
+# Add the following import statements for JAX operations
+import jax.ops.indexing as jxi
+import jax.ops as jaxops
 
+# Replace the argsort function with the following implementation to support axis=-1
+def argsort(x, axis=-1):
+    x = jnp.asarray(x)
+    if axis < 0:
+        axis += x.ndim
+    index = jaxops.index_slice(jnp.arange(x.shape[axis]), 0, jxi.index_slice(jnp.arange(x.shape[axis]), jnp.argsort(x, axis=axis)))
+    return jnp.where(x.shape[axis] > 1, index, jnp.newaxis(jnp.argmax(x, axis=axis), axis=(axis,)))
+```
+
+---
 
 def array(x, dtype=None):
     return jnp.array(x, dtype=dtype)
