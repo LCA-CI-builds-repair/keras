@@ -205,7 +205,6 @@ def argmax(x, axis=None):
 def argmin(x, axis=None):
     return jnp.argmin(x, axis=axis)
 
-
 def argsort(x, axis=-1):
     return jnp.argsort(x, axis=axis)
 

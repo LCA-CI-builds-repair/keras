@@ -1448,12 +1448,15 @@ def eye(N, M=None, k=None, dtype=None):
     diag = torch.ones(diag_length, dtype=dtype, device=get_device())
     return torch.diag(diag, diagonal=k)[:N, :M]
 
-
 def floor_divide(x1, x2):
     x1, x2 = convert_to_tensor(x1), convert_to_tensor(x2)
     return torch.floor_divide(x1, x2)
 
 
 def logical_xor(x1, x2):
+    x1, x2 = convert_to_tensor(x1), convert_to_tensor(x2)
+    return torch.logical_xor(x1, x2)
+
+
     x1, x2 = convert_to_tensor(x1), convert_to_tensor(x2)
     return torch.logical_xor(x1, x2)
