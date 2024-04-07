@@ -8,6 +8,32 @@ from keras import models
 from keras import testing
 
 
+@pytest.mark.parametrize("monitor, mode, expected", [
+    ("loss", "min", ops.less),
+    ("loss", "max", ops.greater),
+    ("val_loss", "min", ops.less),
+    ("val_loss", "max", ops.greater),
+])
+def test_set_monitor_op(monitor, mode, expected):
+    es = EarlyStopping(monitor=monitor, mode=mode, patience=0)
+    es._set_monitor_op()
+    assert es.monitor_op is expected
+
+
+def test_set_monitor_op_custom_metric():
+    class CustomMetric(metrics.Metric):
+        def __init__(self):
+            super().__init__(name="custom")
+
+        def __call__(self, y_true, y_pred):
+            return 0.0
+
+        def reset_states(self):
+            pass
+
+    es = EarlyStopping(monitor=CustomMetric(), mode="min", patience=0)
+    es._set_monitor_op()
+    assert es.monitor_op is ops.less
 class EarlyStoppingTest(testing.TestCase):
     @pytest.mark.requires_trainable_backend
     def test_early_stopping(self):

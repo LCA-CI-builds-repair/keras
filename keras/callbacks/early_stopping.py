@@ -94,7 +94,6 @@ class EarlyStopping(Callback):
             warnings.warn(
                 f"EarlyStopping mode {mode} is unknown, fallback to auto mode.",
                 stacklevel=2,
-            )
             mode = "auto"
         self.mode = mode
 
@@ -113,6 +112,11 @@ class EarlyStopping(Callback):
             if hasattr(self.model, "metrics"):
                 all_metrics = []
                 for m in self.model.metrics:
+                    if metric_name == m.name:
+                        self.monitor_op = getattr(ops, "less" if m.direction == "min" else "greater")
+                        return
+                else:
+                    raise ValueError("Invalid metric name: " + self.monitor)
                     if isinstance(
                         m,
                         (
