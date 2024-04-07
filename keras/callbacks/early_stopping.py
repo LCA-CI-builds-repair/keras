@@ -94,25 +94,46 @@ class EarlyStopping(Callback):
             warnings.warn(
                 f"EarlyStopping mode {mode} is unknown, fallback to auto mode.",
                 stacklevel=2,
-            )
-            mode = "auto"
+```python
+    def __init__(self, monitor="val_loss", mode="auto", verbose=0,
+                 patience=10, min_delta=0):
+        super(EarlyStopping, self).__init__()
+
+        self.monitor = monitor
         self.mode = mode
+        self.verbose = verbose
+        self.patience = patience
+        self.min_delta = min_delta
+
+        self.monitor_op = None
+        self._set_monitor_op()
+
+        self.best = None
+        self.best_weights = None
+        self.wait = 0
+        self.stopped_epoch = 0
 
     def _set_monitor_op(self):
         if self.mode == "min":
-            self.monitor_op = ops.less
+            self.monitor_op = tf.math.less
             return
         elif self.mode == "max":
-            self.monitor_op = ops.greater
+            self.monitor_op = tf.math.greater
             return
         else:
             metric_name = self.monitor.removeprefix("val_")
             if metric_name == "loss":
-                self.monitor_op = ops.less
+                self.monitor_op = tf.math.less
                 return
             if hasattr(self.model, "metrics"):
                 all_metrics = []
                 for m in self.model.metrics:
+                    all_metrics.extend(m.variables)
+                if metric_name in {m.name for m in all_metrics}:
+                    self.monitor_op = tf.math.greater  # Assumes that higher values are better if the metric is present in the model's metrics.
+                    return
+    # The rest of the file remains the same
+```
                     if isinstance(
                         m,
                         (
