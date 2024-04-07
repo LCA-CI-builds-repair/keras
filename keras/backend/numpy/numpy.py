@@ -1035,10 +1035,13 @@ def eye(N, M=None, k=0, dtype=None):
     dtype = dtype or config.floatx()
     return np.eye(N, M=M, k=k, dtype=dtype)
 
-
+```python
 def floor_divide(x1, x2):
-    return np.floor_divide(x1, x2)
+    if not (np.issubdtype(x1.dtype, np.number) and np.issubdtype(x2.dtype, np.number)):
+        raise TypeError("unsupported operands: not all operands are numbers")
 
+    return np.floor_divide(x1, x2)
+```
 
 def logical_xor(x1, x2):
     return np.logical_xor(x1, x2)
