@@ -113,6 +113,10 @@ class EarlyStopping(Callback):
             if hasattr(self.model, "metrics"):
                 all_metrics = []
                 for m in self.model.metrics:
+                    if m.name == metric_name:
+                        self.monitor_op = ops.less
+                        return
+            raise ValueError(f"Could not find metric {metric_name} in the model.")
                     if isinstance(
                         m,
                         (
