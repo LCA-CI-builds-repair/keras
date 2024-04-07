@@ -7,6 +7,7 @@ from keras import metrics
 from keras import models
 from keras import testing
 
+import pytest
 
 class EarlyStoppingTest(testing.TestCase):
     @pytest.mark.requires_trainable_backend
