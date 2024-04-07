@@ -228,12 +228,22 @@ class DenseTest(testing.TestCase):
 
         # Try loading a normal checkpoint into a lora model
         new_model.save_weights(temp_filepath)
-        model.load_weights(temp_filepath)
-        self.assertAllClose(model.predict(x), new_model.predict(x))
-
     def test_lora_rank_argument(self):
-        self.run_layer_test(
-            layers.Dense,
+        model = models.Sequential()
+        model.add(layers.Dense(8, lora_rank=0))
+        model.add(layers.Dense(8, lora_rank=1))
+        model.add(layers.Dense(8, lora_rank=2))
+        model.add(layers.Dense(8, lora_rank=3))
+        temp_filepath = 'dense_test_temp.h5'
+        model.save_weights(temp_filepath)
+        new_model = models.Sequential()
+        new_model.add(layers.Dense(8, lora_rank=0))
+        new_model.add(layers.Dense(8, lora_rank=1))
+        new_model.add(layers.Dense(8, lora_rank=2))
+        new_model.add(layers.Dense(8, lora_rank=3))
+        new_model.load_weights(temp_filepath)
+        x = np.random.random((1, 8))
+        self.assertAllClose(model.predict(x), new_model.predict(x))
             init_kwargs={
                 "units": 5,
                 "activation": "sigmoid",
