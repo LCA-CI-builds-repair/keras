@@ -1035,10 +1035,14 @@ def eye(N, M=None, k=0, dtype=None):
     dtype = dtype or config.floatx()
     return np.eye(N, M=M, k=k, dtype=dtype)
 
-
+```python
 def floor_divide(x1, x2):
+    if not (isinstance(x1, (int, float, np.ndarray)) and isinstance(x2, (int, float, np.ndarray))):
+        raise TypeError("Input operands for floor_divide must be int, float, or np.ndarray types.")
+    if isinstance(x2, (int, float)) and x2 == 0:
+        raise ValueError("Division by zero encountered in floor_divide.")
     return np.floor_divide(x1, x2)
-
+```
 
 def logical_xor(x1, x2):
     return np.logical_xor(x1, x2)
