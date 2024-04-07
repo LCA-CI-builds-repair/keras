@@ -95,24 +95,14 @@ class EarlyStopping(Callback):
                 f"EarlyStopping mode {mode} is unknown, fallback to auto mode.",
                 stacklevel=2,
             )
-            mode = "auto"
-        self.mode = mode
-
-    def _set_monitor_op(self):
-        if self.mode == "min":
-            self.monitor_op = ops.less
-            return
-        elif self.mode == "max":
-            self.monitor_op = ops.greater
-            return
-        else:
             metric_name = self.monitor.removeprefix("val_")
-            if metric_name == "loss":
-                self.monitor_op = ops.less
-                return
-            if hasattr(self.model, "metrics"):
-                all_metrics = []
-                for m in self.model.metrics:
+            if metric_name.endswith("loss"):
+                mode = "min"
+            elif metric_name.endswith("accuracy") or metric_name.endswith("acc"):
+                mode = "max"
+            else:
+                mode = "max"  # Default to "max" for unknown metrics
+        self.mode = mode
                     if isinstance(
                         m,
                         (
