@@ -1037,7 +1037,10 @@ def eye(N, M=None, k=0, dtype=None):
 
 
 def floor_divide(x1, x2):
-    return np.floor_divide(x1, x2)
+    try:
+        return np.floor_divide(x1, x2)
+    except ZeroDivisionError:
+        return np.inf
 
 
 def logical_xor(x1, x2):
