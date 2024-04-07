@@ -94,8 +94,11 @@ class EarlyStopping(Callback):
             warnings.warn(
                 f"EarlyStopping mode {mode} is unknown, fallback to auto mode.",
                 stacklevel=2,
-            )
-            mode = "auto"
+        if not isinstance(self.monitor, str):
+            metric_name = self.monitor.name.removeprefix("val_") if self.monitor.name.startswith("val_") else self.monitor.name
+            self.monitor = tf.keras.metrics.Mean(name=metric_name)
+        if self.mode is None:
+            self.mode = "auto"
         self.mode = mode
 
     def _set_monitor_op(self):
@@ -106,13 +109,13 @@ class EarlyStopping(Callback):
             self.monitor_op = ops.greater
             return
         else:
-            metric_name = self.monitor.removeprefix("val_")
-            if metric_name == "loss":
-                self.monitor_op = ops.less
+            if isinstance(self.monitor, tf.Tensor):
+                self.monitor_op = lambda y_true, y_pred: tf.logical_or(tf.equal(self.monitor, y_true), tf.logical_and(tf.is_nan(self.monitor), tf.is_nan(y_true)))
                 return
-            if hasattr(self.model, "metrics"):
-                all_metrics = []
-                for m in self.model.metrics:
+            metric_name = self.monitor.name.removeprefix("val_") if self.monitor.name.startswith("val_") else self.monitor.name
+            self.monitor_op = ops.less if self.mode == "min" else ops.greater
+            self.monitor_op = tf.math.function(self.monitor_op, [self.monitor, K.placeholder(tf.float32, shape=(None,))])
+            self.monitor_op = self.monitor_op(K.constant(np.nan), K.placeholder(tf.float32, shape=(None,))) if self.monitor_name_as_variable else self.monitor_op
                     if isinstance(
                         m,
                         (
