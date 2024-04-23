@@ -4,8 +4,8 @@ Follow these steps to submit your code contribution.
 
 ### Step 1. Open an issue
 
-Before making any changes, we recommend opening an issue (if one doesn't already
-exist) and discussing your proposed changes. This way, we can give you feedback
+Before making any changes, we recommend opening an issue (if one doesn'root directory.
+ discussing your proposed changes. This way, we can give you feedback
 and validate the proposed changes.
 
 If the changes are minor (simple bug fix or documentation fix), then feel free

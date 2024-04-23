@@ -4,8 +4,16 @@ from absl.testing import parameterized
 from tensorflow.python.ops.numpy_ops import np_config
 
 from keras import backend
-from keras import layers
-from keras import losses
+from keras import lay        x = K.ones([None, 3, 1])
+        self.assertEqual(knn.multi_hot(x, 5, axis=2).shape, (None, 1, 5))
+        self.assertEqual(knn.multi_hot(x, 5, axis=1).shape, (None, 3, 1))
+        self.assertEqual(knn.multi_hot(x, 5, axis=0).shape, (None, 5, 1))
+
+    @parameterized.product(dtype=["float32", "int32"])
+    def test_multi_hot_dtype(self, dtype):
+        # dtype tests
+        x = np.arange(5)
+        out = knn.multi_hot(x, 5, axis=0, dtype=dtype)eras import losses
 from keras import models
 from keras import testing
 from keras.backend.common import standardize_dtype
