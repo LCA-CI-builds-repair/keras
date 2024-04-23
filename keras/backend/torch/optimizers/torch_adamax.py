@@ -1,6 +1,13 @@
 import torch
 
-from keras import ops
+from keras im        m_list = [
+            self._m[self._get_variable_index(variable)].value
+            for variable in keras_variables
+        ]
+        u_list = [
+            self._u[self._get_variable_index(variable)].value
+            for variable in keras_variables
+        ]s
 from keras import optimizers
 from keras.backend.torch.optimizers import torch_parallel_optimizer
 
