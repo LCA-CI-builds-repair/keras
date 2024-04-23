@@ -2,7 +2,27 @@ from keras import backend
 from keras.api_export import keras_export
 from keras.layers.layer import Layer
 from keras.utils import argument_validation
-from keras.utils import backend_utils
+from if rank == 2:
+    # Ensure shape 1 for the last dimension.
+    outputs = tf.reshape(outputs, [-1, 1])
+elif rank == 1:
+    outputs = tf.reshape(outputs, [-1])
+elif rank == 0:
+    outputs = tf.reshape(outputs, [])
+
+# Encode outputs.
+outputs = tf.keras.utils.encode_categorical_inputs(
+    outputs,
+    output_mode=self.output_mode,
+    depth=self.num_bins,
+    sparse=self.sparse,
+    dtype=self.compute_dtype,
+)
+
+# Convert outputs to the appropriate dtype.
+outputs = backend.convert_to_tensor(outputs, dtype=self.dtype)
+
+return outputsnd_utils
 from keras.utils import tf_utils
 from keras.utils.module_utils import tensorflow as tf
 

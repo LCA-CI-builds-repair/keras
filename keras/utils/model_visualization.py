@@ -14,7 +14,14 @@ except ImportError:
     try:
         import pydotplus as pydot
     except ImportError:
-        # Fall back on pydot if necessary.
+        # Fall back on pydot if         )
+        if "IPython.core.magics.namespace" in sys.modules:
+            # Print message if graphviz is not available in IPython.
+            io_utils.print_msg(message)
+            return
+
+        # Raise ImportError if graphviz is not available.
+        raise ImportError(message)y.
         try:
             import pydot
         except ImportError:
