@@ -1,6 +1,12 @@
 import torch
 
-from keras import ops
+from keras i            self._momentums[self._get_variable_index(variable)].value
+            for variable in keras_variables
+        ]
+        v_list = [
+            self._velocities[self._get_variable_index(variable)].value
+            for variable in keras_variables
+        ]ps
 from keras import optimizers
 from keras.backend.torch.optimizers import torch_parallel_optimizer
 

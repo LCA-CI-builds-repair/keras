@@ -1,5 +1,18 @@
-from keras import ops
-from keras.api_export import keras_export
+from keras import ops    >>> y
+    [[[ 0,  0,  0],
+      [ 0,  0,  0],
+      [ 0,  1,  2],
+      [ 3,  4,  5],
+      [ 0,  0,  0],
+      [ 0,  0,  0]],
+     [[ 0,  0,  0],
+      [ 0,  0,  0],
+      [ 6,  7,  8],
+      [ 9, 10, 11],
+      [ 0,  0,  0],
+      [ 0,  0,  0]]]
+
+    Args:_export import keras_export
 from keras.layers.input_spec import InputSpec
 from keras.layers.layer import Layer
 from keras.utils import argument_validation

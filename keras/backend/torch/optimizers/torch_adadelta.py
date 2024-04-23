@@ -1,6 +1,14 @@
 import torch
 
-from keras import ops
+from keras            self._accumulated_grads[self._get_variable_index(variable)].value
+            for variable in keras_variables
+        ]
+        accumulated_delta_vars = [
+            self._accumulated_delta_vars[
+                self._get_variable_index(variable)
+            ].value
+            for variable in keras_variables
+        ] ops
 from keras import optimizers
 from keras.backend.torch.optimizers import torch_parallel_optimizer
 
