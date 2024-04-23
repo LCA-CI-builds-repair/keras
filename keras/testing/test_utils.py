@@ -4,7 +4,24 @@ import numpy as np
 def get_test_data(
     train_samples, test_samples, input_shape, num_classes, random_seed=None
 ):
-    """Generates balanced, stratified synthetic test data to train a model on.
+    """Generates balanced,    all_combined_tests = [{}]
+    for test_dicts_list in all_test_dicts:
+        combined_tests = []
+        for test_dict in test_dicts_list:
+            for combined_test in all_combined_tests:
+                # Augment the testcase name by appending
+                testcase_name = combined_test.get("testcase_name", "")
+                testcase_name += "_" if testcase_name else ""
+                testcase_name += test_dict["testcase_name"]
+                new_combined_test = combined_test.copy()
+                # Augment the test by adding all the parameters
+                new_combined_test.update(test_dict)
+                new_combined_test["testcase_name"] = testcase_name
+                combined_tests.append(new_combined_test)
+        # Update the list of combined tests with the new combinations
+        all_combined_tests = combined_tests
+
+    return all_combined_teststic test data to train a model on.
 
     Args:
         train_samples: Integer, how many training samples to generate.

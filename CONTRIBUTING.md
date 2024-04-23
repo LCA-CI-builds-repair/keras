@@ -1,6 +1,18 @@
-## How to contribute code
+## How to contribute codeAfter creating the pull request, the `cla/google` check will be performed. If you haven't signed the Contributor License Agreement (CLA), it will root directory.
 
-Follow these steps to submit your code contribution.
+### Running Tests with Default Configurationns on how to do so. Please follow the instructions to sign the CLA, and the check will pass.
+
+### Step 5. Sign the Contributor License Agreement (CLA)
+
+If the tests fail, investigate the error messages and make necessary fixes.
+
+![CI tests](https://github.com/keras-team/keras/assets/1091026/6f6c17ef-6bd7-4e95-9fbc-1906cde37380)
+
+A reviewer will evaluate the pull request and provide feedback. Expect multiple rounds of feedback and code modifications before approval from the reviewer.
+
+![Reviewer feedback](https://github.com/keras-team/keras/assets/1091026/8d28f74c-21e9-4146-b0ff-62d649a552a8)
+
+### Step 6. Mergingto submit your code contribution.
 
 ### Step 1. Open an issue
 
