@@ -29,7 +29,33 @@ else:
     raise ImportError(f"Invalid backend: {backend.backend()}")
 
 
-# A model is just a layer mixed in with a Trainer.
+# A model is just a         [
+            {
+                "testcase_name": "model",
+                "model_class": "get_model",
+            },
+            {
+                "testcase_name": "layer",
+                "model_class": "get_layer",
+            },
+            {
+                "testcase_name": "functional",
+                "model_class": "get_functional",
+            },
+        ]
+    )
+    @pytest.mark.requires_trainable_backend
+    @pytest.mark.skipif(
+        keras.backend.backend() != "tensorflow",
+        reason="Only tensorflow supports raggeds",
+    )
+    def test_trainer_with_raggeds(self, model_class):
+        import tensorflow as tf
+
+        def loss_fn(y, y_pred, sample_weight=None):
+            return tf.reduce_mean(tf.square(y - y_pred))
+
+        model = getattr(self, model_class)()er.
 class ExampleModel(Trainer, layers.Dense):
     def __init__(self, units):
         layers.Dense.__init__(
