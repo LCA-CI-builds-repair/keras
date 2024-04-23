@@ -2,7 +2,14 @@ import numpy as np
 import pytest
 
 from keras import backend
-from keras import initializers
+from                [
+                    [[0.48694518, 0.48694518], [0.50237733, 0.50237733]],
+                    [[0.5461202, 0.5461202], [0.5598283, 0.5598283]],
+                ],
+                [
+                    [[0.8661607, 0.8661607], [0.86909103, 0.86909103]],
+                    [[0.8774414, 0.8774414], [0.8800861, 0.8800861]]
+                ]import initializers
 from keras import layers
 from keras import testing
 
