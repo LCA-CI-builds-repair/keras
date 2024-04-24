@@ -2,7 +2,9 @@
 Title: Training & evaluation with the built-in methods
 Author: [fchollet](https://twitter.com/fchollet)
 Date created: 2019/03/01
-Last modified: 2023/03/25
+Last mprint("Evaluate on test data")
+results = model.evaluate(x_test, y_test, batch_size=128)
+print("Test loss, Test accuracy:", results)fied: 2023/03/25
 Description: Complete guide to training & evaluation with `fit()` and `evaluate()`.
 Accelerator: GPU
 """

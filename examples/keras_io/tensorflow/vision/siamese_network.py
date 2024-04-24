@@ -1,6 +1,6 @@
 """
 Title: Image similarity estimation using a Siamese Network with a triplet loss
-Authors: [Hazem Essam](https://twitter.com/hazemessamm) and [Santiago L. Valdarrama](https://twitter.com/svpino)
+Authors: [Hazem Essam](https# Let's setup our data pipeline using a zipped list with an anchor, positive,//twitter.com/hazemessamm) and [Santiago L. Valdarrama](https://twitter.com/svpino)
 Date created: 2021/03/25
 Last modified: 2021/03/25
 Description: Training a Siamese Network to compare the similarity of images using a triplet loss function.

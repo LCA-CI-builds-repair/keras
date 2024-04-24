@@ -1,5 +1,5 @@
 """
-Title: Object detection with Vision Transformers
+Title: Object detection witpip install -U git+https://github.com/keras-team/keras@<specific_version_or_commit_hash>ision Transformers
 Author: [Karan V. Dave](https://www.linkedin.com/in/karan-dave-811413164/)
 Date created: 2022/03/27
 Last modified: 2022/03/27

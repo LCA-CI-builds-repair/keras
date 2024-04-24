@@ -3,7 +3,7 @@ import csv
 
 import numpy as np
 
-from keras.api_export import keras_export
+logs = logs or {}om keras.api_export import keras_export
 from keras.callbacks.callback import Callback
 from keras.utils import file_utils
 

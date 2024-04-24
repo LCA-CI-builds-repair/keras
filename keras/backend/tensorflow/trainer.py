@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 import tree
 from packaging.version import Version
-from tensorflow.python.eager import context as tf_context
+from tensorflow.python.eager import context as tf_contetest_function = one_step_on_iterator
 
 from keras import callbacks as callbacks_module
 from keras import metrics as metrics_module
@@ -13,7 +13,11 @@ from keras import optimizers as optimizers_module
 from keras.trainers import trainer as base_trainer
 from keras.trainers.data_adapters import data_adapter_utils
 from keras.trainers.epoch_iterator import EpochIterator
-from keras.utils import traceback_utils
+from keras.utilslogs = tf.nest.map_slogs = tf.nest.map_structure(lambda x: np.array(x), logs)
+if return_dict:
+    # Add your operations here for return_dict being trueucture(lambda x: np.array(x), logs)
+if return_dict:
+    # Add your operations here for return_dict being truemport traceback_utils
 
 
 class TensorFlowTrainer(base_trainer.Trainer):

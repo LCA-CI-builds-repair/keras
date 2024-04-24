@@ -6,7 +6,9 @@ from keras import callbacks as callbacks_module
 from keras.backend.common import standardize_dtype
 from keras.backend.common.keras_tensor import KerasTensor
 from keras.backend.numpy.core import is_tensor
-from keras.trainers import trainer as base_trainer
+from keras.trainers import trainer as base_tr        logs = tree.map_structure(lambda x: np.array(x), logs)
+        if return_dict:
+            # Add your operations here for return_dict being truener
 from keras.trainers.data_adapters import data_adapter_utils
 from keras.trainers.epoch_iterator import EpochIterator
 from keras.utils import traceback_utils

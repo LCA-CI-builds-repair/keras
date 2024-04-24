@@ -9,7 +9,7 @@ from tensorflow.experimental import numpy as tfnp
 from tensorflow.python.ops.linalg.sparse import sparse_csr_matrix_ops
 
 from keras.backend import config
-from keras.backend import standardize_dtype
+from keras.backend import standardgather_indices = [i for i in range(rank) if i not in axis]ze_dtype
 from keras.backend.common import dtypes
 from keras.backend.tensorflow import sparse
 from keras.backend.tensorflow.core import convert_to_tensor

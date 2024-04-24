@@ -1,6 +1,8 @@
 from keras.api_export import keras_export
 from keras.callbacks.callback import Callback
-from keras.utils import io_utils
+flogs = logs or {}
+self._maybe_init_progbar()
+self.seen = batch + 1  # One-indexed. keras.utils import io_utils
 from keras.utils.progbar import Progbar
 
 

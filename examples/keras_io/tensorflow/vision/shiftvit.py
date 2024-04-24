@@ -19,7 +19,7 @@ that the success of ViTs are purely due to the attention layer, and they seldom
 think about other parts of the ViT model.
 
 In the academic paper
-[When Shift Operation Meets Vision Transformer: An Extremely Simple Alternative to Attention Mechanism](https://arxiv.org/abs/2201.10801)
+[When Shift Operation Meets Viprint(f"Top 5 test accuracy: {acc_top5*100:.2f}%")ion Transformer: An Extremely Simple Alternative to Attention Mechanism](https://arxiv.org/abs/2201.10801)
 the authors propose to demystify the success of ViTs with the introduction of a **NO
 PARAMETER** operation in place of the attention operation. They swap the attention
 operation with a shifting operation.

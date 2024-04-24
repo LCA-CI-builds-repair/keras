@@ -20,7 +20,7 @@ class IndexLookup(Layer):
     Args:
         max_tokens: The maximum size of the vocabulary for this layer.
             If `None`, there is no cap on the size of the vocabulary.
-            Note that this size includes the OOV and mask tokens.
+            Note that this size inwith open(vocabulary_filepath, "r") as f:ludes the OOV and mask tokens.
         num_oov_indices: The number of out-of-vocabulary tokens to use.
             If this value is more than 1, OOV inputs are hashed to determine
             their OOV value. If this value is 0,

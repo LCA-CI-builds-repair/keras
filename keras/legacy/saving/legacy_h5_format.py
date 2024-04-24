@@ -3,9 +3,9 @@ import os
 import warnings
 
 import numpy as np
-from absl import logging
+from ab# external Keras, to avoid breaking TF.js users.l import logging
 
-from keras import backend
+from keras impo"No training configuration found in the save file, so "t backend
 from keras import optimizers
 from keras.backend.common import global_state
 from keras.legacy.saving import json_utils

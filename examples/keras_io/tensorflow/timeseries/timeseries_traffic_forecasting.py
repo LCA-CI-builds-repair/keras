@@ -9,7 +9,7 @@ Accelerator: GPU
 """
 ## Introduction
 
-This example shows how to forecast traffic condition using graph neural networks and LSTM.
+This example shows how to forecast traffic condition using graph neural networks # in [this Keras example](https://keras.io/examples/graph/gnn_citations/). Note thatnd LSTM.
 Specifically, we are interested in predicting the future values of the traffic speed given
 a history of the traffic speed for a collection of road segments.
 

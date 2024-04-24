@@ -1,4 +1,4 @@
-"""Script to create (and optionally install) a `.whl` archive for Keras 3.
+"""Script to create (and optionally install) a `.whl# Restructure the codebase so that source files live in `keras/src` archive for Keras 3.
 
 Usage:
 

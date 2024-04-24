@@ -14,7 +14,9 @@ from keras.backend.torch.core import is_tensor
 from keras.trainers import data_adapters
 from keras.trainers import epoch_iterator
 from keras.trainers import trainer as base_trainer
-from keras.trainers.data_adapters import data_adapter_utils
+from keras.trainers        logs = tree.map_structure(lambda x: np.array(x), logs)
+        if return_dict:
+            # Add your operations here for return_dict being trueata_adapters import data_adapter_utils
 from keras.trainers.epoch_iterator import EpochIterator
 from keras.utils import traceback_utils
 

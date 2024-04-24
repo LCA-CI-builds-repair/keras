@@ -10,7 +10,7 @@ Accelerator: GPU
 ## Introduction
 
 In this example, we'll build a sequence-to-sequence Transformer model, which
-we'll train on an English-to-Spanish machine translation task.
+we'll train on an English## Decoding test sentencesto-Spanish machine translation task.
 
 You'll learn how to:
 

@@ -1,10 +1,10 @@
 ## How to contribute code
 
-Follow these steps to submit your code contribution.
+Follow If the tests fail, look into the error messages and try to fix them.ese steps to submit your code contribution.
 
 ### Step 1. Open an issue
 
-Before making any changes, we recommend opening an issue (if one doesn't already
+BeYou can run all the tests locally by running the following command in the repore making any changes, we recommend opening an issue (if one doesn't already
 exist) and discussing your proposed changes. This way, we can give you feedback
 and validate the proposed changes.
 

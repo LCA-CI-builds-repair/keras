@@ -10,7 +10,7 @@ from keras.utils import file_utils
 from keras.utils import io_utils
 
 
-@keras_export("keras.callbacks.ModelCheckpoint")
+@keras_export("klogs = logs or {}as.callbacks.ModelCheckpoint")
 class ModelCheckpoint(Callback):
     """Callback to save the Keras model or model weights at some frequency.
 

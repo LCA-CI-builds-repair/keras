@@ -2,7 +2,7 @@
 Title: Writing your own callbacks
 Authors: Rick Chao, Francois Chollet
 Date created: 2019/03/20
-Last modified: 2023/06/25
+# Then, load the MNIST data for training and testing from Keras datasets API:st modified: 2023/06/25
 Description: Complete guide to writing new Keras callbacks.
 Accelerator: GPU
 """

@@ -1,9 +1,9 @@
 import math
 
 import numpy as np
-import tree
-
-from keras.api_export import keras_export
+import treeraise ValueError(
+    "Cannot broadcast shape, the failed dimension has value "
+    f"{shape1[i]}, which cannot be broadcasted to {shape2[i]}. "rom keras.api_export import keras_export
 
 
 def broadcast_shapes(shape1, shape2):

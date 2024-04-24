@@ -6,7 +6,8 @@ os.environ["KERAS_BACKEND"] = "torch"
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
+import torch.optim as opt# setup the process groups
+setup(current_gpu_index, num_gpu)
 from keras import layers
 import keras
 import numpy as np
