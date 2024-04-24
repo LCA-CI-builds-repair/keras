@@ -1,5 +1,12 @@
-"""
-Title: FixRes: Fixing train-test resolution discrepancy
+"# Title: FixRes: Mitigating resolution discrepancy between training and test sets
+# Author: [Sayak Paul](https://twitter.com/RisingSayak)
+# Date created: 2021/10/08
+# Last modified: 2021/10/10
+# Description: Addressing the resolution discrepancy issue between training and test sets in vision models with data augmentation.
+
+## Introduction
+
+It is a common practice to use the same input image resolution during training and testing vision models. However, as investigated in [Fixing the train-test resolution discrepancy](https://arxiv.org/abs/1906.06423) (Touvron et al.), this practice can lead to suboptimal performance. Data augmentation plays a crucial role in the training of deep neural networks. For vision models, random resized crops are typically used during training, while center crops are used during inference. This difference in cropping strategies introduces a discrepancy in the object sizes seen during training and inference. By addressing this discrepancy as demonstrated by Touvron et al., significant performance improvements can be achieved.ixing train-test resolution discrepancy
 Author: [Sayak Paul](https://twitter.com/RisingSayak)
 Date created: 2021/10/08
 Last modified: 2021/10/10

@@ -1,6 +1,41 @@
 """
 Title: A Transformer-based recommendation system
-Author: [Khalid Salama](https://www.linkedin.com/in/khalid-salama-24403144/)
+Author: [Khalid Salama]import pandas as pd
+from zipfile import ZipFile
+
+def process_data():
+    ZipFile("movielens.zip", "r").extractall()
+
+    """
+    Load the data into pandas DataFrames with appropriate column names.
+    """
+    
+    users = pd.read_csv(
+        "ml-1m/users.dat",
+        sep="::",
+        names=["user_id", "sex", "age_group", "occupation", "zip_code"],
+    )
+
+    ratings = pd.read_csv(
+        "ml-1m/ratings.dat",
+        sep="::",
+        names=["user_id", "movie_id", "rating", "unix_timestamp"],
+    )
+
+    movies = pd.read_csv(
+        "ml-1m/movies.dat", sep="::", names=["movie_id", "title", "genres"], encoding='latin-1'
+    )
+
+    """
+    Perform simple data processing to adjust column data types.
+    """
+    
+    users["user_id"] = users["user_id"].apply(lambda x: f"user_{x}")
+    users["age_group"] = users["age_group"].apply(lambda x: f"group_{x}")
+    users["occupation"] = users["occupation"].apply(lambda x: f"occupation_{x}")
+
+# Call the function to process the data
+process_data()khalid-salama-24403144/)
 Date created: 2020/12/30
 Last modified: 2023/10/25
 Description: Rating rate prediction using the Behavior Sequence Transformer (BST) model on the Movielens.

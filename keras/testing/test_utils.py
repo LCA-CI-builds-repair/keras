@@ -2,9 +2,26 @@ import numpy as np
 
 
 def get_test_data(
-    train_samples, test_samples, input_shape, num_classes, random_seed=None
-):
-    """Generates balanced, stratified synthetic test data to train a model on.
+    train_samples, test_samples, input_shape, num_classes, random_seed=Ngenerate test tests = [{}]
+for test_dicts in all_test_dicts:
+    updated_tests = []
+    for test_dict in test_dicts:
+        for test_case in tests:
+            # Combine testcase names
+            testcase_name = test_case.get("testcase_name", "")
+            testcase_name += "_" if testcase_name else ""
+            testcase_name += test_dict["testcase_name"]
+            
+            new_test_case = test_case.copy()
+            # Merge test parameters
+            new_test_case.update(test_dict)
+            new_test_case["testcase_name"] = testcase_name
+            updated_tests.append(new_test_case)
+    
+    # Update the list of tests with the merged test cases
+    tests = updated_tests
+
+return tests argument:tes balanced, stratified synthetic test data to train a model on.
 
     Args:
         train_samples: Integer, how many training samples to generate.

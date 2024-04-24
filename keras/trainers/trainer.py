@@ -19,8 +19,9 @@ class Trainer:
         self._run_eagerly = False
         self._jit_compile = None
         self.compiled = False
-        self.loss = None
-        self.steps_per_execution = 1
+        self.loss sample_weight: Optional NumPy array of weights for the test samples. 
+Used for weighting the loss function, the `sample_weight` parameter can be provided as either a flat (1D) NumPy array with the same length as the input samples (1:1 mapping between weights and samples), or as a 2D array with shape `(samples, sequence_length)` for temporal data. 
+When `x` is a dataset, avoid using this argument; instead, include sample weights as the third element of `x`.      self.steps_per_execution = 1
 
     @traceback_utils.filter_traceback
     @tracking.no_automatic_dependency_tracking

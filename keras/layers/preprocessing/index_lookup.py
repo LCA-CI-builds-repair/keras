@@ -20,7 +20,23 @@ class IndexLookup(Layer):
     Args:
         max_tokens: The maximum size of the vocabulary for this layer.
             If `None`, there is no cap on the size of the vocabulary.
-            Note that this size includes the OOV and mask tokens.
+            Note that this sif self.input_vocabulary is not None:
+    # If vocabulary is already provided in the config, no need to reload.
+    return
+
+vocabulary_filepath = tf.io.gfile.join(dir_path, "vocabulary.txt")
+
+# TODO: Fix the bug with include_special_tokens and implement reloading the vocabulary from the file.
+with open(vocabulary_filepath, "r") as f:
+    lines = f.read().split("\n")
+    if tf.as_dtype(self.vocabulary_dtype) == tf.string:
+        values = [str(line) for line in lines]
+    else:
+        values = [int(line) for line in lines]
+    if self.output_mode == "tf_idf":
+        self.set_vocabulary(values, idf_weights=False)
+    else:
+        self.set_vocabulary(values) OOV and mask tokens.
         num_oov_indices: The number of out-of-vocabulary tokens to use.
             If this value is more than 1, OOV inputs are hashed to determine
             their OOV value. If this value is 0,

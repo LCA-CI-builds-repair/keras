@@ -14,7 +14,13 @@ except ImportError:
     try:
         import pydotplus as pydot
     except ImportError:
-        # Fall back on pydot if necessary.
+        # Fall back on pydot if         )
+        if "IPython" in sys.modules and "core" in sys.modules["IPython"] and "magics" in sys.modules["IPython"].core:
+            # We don't raise an exception here to prevent crashing notebook tests without graphviz.
+            io_utils.print_msg(message)
+            return
+        else:
+            raise ImportError("IPython module is not fully available. Visualization requires IPython and graphviz.")y.
         try:
             import pydot
         except ImportError:

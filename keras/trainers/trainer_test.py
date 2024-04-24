@@ -29,8 +29,35 @@ else:
     raise ImportError(f"Invalid backend: {backend.backend()}")
 
 
-# A model is just a layer mixed in with a Trainer.
-class ExampleModel(Trainer, layers.Dense):
+# A model is just a layer mixed in with a Trainer.import tensorflow as tf
+from tensorflow import keras
+
+class TrainerTest(tf.test.TestCase):
+
+    def test_model_predictions(self):
+        x = tf.constant([[1, 2, 3], [4, 5, 6]])
+        model = get_model()  # Assuming get_model function is defined
+        y = model(x)
+        self.assertEqual(type(y), tf.RaggedTensor)
+
+        # Test training with different model types
+        for model_class in ["get_model", "get_functional"]:
+            model = globals()[model_class]()  # Assuming model creation functions are defined
+            model.compile(optimizer="adam", loss=loss_fn)  # Assuming loss_fn is defined
+            model.fit(x, x)
+            y = model.predict(x)
+            self.assertEqual(type(y), tf.RaggedTensor)
+
+        # Test sequential model training and predictions
+        model = keras.Sequential([get_model()])  # Assuming get_model function is defined
+        model.compile(optimizer="adam", loss=loss_fn)  # Assuming loss_fn is defined
+        model.fit(x, x)
+        y = model.predict(x)
+        self.assertEqual(type(y), tf.RaggedTensor)
+
+    def test_predict_dropout(self):
+        # Test nondeterministic behavior of `predict` with dropout across batches
+        # Add appropriate test case for dropout behavior testingTrainer, layers.Dense):
     def __init__(self, units):
         layers.Dense.__init__(
             self,

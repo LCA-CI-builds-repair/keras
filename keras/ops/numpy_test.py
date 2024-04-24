@@ -93,9 +93,30 @@ class NumpyTwoInputOpsDynamicShapeTest(testing.TestCase):
         )
         self.assertEqual(knp.einsum("i...,...j", x, y).shape, (3, 4, None, 5))
         self.assertEqual(
-            knp.einsum("i...,...j,...k", x, y, z).shape, (1, 3, 4, None, 5, 9)
-        )
-        self.assertEqual(
+            knp.einsum("i...,...j,...k", x, y, z).shape, (1, 3, 4def test_isinf(self):
+    x = np.array([[1, 2, np.inf], [np.nan, np.nan, np.nan]])
+    self.assertAllClose(knp.isinf(x), np.isinf(x))
+    self.assertAllClose(knp.Isinf()(x), np.isinf(x))
+
+def test_isnan(self):
+    x = np.array([[1, 2, np.inf], [np.nan, np.nan, np.nan]])
+    self.assertAllClose(knp.isnan(x), np.isnan(x))
+    self.assertAllClose(knp.Isnan()(x), np.isnan(x))
+
+def test_log(self):
+    x = np.array([[1, 2, 3], [3, 2, 1]])
+    self.assertAllClose(knp.log(x), np.log(x))
+    self.assertAllClose(knp.Log()(x), np.log(x))
+
+def test_log10(self):
+    x = np.array([[1, 2, 3], [3, 2, 1]])
+    self.assertAllClose(knp.log10(x), np.log10(x))
+    self.assertAllClose(knp.Log10()(x), np.log10(x))
+
+def test_log1p(self):
+    x = np.array([[1, 2, 3], [3, 2, 1]])
+    self.assertAllClose(knp.log1p(x), np.log1p(x))
+    self.assertAllClose(knp.Log1p()(x), np.log1p(x))        self.assertEqual(
             knp.einsum("mij,ijk,...", x, y, z).shape, (1, 1, 1, 9, 5, None)
         )
 

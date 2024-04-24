@@ -1,8 +1,29 @@
 """
 Title: Training & evaluation with the built-in methods
 Author: [fchollet](https://twitter.com/fchollet)
-Date created: 2019/03/01
-Last modified: 2023/03/25
+Date crehistory = model.fit(
+    x_train,
+    y_train,
+    batch_size=64,
+    epochs=2,
+    # Include validation data for monitoring validation loss and metrics at the end of each epoch
+    validation_data=(x_val, y_val),
+)
+
+# The `history` object contains records of loss values and metric values during training
+history.history
+
+# Evaluate the model on the test data using `evaluate`
+print("Evaluate on test data")
+results = model.evaluate(x_test, y_test, batch_size=128)
+print("Test loss, test accuracy:", results)
+
+# Generate predictions on new data using `predict`
+print("Generate predictions for 3 samples")
+predictions = model.predict(x_test[:3])
+print("Predictions shape:", predictions.shape)
+
+# Review each step of this workflow in detail/03/25
 Description: Complete guide to training & evaluation with `fit()` and `evaluate()`.
 Accelerator: GPU
 """

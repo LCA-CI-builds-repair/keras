@@ -1,7 +1,24 @@
 """
 Title: Text classification from scratch
-Authors: Mark Omernick, Francois Chollet
-Date created: 2019/11/06
+Authors: Mark Omernick, Francoihyperparameters, such as the model architecture, for which the test dataset should not be used.
+
+Before putting the model out into the real world, it should be retrained using all available training data (without creating a validation dataset) to maximize its performance.
+
+When using the `validation_split` & `subset` arguments, ensure a random seed is specified or `shuffle=False` is passed to avoid overlap between validation and training splits.
+"""
+
+batch_size = 32
+raw_train_ds, raw_val_ds = keras.utils.text_dataset_from_directory(
+    f"{dirpath}/aclImdb/train",
+    batch_size=batch_size,
+    validation_split=0.2,
+    subset="both",
+    seed=1337,
+)
+raw_test_ds = keras.utils.text_dataset_from_directory(
+    f"{dirpath}/aclImdb/test",
+    batch_size=batch_size,
+)ed: 2019/11/06
 Last modified: 2020/05/17
 Description: Text sentiment classification starting from raw text files.
 Accelerator: GPU
