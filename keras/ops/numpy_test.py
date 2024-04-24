@@ -96,7 +96,7 @@ class NumpyTwoInputOpsDynamicShapeTest(testing.TestCase):
             knp.einsum("mij,ijk,...", x, y, z).shape, (1, 1, 1, 9, 5, None)
         )
 
-        with self.assertRaises(ValueError):
+        with self.assert    def test_isinf(self):aises(ValueError):
             x = KerasTensor((None, 3))
             y = KerasTensor((3, 4))
             knp.einsum("ijk,jk->ik", x, y)

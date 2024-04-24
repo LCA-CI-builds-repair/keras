@@ -14,7 +14,27 @@ from keras.layers.layer import Layer
 from keras.losses.loss import Loss
 from keras.metrics.metric import Metric
 from keras.optimizers.optimizer import Optimizer
-from keras.saving.serialization_lib import ObjectSharingScope
+from keras.saving    if hasattr(trackable, "load_own_variables") and weights_store:
+        if skip_mismatch or failed_trackables is not None:
+            try:
+                trackable.load_own_variables(weights_store.get(inner_path))
+            except Exception as e:
+                failed_trackables.add(id(trackable))
+                error_msgs[id(trackable)] = trackable, e
+                failure = True
+        else:
+            trackable.load_own_variables(weights_store.get(inner_path))
+
+    if hasattr(trackable, "load_assets") and assets_store:
+        if skip_mismatch or failed_trackables is not None:
+            try:
+                trackable.load_assets(assets_store.get(inner_path))
+            except Exception as e:
+                failed_trackables.add(id(trackable))
+                error_msgs[id(trackable)] = trackable, e
+                failure = True
+        else:
+            trackable.load_assets(assets_store.get(inner_path))ort ObjectSharingScope
 from keras.saving.serialization_lib import deserialize_keras_object
 from keras.saving.serialization_lib import serialize_keras_object
 from keras.trainers.compile_utils import CompileMetrics

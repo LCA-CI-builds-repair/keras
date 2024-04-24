@@ -1,10 +1,49 @@
 ## How to contribute code
 
-Follow these steps to submit your code contribution.
+Follow ```
 
-### Step 1. Open an issue
+If the tests fail, look into the error messages and try to fix them.
 
-Before making any changes, we recommend opening an issue (if one doesn't already
+![CI tests](https://github.com/keras-team/keras/assets/1091026/6f6c17ef-6bd7-4e95-9fbc-1906cde37380)
+
+A reviewer will review the pull request and provide comments. There may be
+several rounds of comments and code changes before the pull request gets
+approved by the reviewer.
+
+![Approval from reviewer](https://github.com/keras-team/keras/assets/1091026/8d28f74c-21e9-4146-b0ff-62d649a552a8)
+
+### Step 6. Merging
+
+Once the pull request is approved, a `ready to pull` tag will be added to the
+pull request. A team member will take care of the merging.
+
+![Ready to pull and merged](https://github.com/keras-team/keras/assets/1091026/c3908345-d7ae-44ee-a428-01f3b448b46b)
+
+Here is an [example pull request](https://github.com/keras-team/keras/pull/18848)
+for your reference.
+
+## Setup environment
+
+We provide two ways of setting up a development environment. One is to use a
+dev container, and the other one is to setup a local environment by installing
+the dev tools needed.
+
+### Option 1: GitHub Codespace or dev container
+
+We support GitHub Codespaces, Visual Studio Code dev containers and JetBrain dev
+containers. Please see the
+[Dev container documentation](https://github.com/keras-team/keras/tree/master/.devcontainer).
+
+### Option 2: Setup a local environment
+
+To setup your local dev environment, you will need the following tools.
+
+1.  [git](https://github.com/) for code repository management.
+2.  [python](https://www.python.org/) to build and code in Keras.
+
+The following commands check the tools above are successfully installed. Note
+that Keras requires at least Python 3.9 to run.
+ already
 exist) and discussing your proposed changes. This way, we can give you feedback
 and validate the proposed changes.
 

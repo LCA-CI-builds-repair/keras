@@ -14,7 +14,15 @@ class _ConfusionMatrixConditionCount(Metric):
     """Calculates the number of the given confusion matrix condition.
 
     Args:
-        confusion_matrix_cond: One of `metrics_utils.ConfusionMatrix`
+        confusion_ma        class_id: (```python
+# Example of compiling a model with optimizer, loss, and metrics
+model.compile(optimizer='sgd',
+              loss='mse',
+              metrics=[keras.metrics.Recall()])al) Integer class ID for which we want binary metrics.
+            This must be in the half-open interval `[0, num_classes)`, where
+            `num_classes` is the last dimension of predictions.
+        name: (Optional) string name of the metric instance.
+        dtype: (Optional) data type of the metric result.cond: One of `metrics_utils.ConfusionMatrix`
             conditions.
         thresholds: (Optional) Defaults to `0.5`. A float value or a python list
             / tuple of float threshold values in `[0, 1]`. A threshold is

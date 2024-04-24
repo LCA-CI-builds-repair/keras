@@ -1,5 +1,32 @@
-from keras import testing
-from keras.backend.common.name_scope import current_path
+from keras import    def test_current_path(self):
+        """
+        Test the current path functionality within name scopes.
+        """
+        self.assertEqual(current_path(), "outer/middle")
+        self.assertEqual(current_path(), "outer")
+        self.assertEqual(current_path(), "")
+
+    def test_deduplication(self):
+        """
+        Test the deduplication of names within name scopes.
+        """
+        self.assertEqual(current_path(), "")
+        with name_scope("name", caller=1):
+            with name_scope("name", caller=1):
+                self.assertEqual(current_path(), "name")
+        self.assertEqual(current_path(), "")
+        with name_scope("name"):
+            with name_scope("name"):
+                self.assertEqual(current_path(), "name/name")
+
+    def test_errors(self):
+        """
+        Test error handling for invalid inputs to name_scope function.
+        """
+        with self.assertRaisesRegex(ValueError, "must be a string"):
+            name_scope("foo/bar")
+        with self.assertRaisesRegex(ValueError, "must be a string"):
+            name_scope(4).backend.common.name_scope import current_path
 from keras.backend.common.name_scope import name_scope
 
 

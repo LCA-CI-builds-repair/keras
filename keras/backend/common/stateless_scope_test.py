@@ -1,7 +1,16 @@
 import numpy as np
 
-from keras import backend
-from keras import ops
+from keras import backend    def test_invalid_value_shape_in_state_mapping(self):
+        """
+        Test for invalid value shape in the state mapping.
+        """
+        var1 = backend.Variable(np.zeros((2,)))
+        invalid_value = ops.ones(shape=(3,))  # Incorrect shape
+
+        with self.assertRaisesRegex(
+            ValueError, "all values in argument `mapping` must be tensors with"
+        ):
+            StatelessScope(state_mapping=[(var1, invalid_value)])s import ops
 from keras import testing
 from keras.backend.common.stateless_scope import StatelessScope
 

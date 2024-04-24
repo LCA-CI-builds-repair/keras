@@ -1,7 +1,55 @@
 from unittest.mock import Mock
-from unittest.mock import patch
+from unitt    def test_converting_to_array(self):
+        """
+        Test converting KerasTensor to NumPy array for different backends.
+        """
+        x = keras_tensor.KerasTensor(shape=(3, 4), dtype="float32")
+        np.array(x)
 
-import numpy as np
+        if backend.backend() == "jax":
+            from jax import numpy as jnp
+
+            with self.assertRaisesRegex(
+                ValueError, "cannot be used as input to a JAX function"
+            ):
+                jnp.array(x)
+
+        with self.assertRaisesRegex(
+            ValueError, "cannot be used as input to a TensorFlow function"
+        ):
+            tf.convert_to_tensor(x)
+
+    def test_bool(self):
+        """
+        Test boolean operation on KerasTensor.
+        """
+        tensor = keras_tensor.KerasTensor(shape=(3, 4), dtype="float32")
+        with self.assertRaisesRegex(TypeError, "cannot be used as a boolean."):
+            bool(tensor)
+
+    def test_representation(self):
+        """
+        Test the representation of KerasTensor.
+        """
+        x = keras_tensor.KerasTensor(shape=(3, 4), dtype="float32")
+        self.assertIn("<KerasTensor shape=(3, 4)", repr(x))
+
+    def test_iterating(self):
+        """
+        Test iterating over KerasTensor.
+        """
+        x = keras_tensor.KerasTensor(shape=(3, 4), dtype="float32")
+        with self.assertRaises(NotImplementedError):
+            iter(x)
+
+    def test_any_symbolic_tensors(self):
+        """
+        Test checking for symbolic tensors in a list of tensors.
+        """
+        x = keras_tensor.KerasTensor(shape=(3, 4), dtype="float32")
+        y = np.array([1, 2, 3])
+        self.assertTrue(keras_tensor.any_symbolic_tensors(args=[x, y]))
+        self.assertFalse(keras_tensor.any_symbolic_tensors(args=[y]))y as np
 import tensorflow as tf
 
 from keras import backend
