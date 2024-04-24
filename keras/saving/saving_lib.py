@@ -14,7 +14,49 @@ from keras.layers.layer import Layer
 from keras.losses.loss import Loss
 from keras.metrics.metric import Metric
 from keras.optimizers.optimizer import Optimizer
-from keras.saving.serialization_lib import ObjectSharingScope
+fromdef load_trackable_data(
+    trackable,
+    weights_store,
+    assets_store,
+    inner_path,
+    skip_mismatch=False,
+    visited_trackables=None,
+    failed_trackables=None,
+    error_msgs=None,
+):
+    if visited_trackables and id(trackable) in visited_trackables:
+        return
+
+    failure = False
+
+    if hasattr(trackable, "load_own_variables") and weights_store:
+        if skip_mismatch or failed_trackables is not None:
+            try:
+                trackable.load_own_variables(weights_store.get(inner_path))
+            except Exception as e:
+                if failed_trackables is not None:
+                    failed_trackables.add(id(trackable))
+                    error_msgs[id(trackable)] = trackable, e
+                    failure = True
+        else:
+            trackable.load_own_variables(weights_store.get(inner_path))
+
+    if hasattr(trackable, "load_assets") and assets_store:
+        if skip_mismatch or failed_trackables is not None:
+            try:
+                trackable.load_assets(assets_store.get(inner_path))
+            except Exception as e:
+                if failed_trackables is not None:
+                    failed_trackables.add(id(trackable))
+                    error_msgs[id(trackable)] = trackable, e
+                    failure = True
+        else:
+            trackable.load_assets(assets_store.get(inner_path))
+
+    if failed_trackables is not None:
+        currently_failed = len(failed_trackables)
+    else:
+        currently_failed = 0bjectSharingScope
 from keras.saving.serialization_lib import deserialize_keras_object
 from keras.saving.serialization_lib import serialize_keras_object
 from keras.trainers.compile_utils import CompileMetrics

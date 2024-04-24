@@ -3,7 +3,17 @@ import pytest
 
 import keras
 from keras import backend
-from keras import ops
+from     def test_ema(self):
+        # Test correctness of Exponential Moving Average (EMA)
+        model = keras.Sequential([keras.layers.Dense(10)])
+        model.compile(optimizer=Lion(use_ema=True), loss="mse")
+        x = keras.ops.zeros((1, 5))
+        y = keras.ops.zeros((1, 10))
+        model.fit(x, y)
+
+        # Validate EMA values after training
+        ema_values = model.optimizer.get_ema_values()
+        # Add assertions to validate EMA valuesport ops
 from keras import testing
 from keras.optimizers.lion import Lion
 

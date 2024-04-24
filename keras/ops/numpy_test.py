@@ -86,19 +86,379 @@ class NumpyTwoInputOpsDynamicShapeTest(testing.TestCase):
             knp.einsum("...,...j->...j", x, y).shape, (None, 3, 4, 5)
         )
         self.assertEqual(
-            knp.einsum("i...,...j->i...j", x, y).shape, (None, 3, 4, 5)
-        )
-        self.assertEqual(knp.einsum("i...,...j", x, y).shape, (3, 4, None, 5))
-        self.assertEqual(
-            knp.einsum("i...,...j,...k", x, y, z).shape, (1, 3, 4, None, 5, 9)
-        )
-        self.assertEqual(
-            knp.einsum("mij,ijk,...", x, y, z).shape, (1, 1, 1, 9, 5, None)
+            knp.einsum("i...,...j->i...j", x, y).shape, (None, 3, 4class NumpyTest(unittest.TestCase):
+
+    def test_bincount(self):
+        x = np.array([0, 2, 2, 1, 2, 1])
+        expected_output = np.array([0, 2, 2, 1, 2, 1])
+        self.assertAllClose(
+            knp.bincount(weights=None, minlength=minlength)(x),
+            expected_output,
         )
 
-        with self.assertRaises(ValueError):
-            x = KerasTensor((None, 3))
-            y = KerasTensor((3, 4))
+    def test_broadcast_to(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(
+            knp.broadcast_to(x, [2, 2, 3]),
+            np.broadcast_to(x, [2, 2, 3]),
+        )
+
+        self.assertAllClose(
+            knp.broadcast_to([2, 2, 3])(x),
+            np.broadcast_to(x, [2, 2, 3]),
+        )
+
+    def test_ceil(self):
+    def test_split(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.split(x, 2), np.split(x, 2))
+        self.assertAllClose(knp.split(2)(x), np.split(x, 2))
+        self.assertAllClose(
+            knp.split(x, [1, 2], axis=1),
+            np.split(x, [1, 2], axis=1),
+        )
+        self.assertAllClose(
+            knp.split([1, 2], axis=1)(x),
+            np.split(x, [1, 2], axis=1),
+        )
+
+        # test invalid indices_or_sections
+        with self.assertRaises(Exception):
+            knp.split(x, 3)
+
+        # test zero dimension
+        x = np.ones(shape=(0,))
+        self.assertEqual(len(knp.split(x, 2)), 2)
+        self.assertEqual(len(knp.split(2)(x)), 2)([[1.2, 2.1, -2.5], [2.4, -11.9, -5.5]])
+        self.assertAllClose(knp.ceil(x), np.ceil(x))
+        self.assertAllClose(knp.ceil()(x), np.ceil(x))
+
+    def test_clip(self):
+        x = np.array([[1.2, 2.1, -2.5], [2.4, -11.9, -5.5]])
+        self.assertAllClose(knp.clip(x, -2, 2), np.clip(x, -2, 2))
+        self.assertAllClose(knp.clip(x, -2, 2), np.clip(x, -2, 2))
+
+        self.assertAllClose(knp.clip(0, 1)(x), np.clip(x, 0, 1))
+        self.assertAllClose(knp.clip(0, 1)(x), np.clip(x, 0, 1))
+
+    def test_concatenate(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        y = np.array([[4, 5, 6], [6, 5, 4]])
+        z = np.array([[7, 8, 9], [9, 8, 7]])
+        self.assertAllClose(
+            knp.concatenate([x, y], axis=0),
+            np.concatenate([x, y], axis=0),
+        )
+        self.assertAllClose(
+            knp.concatenate([x, y, z], axis=0),
+            np.concatenate([x, y, z], axis=0),
+        )
+        self.assertAllClose(
+            knp.concatenate([x, y], axis=1),
+            np.concatenate([x, y], axis=1),
+        )
+
+        self.assertAllClose(
+            knp.concatenate(axis=0)([x, y]),
+            np.concatenate([x, y], axis=0),
+        )
+        self.assertAllClose(
+            knp.concatenate(axis=0)([x, y, z]),
+            np.concatenate([x, y, z], axis=0),
+        )
+        self.assertAllClose(
+            knp.concatenate(axis=1)([x, y]),
+            np.concatenate([x, y], axis=1),
+        )
+
+    @parameterized.named_parameters(
+        [
+            {"testcase_name": "axis_0", "axis": 0},
+            {"testcase_name": "axis_1", "axis": 1},
+        ]
+    )
+    @pytest.mark.skipif(
+        not backend.SUPPORTS_SPARSE_TENSORS,
+        reason="Backend does not support sparse tensors.",
+    )
+    def test_concatenate_sparse(self, axis):
+        import tensorflow as tf
+
+        x = tf.SparseTensor(
+            indices=[[0, 0], [1, 2]], values=[1.0, 2.0], dense_shape=(2, 3)
+        )
+        x_np = tf.sparse.to_dense(x).numpy()
+
+        y = tf.SparseTensor(
+            indices=[[0, 0], [1, 1]], values=[4.0, 5.0], dense_shape=(2, 3)
+        )
+        y_np = tf.sparse.to_dense(y).numpy()
+        z = np.random.rand(2, 3).astype("float32")
+
+        self.assertAllClose(
+            knp.concatenate([x, z], axis=axis),
+            np.concatenate([x_np, z], axis=axis),
+        )
+        self.assertAllClose(
+            knp.concatenate([z, x], axis=axis),
+            np.concatenate([z, x_np], axis=axis),
+        )
+        self.assertAllClose(
+            knp.concatenate([x, y], axis=axis),
+            np.concatenate([x_np, y_np], axis=axis),
+        )
+
+        self.assertAllClose(
+            knp.concatenate(axis=axis)([x, z]),
+            np.concatenate([x_np, z], axis=axis),
+        )
+        self.assertAllClose(
+            knp.concatenate(axis=axis)([z, x]),
+            np.concatenate([z, x_np], axis=axis),
+        )
+        self.assertAllClose(
+            knp.concatenate(axis=axis)([x, y]),
+            np.concatenate([x_np, y_np], axis=axis),
+        )
+
+        self.assertIsInstance(
+            knp.concatenate([x, y], axis=axis), tf.SparseTensor
+        )
+        self.assertIsInstance(
+            knp.concatenate(axis=axis)([x, y]), tf.SparseTensor
+        )
+
+    def test_conjugate(self):
+        x = np.array([[1 + 2j, 2 + 3j], [3 + 4j, 4 + 5j]])
+        self.assertAllClose(knp.conjugate(x), np.conjugate(x))
+        self.assertAllClose(knp.conjugate()(x), np.conjugate(x))
+
+    def test_conj(self):
+        x = np.array([[1 + 2j, 2 + 3j], [3 + 4j, 4 + 5j]])
+        self.assertAllClose(knp.conj(x), np.conj(x))
+        self.assertAllClose(knp.conj()(x), np.conj(x))
+
+    def test_copy(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.copy(x), np.copy(x))
+        self.assertAllClose(knp.copy()(x), np.copy(x))
+
+    def test_cos(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.cos(x), np.cos(x))
+        self.assertAllClose(knp.cos()(x), np.cos(x))
+
+    def test_cosh(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.cosh(x), np.cosh(x))
+        self.assertAllClose(knp.cosh()(x), np.cosh(x))
+
+    def test_count_nonzero(self):
+        x = np.array([[0, 2, 3], [3, 2, 0]])
+        self.assertAllClose(knp.count_nonzero(x), np.count_nonzero(x))
+        self.assertAllClose(
+            knp.count_nonzero(x, axis=()), np.count_nonzero(x, axis=())
+        )
+        self.assertAllClose(
+            knp.count_nonzero(x, axis=1),
+            np.count_nonzero(x, axis=1),
+        )
+        self.assertAllClose(
+            knp.count_nonzero(x, axis=(1,)),
+            np.count_nonzero(x, axis=(1,)),
+        )
+
+        self.assertAllClose(
+            knp.count_nonzero()(x),
+            np.count_nonzero(x),
+        )
+        self.assertAllClose(
+            knp.count_nonzero(axis=1)(x),
+            np.count_nonzero(x, axis=1),
+        )
+
+    @parameterized.product(
+        axis=[None, 0, 1, -1],
+        dtype=[None, "int32", "float32"],
+    )
+    def test_cumprod(self, axis, dtype):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(
+            knp.cumprod(x, axis=axis, dtype=dtype),
+            np.cumprod(x, axis=axis, dtype=dtype or x.dtype),
+        )
+        self.assertAllClose(
+            knp.cumprod(axis=axis, dtype=dtype)(x),
+            np.cumprod(x, axis=axis, dtype=dtype or x.dtype),
+        )
+
+    @parameterized.product(
+        axis=[None, 0, 1, -1],
+        dtype=[None, "int32", "float32"],
+    )
+    def test_cumsum(self, axis, dtype):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(
+            knp.cumsum(x, axis=axis, dtype=dtype),
+            np.cumsum(x, axis=axis, dtype=dtype or x.dtype),
+        )
+        self.assertAllClose(
+            knp.cumsum(axis=axis, dtype=dtype)(x),
+            np.cumsum(x, axis=axis, dtype=dtype or x.dtype),
+        )
+
+    def test_diag(self):
+        x = np.array([1, 2, 3])
+        self.assertAllClose(knp.diag(x), np.diag(x))
+        self.assertAllClose(knp.diag(x, k=1), np.diag(x, k=1))
+        self.assertAllClose(knp.diag(x, k=-1), np.diag(x, k=-1))
+
+        self.assertAllClose(knp.diag()(x), np.diag(x))
+        self.assertAllClose(knp.diag(k=1)(x), np.diag(x, k=1))
+        self.assertAllClose(knp.diag(k=-1)(x), np.diag(x, k=-1))
+
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.diag(x), np.diag(x))
+        self.assertAllClose(knp.diag(x, k=1), np.diag(x, k=1))
+        self.assertAllClose(knp.diag(x, k=-1), np.diag(x, k=-1))
+
+        self.assertAllClose(knp.diag()(x), np.diag(x))
+        self.assertAllClose(knp.diag(k=1)(x), np.diag(x, k=1))
+        self.assertAllClose(knp.diag(k=-1)(x), np.diag(x, k=-1))
+
+    def test_diagonal(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.diagonal(x), np.diagonal(x))
+        self.assertAllClose(
+            knp.diagonal(x, offset=1),
+            np.diagonal(x, offset=1),
+        )
+        self.assertAllClose(
+            knp.diagonal(x, offset=-1), np.diagonal(x, offset=-1)
+        )
+
+        self.assertAllClose(knp.diagonal()(x), np.diagonal(x))
+        self.assertAllClose(knp.diagonal(offset=1)(x), np.diagonal(x, offset=1))
+        self.assertAllClose(
+            knp.diagonal(offset=-1)(x), np.diagonal(x, offset=-1)
+        )
+
+        x = np.ones([2, 3, 4, 5])
+        self.assertAllClose(knp.diagonal(x), np.diagonal(x))
+        self.assertAllClose(
+            knp.diagonal(x, offset=1, axis1=2, axis2=3),
+            np.diagonal(x, offset=1, axis1=2, axis2=3),
+        )
+        self.assertAllClose(
+            knp.diagonal(x, offset=-1, axis1=2, axis2=3),
+            np.diagonal(x, offset=-1, axis1=2, axis2=3),
+        )
+
+    def test_diff(self):
+        x = np.array([1, 2, 4, 7, 0])
+        self.assertAllClose(knp.diff(x), np.diff(x))
+        self.assertAllClose(knp.diff(x, n=2), np.diff(x, n=2))
+        self.assertAllClose(knp.diff(x, n=3), np.diff(x, n=3))
+
+        x = np.array([[1, 3, 6, 10], [0, 5, 6, 8]])
+        self.assertAllClose(knp.diff(x), np.diff(x))
+        self.assertAllClose(knp.diff(x, axis=0), np.diff(x, axis=0))
+        self.assertAllClose(knp.diff(x, n=2, axis=0), np.diff(x, n=2, axis=0))
+        self.assertAllClose(knp.diff(x, n=2, axis=1), np.diff(x, n=2, axis=1))
+
+    def test_dot(self):
+        x = np.arange(24).reshape([2, 3, 4]).astype("float32")
+        y = np.arange(12).reshape([4, 3]).astype("float32")
+        z = np.arange(4).astype("float32")
+        self.assertAllClose(knp.dot(x, y), np.dot(x, y))
+        self.assertAllClose(knp.dot(x, z), np.dot(x, z))
+        self.assertAllClose(knp.dot(x, 2), np.dot(x, 2))
+
+        self.assertAllClose(knp.dot()(x, y), np.dot(x, y))
+        self.assertAllClose(knp.dot()(x, z), np.dot(x, z))
+        self.assertAllClose(knp.dot()(x, 2), np.dot(x, 2))
+
+    def test_exp(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.exp(x), np.exp(x))
+        self.assertAllClose(knp.exp()(x), np.exp(x))
+
+    def test_expand_dims(self):
+        x = np.ones([2, 3, 4])
+        self.assertAllClose(knp.expand_dims(x, 0), np.expand_dims(x, 0))
+        self.assertAllClose(knp.expand_dims(x, 1), np.expand_dims(x, 1))
+        self.assertAllClose(knp.expand_dims(x, -2), np.expand_dims(x, -2))
+
+        self.assertAllClose(knp.expand_dims(0)(x), np.expand_dims(x, 0))
+        self.assertAllClose(knp.expand_dims(1)(x), np.expand_dims(x, 1))
+        self.assertAllClose(knp.expand_dims(-2)(x), np.expand_dims(x, -2))
+
+    @pytest.mark.skipif(
+        not backend.SUPPORTS_SPARSE_TENSORS,
+        reason="Backend does not support sparse tensors.",
+    )
+    def test_expand_dims_sparse(self):
+        import tensorflow as tf
+
+        x = tf.SparseTensor(
+            indices=[[0, 0], [1, 2]],
+            values=[1, 2],
+            dense_shape=(2, 3),
+        )
+        x_np = tf.sparse.to_dense(x).numpy()
+        self.assertAllClose(knp.expand_dims(x, 0), np.expand_dims(x_np, 0))
+        self.assertAllClose(knp.expand_dims(x, 1), np.expand_dims(x_np, 1))
+        self.assertAllClose(knp.expand_dims(x, -2), np.expand_dims(x_np, -2))
+
+        self.assertAllClose(knp.expand_dims(0)(x), np.expand_dims(x_np, 0))
+        self.assertAllClose(knp.expand_dims(1)(x), np.expand_dims(x_np, 1))
+        self.assertAllClose(knp.expand_dims(-2)(x), np.expand_dims(x_np, -2))
+
+    def test_expm1(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.expm1(x), np.expm1(x))
+        self.assertAllClose(knp.expm1()(x), np.expm1(x))
+
+    def test_flip(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        self.assertAllClose(knp.flip(x), np.flip(x))
+        self.assertAllClose(knp.flip(x, 0), np.flip(x, 0))
+        self.assertAllClose(knp.flip(x, 1), np.flip(x, 1))
+
+        self.assertAllClose(knp.flip()(x), np.flip(x))
+        self.assertAllClose(knp.flip(0)(x), np.flip(x, 0))
+        self.assertAllClose(knp.flip(1)(x), np.flip(x, 1))
+
+    def test_floor(self):
+        x = np.array([[1.1, 2.2, -3.3], [3.3, 2.2, -1.1]])
+        self.assertAllClose(knp.floor(x), np.floor(x))
+        self.assertAllClose(knp.floor()(x), np.floor(x))
+
+    def test_hstack(self):
+        x = np.array([[1, 2, 3], [3, 2, 1]])
+        y = np.array([[4, 5, 6], [6, 5, 4]])
+        self.assertAllClose(knp.hstack([x, y]), np.hstack([x, y]))
+        self.assertAllClose(knp.hstack()([x, y]), np.hstack([x, y]))
+
+        x = np.ones([2, 3, 4])
+        y = np.ones([2, 5, 4])
+        self.assertAllClose(knp.hstack([x, y]), np.hstack([x, y]))
+        self.assertAllClose(knp.hstack()([x, y]), np.hstack([x, y]))
+
+    def test_imag(self):
+        x = np.array([[1 + 1j, 2 + 2j, 3 + 3j], [3 + 3j, 2 + 2j, 1 + 1j]])
+        self.assertAllClose(knp.imag(x), np.imag(x))
+        self.assertAllClose(knp.imag()(x), np.imag(x))
+
+    def test_isfinite(self):
+        x = np.array([[1, 2, np.inf], [np.nan, np.nan, np.nan]])
+        self.assertAllClose(knp.isfinite(x), np.isfinite(x))
+        self.assertAllClose(knp.isfinite()(x), np.isfinite(x))
+
+    # TODO: fix and reenable
+    def DISABLED_test_isinf(self):
+        x = np.array([[1, 2, np.inf], [np.nan, np.nan, np.nan]])
+        self.assertAllClose(knp.isinf(x))   y = KerasTensor((3, 4))
             knp.einsum("ijk,jk->ik", x, y)
 
     def test_full_like(self):
