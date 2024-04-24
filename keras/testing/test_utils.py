@@ -2,9 +2,21 @@ import numpy as np
 
 
 def get_test_data(
-    train_samples, test_samples, input_shape, num_classes, random_seed=None
-):
-    """Generates balanced, stratified synthetic test data to train a model on.
+    train_samples, test_samples, input_shape, num_classes, random_seed=N    """
+    Generate test case names for one argument.
+
+    Args:
+        *args: Each positional parameter is a sequence of keyword argument dictionaries.
+            Every test case generated will include exactly one dictionary from each
+            positional parameter. These will then be merged to form an overall list of arguments for the test case.
+            Each dictionary must contain a `"testcase_name"` key whose value is combined with others to generate the test case name.
+        **kwargs: A mapping of parameter names and their possible values.
+            Possible values should be given as either a list or a tuple. A string representation of each value is used to generate the test case name.
+
+    Returns:
+        A list of maps for the test parameter combinations to pass to `@parameterized.named_parameters`.
+    """
+    @parameterized.named_parameters(named_product(numeral_type=[float, int]))ates balanced, stratified synthetic test data to train a model on.
 
     Args:
         train_samples: Integer, how many training samples to generate.

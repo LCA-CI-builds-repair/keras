@@ -9,9 +9,22 @@ from absl.testing import parameterized
 from keras import backend
 from keras import testing
 from keras.backend.common.keras_tensor import KerasTensor
-from keras.ops import image as kimage
-
-
+from keras.ops import i            )
+        if backend.backend() == "tensorflow" and fill_mode == "wrap":
+            self.skipTest(
+                "In tensorflow backend, the numerical results of applying "
+                "affine_transform with fill_mode=wrap is inconsistent with "
+                "scipy"
+            )
+        # TODO: `nearest` interpolation in jax and torch causes random index
+        # shifting, resulting in significant differences in output which leads
+        # to failure
+        if backend.backend() in ("jax", "torch") and interpolation == "nearest":
+            self.skipTest(
+                f"In {backend.backend()} backend, "
+                f"interpolation={interpolation} causes index shifting and "
+                "leads test failure"
+            )
 class ImageOpsDynamicShapeTest(testing.TestCase):
     def test_resize(self):
         x = KerasTensor([None, 20, 20, 3])

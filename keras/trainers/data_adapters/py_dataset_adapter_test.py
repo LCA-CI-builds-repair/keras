@@ -3,7 +3,21 @@ import time
 
 import numpy as np
 import tensorflow as tf
-from absl.testing import parameterized
+from absl.testing im        sample_order = []
+        for batch_data in ds:
+            self.assertEqual(len(batch_data), 2)
+            batch_x, batch_y = batch_data
+            self.assertIsInstance(batch_x, tf.Tensor)
+            self.assertIsInstance(batch_y, tf.Tensor)
+            self.assertEqual(batch_x.dtype, batch_y.dtype)
+            self.assertEqual(tuple(batch_x.shape), (16, 4))
+            self.assertEqual(tuple(batch_y.shape), (16, 2))
+            for i in range(batch_y.shape[0]):
+                sample_order.append(batch_y[i, 0])
+        if shuffle:
+            self.assertFalse(sample_order == list(range(64)))
+        else:
+            self.assertAllClose(sample_order, list(range(64)))zed
 
 from keras import testing
 from keras.trainers.data_adapters import py_dataset_adapter

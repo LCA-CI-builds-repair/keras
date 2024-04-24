@@ -1,5 +1,23 @@
 """
-Title: Customizing the convolution operation of a Conv2D layer
+Title: Customizinimport tensorflow as tf
+import keras
+from keras import layers
+import numpy as np
+
+## A Simple `StandardizedConv2D` implementation
+
+There are two ways to use the `Conv.convolution_op()` API. The first way is to override the `convolution_op()` method on a convolution layer subclass. Using this approach, we can quickly implement a [StandardizedConv2D](https://arxiv.org/abs/1903.10520) as shown below.
+
+class StandardizedConv2DWithOverride(layers.Conv2D):
+    def convolution_op(self, inputs, kernel):
+        mean, var = tf.nn.moments(kernel, axes=[0, 1, 2], keepdims=True)
+        return tf.nn.conv2d(
+            inputs,
+            (kernel - mean) / tf.sqrt(var + 1e-10),
+            padding="valid",
+            strides=list(self.strides),
+            name=self.__class__.__name__,
+        )tion of a Conv2D layer
 Author: [lukewood](https://lukewood.xyz)
 Date created: 11/03/2021
 Last modified: 11/03/2021

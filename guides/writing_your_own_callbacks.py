@@ -3,7 +3,21 @@ Title: Writing your own callbacks
 Authors: Rick Chao, Francois Chollet
 Date created: 2019/03/20
 Last modified: 2023/06/25
-Description: Complete guide to writing new Keras callbacks.
+Descr    def on_epoch_begin(self, epoch: int, logs: dict = None):
+        keys = list(logs.keys())
+        print(f"Start epoch {epoch} of training; got log keys: {keys}")
+
+    def on_epoch_end(self, epoch: int, logs: dict = None):
+        keys = list(logs.keys())
+        print(f"End epoch {epoch} of training; got log keys: {keys}")
+
+    def on_test_begin(self, logs: dict = None):
+        keys = list(logs.keys())
+        print(f"Start testing; got log keys: {keys}")
+
+    def on_test_end(self, logs: dict = None):
+        keys = list(logs.keys())
+        print(f"Stop testing; got log keys: {keys}")de to writing new Keras callbacks.
 Accelerator: GPU
 """
 """

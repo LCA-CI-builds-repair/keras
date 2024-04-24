@@ -1,6 +1,16 @@
-"""Boston housing price regression dataset."""
+"""Boston housing price regression dataset."def load_california_housing_data(path: str, test_split: float, seed: int) -> Tuple[Tuple[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray]]:
+    """
+    Load the California housing dataset.
 
-import numpy as np
+    Args:
+        path: Path where to cache the dataset locally (relative to `~/.keras/datasets`).
+        test_split: Fraction of the data to reserve as the test set.
+        seed: Random seed for shuffling the data before computing the test split.
+
+    Returns:
+        Tuple of Numpy arrays: `(x_train, y_train), (x_test, y_test)`.
+    """
+    # Function implementation goes herert numpy as np
 
 from keras.api_export import keras_export
 from keras.utils.file_utils import get_file

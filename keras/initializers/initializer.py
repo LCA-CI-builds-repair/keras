@@ -1,7 +1,32 @@
 from keras.api_export import keras_export
 
 
-@keras_export(["keras.Initializer", "keras.initializers.Initializer"])
+@keras_expo        """Returns the initializer's configuration as a JSON-serializable dict.
+
+        Returns:
+            A JSON-serializable Python dict.
+        """
+        return {}
+
+    @classmethod
+    def from_config(cls, config: dict):
+        """Instantiates an initializer from a configuration dictionary.
+
+        Example:
+
+        ```python
+        initializer = RandomUniform(-1, 1)
+        config = initializer.get_config()
+        initializer = RandomUniform.from_config(config)
+        ```
+
+        Args:
+            config: A Python dictionary, the output of `get_config()`.
+
+        Returns:
+            An `Initializer` instance.
+        """
+        return cls(**config)keras.initializers.Initializer"])
 class Initializer:
     """Initializer base class: all Keras initializers inherit from this class.
 

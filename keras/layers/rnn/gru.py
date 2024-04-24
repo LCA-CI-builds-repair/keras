@@ -2,8 +2,35 @@ import tree
 
 from keras import activations
 from keras import backend
-from keras import constraints
-from keras import initializers
+from keras import         self,
+        units,
+        activation="tanh",
+        recurrent_activation="sigmoid",
+        use_bias=True,
+        kernel_initializer="glorot_uniform",
+        recurrent_initializer="orthogonal",
+        bias_initializer="zeros",
+        kernel_regularizer=None,
+        recurrent_regularizer=None,
+        bias_regularizer=None,
+        kernel_constraint=None,
+        recurrent_constraint=None,
+        bias_constraint=None,
+        dropout=0.0,
+        recurrent_dropout=0.0,
+        reset_after=True,
+        seed=None,
+        **kwargs
+    ):
+        if units <= 0:
+            raise ValueError(
+                f"Received an invalid value for argument `units`, expected a positive integer, got {units}."
+            )
+        implementation = kwargs.pop("implementation", 2)
+        super().__init__(**kwargs)
+        self.implementation = implementation
+        self.units = units
+        self.activation = activations.get(activation)initializers
 from keras import ops
 from keras import regularizers
 from keras.api_export import keras_export

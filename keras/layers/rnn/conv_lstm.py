@@ -10,7 +10,13 @@ from keras.layers.input_spec import InputSpec
 from keras.layers.layer import Layer
 from keras.layers.rnn.dropout_rnn_cell import DropoutRNNCell
 from keras.layers.rnn.rnn import RNN
-from keras.ops import operation_utils
+from keras.ops    """Abstract N-D Convolutional LSTM layer (used as implementation base).
+
+    Similar to an LSTM layer, but the input transformations
+    and recurrent transformations are both convolutional.
+
+    This layer serves as the base for implementing ConvLSTM layers, where the input and recurrent transformations are convolutional operations.
+    """ort operation_utils
 from keras.utils import argument_validation
 
 

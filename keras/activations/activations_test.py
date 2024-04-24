@@ -17,7 +17,16 @@ def _ref_softplus(x):
 
 def _ref_log_softmax(values):
     max_val = np.max(values)  # for numerical stability
-    stabilized_values = values - max_val
+    stabilized_values = val        x = np.array([-10, -5, 0.0, 5, 10])
+        result_leaky = activations.leaky_relu(x, alpha=0.1)
+        expected_leaky = np.array([-1.0, -0.5, 0.0, 5.0, 10.0])
+        self.assertAllClose(result_leaky, expected_leaky, rtol=1e-05)
+
+    def test_leaky_relu_positive_values(self):
+        # Basic test for positive values
+        positive_values = np.random.uniform(0.1, 10, (2, 5))
+        result = activations.leaky_relu(positive_values[np.newaxis, :], alpha=0.1)[0]
+        self.assertAllClose(result, positive_values, rtol=1e-05)val
     log_sum_exp = np.log(np.sum(np.exp(stabilized_values)))
     return stabilized_values - log_sum_exp
 

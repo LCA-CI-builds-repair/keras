@@ -1,6 +1,23 @@
 """
-Title: Image classification via fine-tuning with EfficientNet
-Author: [Yixing Fu](https://github.com/yixingfu)
+Title: Image classification via fine-tuning multiples of 8.
+
+- Resource limit: Memory limitation may bottleneck resolution when depth
+and width can still increase. In such a situation, increasing depth and/or
+width but keeping resolution can still improve performance.
+
+As a result, the depth, width, and resolution of each variant of the EfficientNet models
+are hand-picked and proven to produce good results, though they may be significantly
+off from the compound scaling formula.
+Therefore, the Keras implementation (detailed below) only provides these 8 models, B0 to B7,
+instead of allowing arbitrary choices of width/depth/resolution parameters.
+
+## Keras implementation of EfficientNet
+
+An implementation of EfficientNet B0 to B7 has been shipped with Keras since v2.3. To
+use EfficientNetB0 for classifying 1000 classes of images from ImageNet, run:
+
+from tensorflow.keras.applications import EfficientNetB0
+model = EfficientNetB0(weights='imagenet')hor: [Yixing Fu](https://github.com/yixingfu)
 Date created: 2020/06/30
 Last modified: 2023/07/10
 Description: Use EfficientNet with weights pre-trained on imagenet for Stanford Dogs classification.

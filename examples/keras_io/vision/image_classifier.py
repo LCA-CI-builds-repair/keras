@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
-"""
-Author: [lukewood](https://lukewood.xyz)
+""""
+KerasCV's `ImageClassifier` model supports several backends like JAX, PyTorch,
+and TensorFlow with the help of `keras`. To enable multi-backend support
+in KerasCV, set the `KERAS_CV_MULTI_BACKEND` environment variable. We can
+then switch between different backends by setting the `KERAS_BACKEND`
+environment variable. Currently, `"tensorflow"`, `"jax"`, and `"torch"` are
+supported.
+
+This demonstration uses the Jax backend.
+""" [lukewood](https://lukewood.xyz)
 Date created: 03/28/2023
 Last modified: 07/25/2023
 Description: Use KerasCV to train powerful image classifiers.
