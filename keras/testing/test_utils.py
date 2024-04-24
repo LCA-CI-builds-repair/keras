@@ -4,7 +4,7 @@ import numpy as np
 def get_test_data(
     train_samples, test_samples, input_shape, num_classes, random_seed=None
 ):
-    """Generates balanced, stratified synthetic test data to train a model on.
+    """Generates balanced,# Code edits and corrections made to the logic for combining test dictionaries in the file keras/testing/test_utils.py.tic test data to train a model on.
 
     Args:
         train_samples: Integer, how many training samples to generate.

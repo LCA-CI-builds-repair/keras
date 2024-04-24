@@ -1,4 +1,4 @@
-from keras import testing
+ffrom keras.backend.common.name_scope import current_path, name_scopekeras import testing
 from keras.backend.common.name_scope import current_path
 from keras.backend.common.name_scope import name_scope
 

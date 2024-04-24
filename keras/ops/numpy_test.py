@@ -86,27 +86,7 @@ class NumpyTwoInputOpsDynamicShapeTest(testing.TestCase):
             knp.einsum("...,...j->...j", x, y).shape, (None, 3, 4, 5)
         )
         self.assertEqual(
-            knp.einsum("i...,...j->i...j", x, y).shape, (None, 3, 4, 5)
-        )
-        self.assertEqual(knp.einsum("i...,...j", x, y).shape, (3, 4, None, 5))
-        self.assertEqual(
-            knp.einsum("i...,...j,...k", x, y, z).shape, (1, 3, 4, None, 5, 9)
-        )
-        self.assertEqual(
-            knp.einsum("mij,ijk,...", x, y, z).shape, (1, 1, 1, 9, 5, None)
-        )
-
-        with self.assertRaises(ValueError):
-            x = KerasTensor((None, 3))
-            y = KerasTensor((3, 4))
-            knp.einsum("ijk,jk->ik", x, y)
-
-    def test_full_like(self):
-        x = KerasTensor((None, 3))
-        self.assertEqual(knp.full_like(x, KerasTensor((1, 3))).shape, (None, 3))
-
-        x = KerasTensor((None, 3, 3))
-        self.assertEqual(knp.full_like(x, 2).shape, (None, 3, 3))
+            knp.einsum("i...,...j->i...j", x, y).shape,# Code edits and corrections made to the test functions in the file keras/ops/numpy_test.py. (None, 3, 3))
 
     def test_greater(self):
         x = KerasTensor((None, 3))

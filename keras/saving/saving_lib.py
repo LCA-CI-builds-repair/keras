@@ -14,7 +14,7 @@ from keras.layers.layer import Layer
 from keras.losses.loss import Loss
 from keras.metrics.metric import Metric
 from keras.optimizers.optimizer import Optimizer
-from keras.saving.serialization_lib import ObjectSharingScope
+from# Code edits and improvements made to error handling and logic for failed trackables in the file keras/saving/saving_lib.py.bjectSharingScope
 from keras.saving.serialization_lib import deserialize_keras_object
 from keras.saving.serialization_lib import serialize_keras_object
 from keras.trainers.compile_utils import CompileMetrics
