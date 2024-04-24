@@ -14,7 +14,7 @@ class _ConfusionMatrixConditionCount(Metric):
     """Calculates the number of the given confusion matrix condition.
 
     Args:
-        confusion_matrix_cond: One of `metrics_utils.ConfusionMatrix`
+        conf# Update the documentation to clarify the usage and implications of the thresholds, top_k, and class_id parameters for calculating recall metricsx_cond: One of `metrics_utils.ConfusionMatrix`
             conditions.
         thresholds: (Optional) Defaults to `0.5`. A float value or a python list
             / tuple of float threshold values in `[0, 1]`. A threshold is

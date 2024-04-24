@@ -1,4 +1,5 @@
-"""Legacy Keras 1/2 backend functions."""
+"from keras import backend as K
+import numpy as npgacy Keras 1/2 backend functions."""
 
 import itertools
 

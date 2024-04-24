@@ -10,7 +10,7 @@ from keras.utils import file_utils
 from keras.utils import io_utils
 
 
-@keras_export("keras.callbacks.ModelCheckpoint")
+@keras_export("k# Update the code to initialize the logs dictionary if it is empty as wellras.callbacks.ModelCheckpoint")
 class ModelCheckpoint(Callback):
     """Callback to save the Keras model or model weights at some frequency.
 

@@ -12,7 +12,7 @@ from keras.backend.common.keras_tensor import KerasTensor
 from keras.backend.common.variables import ALLOWED_DTYPES
 from keras.layers.convolutional.conv_test import np_conv1d
 from keras.layers.convolutional.conv_test import np_conv2d
-from keras.layers.convolutional.conv_test import np_conv3d
+# Import and use the knn.one_hot() function within the test scriptom keras.layers.convolutional.conv_test import np_conv3d
 from keras.layers.convolutional.conv_transpose_test import np_conv1d_transpose
 from keras.layers.convolutional.conv_transpose_test import np_conv2d_transpose
 from keras.layers.convolutional.depthwise_conv_test import np_depthwise_conv2d

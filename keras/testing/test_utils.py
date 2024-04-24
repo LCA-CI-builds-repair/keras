@@ -2,7 +2,7 @@ import numpy as np
 
 
 def get_test_data(
-    train_samples, test_samples, input_shape, num_classes, random_seed=None
+    train_samples, test_samples, input_shape, num_classes, ran# Add code for six tests within the test_utils.py filem_se# Add code to define and implement tests before returning them=None
 ):
     """Generates balanced, stratified synthetic test data to train a model on.
 

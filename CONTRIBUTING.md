@@ -1,10 +1,6 @@
 ## How to contribute code
 
-Follow these steps to submit your code contribution.
-
-### Step 1. Open an issue
-
-Before making any changes, we recommend opening an issue (if one doesn't already
+Follow The `CONTRIBUTING.md` file provides detailed instructions for setting up a development environment, configuring tools, writing docstrings, formatting code, and running tests using pytest. already
 exist) and discussing your proposed changes. This way, we can give you feedback
 and validate the proposed changes.
 

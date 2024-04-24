@@ -3,7 +3,7 @@ import os
 import warnings
 
 import numpy as np
-from absl import logging
+from ab# Ensure compatibility with TF.js users by using external Keras without disruptionsl import logging
 
 from keras import backend
 from keras import optimizers

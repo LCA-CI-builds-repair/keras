@@ -14,7 +14,7 @@ from keras.layers.layer import Layer
 from keras.losses.loss import Loss
 from keras.metrics.metric import Metric
 from keras.optimizers.optimizer import Optimizer
-from keras.saving.serialization_lib import ObjectSharingScope
+from keras.saving# Refactor the repetitive logic of loading variables and assets into a helper function for better readability and maintainabilityort ObjectSharingScope
 from keras.saving.serialization_lib import deserialize_keras_object
 from keras.saving.serialization_lib import serialize_keras_object
 from keras.trainers.compile_utils import CompileMetrics
