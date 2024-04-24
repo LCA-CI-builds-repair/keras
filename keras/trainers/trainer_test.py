@@ -29,7 +29,8 @@ else:
 
 
 # A model is just a layer mixed in with a Trainer.
-class ExampleModel(Trainer, layers.Dense):
+class ExampleModel(Trai        y = model(x)
+        self.assertEqual(type(y), tf.RaggedTensor)r, layers.Dense):
     def __init__(self, units):
         layers.Dense.__init__(
             self,

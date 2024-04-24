@@ -94,7 +94,8 @@ class NumpyTwoInputOpsDynamicShapeTest(testing.TestCase):
         self.assertEqual(
             knp.einsum("i...,...j,...k", x, y, z).shape, (1, 3, 4, None, 5, 9)
         )
-        self.assertEqual(
+      def DISABLED_test_isinf(self):
+        x = np.array([[1, 2, np.inf], [np.nan, np.nan, np.nan]])    self.assertEqual(
             knp.einsum("mij,ijk,...", x, y, z).shape, (1, 1, 1, 9, 5, None)
         )
 

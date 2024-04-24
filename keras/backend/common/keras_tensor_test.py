@@ -1,4 +1,21 @@
-from unittest.mock import Mock
+ffrom unittes    def test_attributes(self):
+        x = keras_tensor.KerasTensor(shape=(3,), dtype="float32", sparse=True)
+        self.assertEqual(x.dtype, "float32")
+        self.assertEqual(x.shape, (3,))
+        self.assertEqual(x.sparse, True)
+
+    def test_numpy_methods(self):
+        x = keras_tensor.KerasTensor(shape=(3, 2), dtype="float32")
+
+        # Test numpy methods like reshape, mean, etc.ort patch
+
+import numpy as np
+import tensorflow as tf
+
+from keras import backend
+from keras import ops
+from keras import testing
+from keras.backend.common import keras_tensorest.mock import Mock
 from unittest.mock import patch
 
 import numpy as np

@@ -1,4 +1,19 @@
-import numpy as np
+ifrom keras         value1 = ops.ones(shape=(2,))
+        value2 = ops.ones(shape=(2,))
+        with StatelessScope(
+            state_mapping=[(var1, value1), (var2, value2)]
+        ) as scope:
+            out = var1 + var2
+            var_out.assign(out)
+            var_out_value = var_out + 0.0
+            # Inside scope: new value is used.kend
+from keras import ops
+from keras import testing
+from keras.backend.common.stateless_scope import StatelessScope
+
+
+class TestStatelessScope(testing.TestCase):
+    def test_basic_flow(self):py as np
 
 from keras import backend
 from keras import ops

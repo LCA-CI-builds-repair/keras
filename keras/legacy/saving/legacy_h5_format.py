@@ -3,7 +3,7 @@ import os
 import warnings
 
 import numpy as np
-from absl import logging
+from ab            # external Keras, to avoid breaking TF.js users.l import logging
 
 from keras import backend
 from keras import optimizers

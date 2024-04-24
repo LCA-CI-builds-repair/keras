@@ -1,4 +1,21 @@
-from keras import testing
+ffrom keras.b                self.assertEqual(current_path(), "outer/middle")
+                with name_scope("inner") as inner:
+                    self.assertEqual(inner.name, "inner")
+                    self.assertEqual(current_path(), "outer/middle/inner")
+                self.assertEqual(current_path(), "outer/middle")
+            self.assertEqual(current_path(), "outer")
+        self.assertEqual(current_path(), "")
+
+    def test_deduplication(self):
+        self.assertEqual(current_path(), "")mon.name_scope import current_path
+from keras.backend.common.name_scope import name_scope
+
+
+class NameScopeTest(testing.TestCase):
+    def test_stacking(self):
+        self.assertEqual(current_path(), "")
+        with name_scope("outer") as outer:
+            self.assertEqual(outer.name, "outer") import testing
 from keras.backend.common.name_scope import current_path
 from keras.backend.common.name_scope import name_scope
 

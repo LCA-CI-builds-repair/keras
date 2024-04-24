@@ -5,11 +5,17 @@ from absl.testing import parameterized
 from keras import backend
 from keras import layers
 from keras import losses
-from keras import models
+from keras import m    def test_multi_hot_dtype(self, dtype):
+        # dtype tests
+        x = np.arange(5)
+        out = knn.multi_hot(x, 5, axis=0, dtype=dtype)s
 from keras import testing
 from keras.backend.common.keras_tensor import KerasTensor
 from keras.layers.convolutional.conv_test import np_conv1d
-from keras.layers.convolutional.conv_test import np_conv2d
+from keras.layers.    def test_one_hot_dtype(self, dtype):
+        # dtype tests
+        x = np.arange(5)
+        out = knn.one_hot(x, 5, axis=0, dtype=dtype)olutional.conv_test import np_conv2d
 from keras.layers.convolutional.conv_test import np_conv3d
 from keras.layers.convolutional.conv_transpose_test import np_conv1d_transpose
 from keras.layers.convolutional.conv_transpose_test import np_conv2d_transpose

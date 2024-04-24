@@ -4,7 +4,13 @@ import numpy as np
 def get_test_data(
     train_samples, test_samples, input_shape, num_classes, random_seed=None
 ):
-    """Generates balanced, stratified synthetic test data to train a model on.
+    """Gen        # A list of maps for the te      return tests    # Overwrite the list of tests with the product obtained so fart parameters combinations to pass to
+        # `@parameterized.named_parameters`.
+        TEST_PARAMS = [
+            {"param1": value1, "param2": value2},
+            {"param1": value3, "param2": value4},
+            {"param1": value5, "param2": value6}
+        ]ates balanced, stratified synthetic test data to train a model on.
 
     Args:
         train_samples: Integer, how many training samples to generate.
