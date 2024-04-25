@@ -10,6 +10,7 @@ class ZeroPadding1D(Layer):
     """Zero-padding layer for 1D input (e.g. temporal sequence).
 
     Examples:
+    import numpy as np
 
     >>> input_shape = (2, 2, 3)
     >>> x = np.arange(np.prod(input_shape)).reshape(input_shape)
