@@ -88,6 +88,8 @@ class ConvLSTM1DTest(testing.TestCase):
                         [[0.9950547, 0.9950547], [0.9950547, 0.9950547]],
                     ],
                 ],
+                    ],
+                ],
             ]
         )
         if backend.config.image_data_format() == "channels_first":

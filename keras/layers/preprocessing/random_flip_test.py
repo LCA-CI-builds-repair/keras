@@ -125,6 +125,8 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
                     [[[5, 6, 7]], [[2, 3, 4]]],
                 ]
             ),
+                ]
+            ),
             supports_masking=False,
             run_training_check=run_training_check,
         )
