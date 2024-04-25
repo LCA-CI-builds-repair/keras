@@ -58,12 +58,14 @@ class TestCompileMetrics(testing.TestCase):
                 [
                     metrics_module.MeanSquaredError(),
                     metrics_module.MeanSquaredError(),
-                ],
+                ]
             ],
             weighted_metrics=[
                 [
                     metrics_module.MeanSquaredError(),
                     metrics_module.MeanSquaredError(),
+                ]
+            ]
                 ],
                 [
                     metrics_module.MeanSquaredError(),

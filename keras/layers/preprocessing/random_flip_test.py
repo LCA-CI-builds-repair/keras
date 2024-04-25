@@ -122,7 +122,8 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
             expected_output=backend.convert_to_tensor(
                 [
                     [[[5, 6, 7]], [[2, 3, 4]]],
-                    [[[5, 6, 7]], [[2, 3, 4]]],
+                    [[[5, 6, 7]], [[2, 3, 4]]]
+                ]
                 ]
             ),
             supports_masking=False,
