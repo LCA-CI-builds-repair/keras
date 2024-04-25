@@ -39,7 +39,6 @@ class Trainer:
         """Configures the model for training.
 
         Example:
-
         ```python
         model.compile(
             optimizer=keras.optimizers.Adam(learning_rate=1e-3),
@@ -47,6 +46,7 @@ class Trainer:
             metrics=[
                 keras.metrics.BinaryAccuracy(),
                 keras.metrics.FalseNegatives(),
+                keras.metrics.FalsePositives(),
             ],
         )
         ```
@@ -825,7 +825,8 @@ class Trainer:
             return
         config = serialization_lib.deserialize_keras_object(config)
         self.compile(**config)
-        if hasattr(self, "optimizer") and self.built:
+        ```python
+        if hasattr(self.optimizer, "build") and self.built:
             # Create optimizer variables.
             self.optimizer.build(self.trainable_variables)
 
