@@ -3735,7 +3735,7 @@ class NumpyOneInputOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
         # test zero dimension
         x = np.ones(shape=(0,))
         self.assertEqual(len(knp.split(x, 2)), 2)
-        self.assertEqual(len(knp.Split(2)(x)), 2)
+        self.assertEqual(len(knp.split(2)(x)), 2)
 
         # test indices_or_sections as tensor
         x = knp.array([[1, 2, 3], [3, 2, 1]])

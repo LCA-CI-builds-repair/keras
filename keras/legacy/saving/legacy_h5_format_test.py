@@ -1,5 +1,4 @@
 import os
-
 import numpy as np
 import pytest
 
@@ -11,13 +10,6 @@ from keras import testing
 from keras.legacy.saving import legacy_h5_format
 from keras.saving import object_registration
 from keras.saving import serialization_lib
-
-# TODO: more thorough testing. Correctness depends
-# on exact weight ordering for each layer, so we need
-# to test across all types of layers.
-
-# TODO: reenable tests after tf_keras is available.
-tf_keras = None
 
 
 def get_sequential_model(keras):

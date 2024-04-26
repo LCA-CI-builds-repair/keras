@@ -63,11 +63,7 @@ class _ConfusionMatrixConditionCount(Metric):
         )
 
     def result(self):
-        if len(self.thresholds) == 1:
-            result = self.accumulator[0]
-        else:
-            result = self.accumulator
-        return backend.convert_to_tensor(result)
+        return backend.convert_to_tensor(self.accumulator[0] if len(self.thresholds) == 1 else self.accumulator)
 
     def get_config(self):
         config = {"thresholds": self.init_thresholds}
@@ -243,11 +239,15 @@ class TruePositives(_ConfusionMatrixConditionCount):
     """
 
     def __init__(self, thresholds=None, name=None, dtype=None):
+    1.0
+    """
+
+    def __init__(self, thresholds=None, name=None, dtype=None):
         super().__init__(
             confusion_matrix_cond=metrics_utils.ConfusionMatrix.TRUE_POSITIVES,
             thresholds=thresholds,
             name=name,
-            dtype=dtype,
+            dtype=dtype
         )
 
 
@@ -288,6 +288,7 @@ class Precision(Metric):
         class_id: (Optional) Integer class ID for which we want binary metrics.
             This must be in the half-open interval `[0, num_classes)`, where
             `num_classes` is the last dimension of predictions.
+        thresholds: (Optional) A float value or a python list/tuple of float threshold values.
         name: (Optional) string name of the metric instance.
         dtype: (Optional) data type of the metric result.
 

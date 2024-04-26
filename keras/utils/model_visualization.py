@@ -400,8 +400,7 @@ def plot_model(
             # notebook tests where graphviz is not available.
             io_utils.print_msg(message)
             return
-        else:
-            raise ImportError(message)
+        raise ImportError(message)
     if not check_graphviz():
         message = (
             "You must install graphviz "

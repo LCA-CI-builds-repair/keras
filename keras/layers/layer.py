@@ -360,6 +360,9 @@ class Layer(BackendLayer, Operation):
                 "the layer does not have a `build()` method implemented "
                 "and it looks like it has unbuilt state. This will cause "
                 "the layer to be marked as built, despite not being "
+        if not self.built:
+            raise ValueError(
+                "You tried to call `build` on a layer that has not "
                 "actually built, which may cause failures down the line. "
                 "Make sure to implement a proper `build()` method."
             )
