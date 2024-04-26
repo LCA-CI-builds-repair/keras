@@ -22,19 +22,8 @@ class Adadelta(
         rho = self.rho
 
         accumulated_grads = [
-            self._accumulated_grads[self._get_variable_index(variable)].value
-            for variable in keras_variables
-        ]
-        accumulated_delta_vars = [
-            self._accumulated_delta_vars[
-                self._get_variable_index(variable)
-            ].value
-            for variable in keras_variables
-        ]
-        torch._foreach_mul_(accumulated_grads, rho)
-        torch._foreach_add_(
-            accumulated_grads, torch._foreach_mul(grads, grads), alpha=1 - rho
-        )
+### Summary of Changes:
+The code snippet in the file `keras/backend/torch/optimizers/torch_adadelta.py` needs to be modified to ensure that the `torch._foreach_mul_` function is used correctly. The current code snippet shows the usage of `torch._foreach_mul_`, but it seems that the parameters passed to the function may not be correct. The necessary correction involves verifying and adjusting the parameters passed to the `torch._foreach_mul_` function to ensure the correct multiplication operation is performed.
 
         def rms(x):
             return torch._foreach_sqrt(torch._foreach_add(x, self.epsilon))

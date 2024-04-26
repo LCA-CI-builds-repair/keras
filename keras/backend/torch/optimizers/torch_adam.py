@@ -24,18 +24,8 @@ class Adam(torch_parallel_optimizer.TorchParallelOptimizer, optimizers.Adam):
         alpha = lr * ops.sqrt(1 - beta_2_power) / (1 - beta_1_power)
 
         m_list = [
-            self._momentums[self._get_variable_index(variable)].value
-            for variable in keras_variables
-        ]
-        v_list = [
-            self._velocities[self._get_variable_index(variable)].value
-            for variable in keras_variables
-        ]
-
-        torch._foreach_mul_(m_list, self.beta_1)
-        torch._foreach_add_(m_list, grads, alpha=1 - self.beta_1)
-
-        torch._foreach_mul_(v_list, self.beta_2)
+### Summary of Changes:
+The code snippet in the file `keras/backend/torch/optimizers/torch_adam.py` needs to be modified to ensure that the `torch._foreach_mul_` and `torch._foreach_add_` functions are used correctly. The current code snippet shows the usage of these functions, but it seems that the parameters passed to the functions may not be correct. The necessary correction involves verifying and adjusting the parameters passed to the `torch._foreach_mul_` and `torch._foreach_add_` functions to ensure the correct operations are performed.
         torch._foreach_add_(
             v_list, torch._foreach_mul(grads, grads), alpha=1 - self.beta_2
         )

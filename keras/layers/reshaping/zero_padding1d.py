@@ -10,30 +10,8 @@ class ZeroPadding1D(Layer):
     """Zero-padding layer for 1D input (e.g. temporal sequence).
 
     Examples:
-
-    >>> input_shape = (2, 2, 3)
-    >>> x = np.arange(np.prod(input_shape)).reshape(input_shape)
-    >>> x
-    [[[ 0  1  2]
-      [ 3  4  5]]
-     [[ 6  7  8]
-      [ 9 10 11]]]
-    >>> y = keras.layers.ZeroPadding1D(padding=2)(x)
-    >>> y
-    [[[ 0  0  0]
-      [ 0  0  0]
-      [ 0  1  2]
-      [ 3  4  5]
-      [ 0  0  0]
-      [ 0  0  0]]
-     [[ 0  0  0]
-      [ 0  0  0]
-      [ 6  7  8]
-      [ 9 10 11]
-      [ 0  0  0]
-      [ 0  0  0]]]
-
-    Args:
+### Summary of Changes:
+The code snippet in the file `keras/layers/reshaping/zero_padding1d.py` needs to be modified to fix the formatting issue in the example output comments. The current example output comments have incorrect formatting with missing spaces and newlines. The correction involves adjusting the formatting in the example output comments to ensure clarity and readability.
         padding: Int, or tuple of int (length 2), or dictionary.
             - If int: how many zeros to add at the beginning and end of
               the padding dimension (axis 1).

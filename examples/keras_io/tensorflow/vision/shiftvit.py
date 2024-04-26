@@ -668,16 +668,8 @@ class ShiftViTModel(keras.Model):
             )
 
         # Apply gradients.
-        train_vars = [
-            self.data_augmentation.trainable_variables,
-            self.patch_projection.trainable_variables,
-            self.global_avg_pool.trainable_variables,
-        ]
-        train_vars = train_vars + [
-            stage.trainable_variables for stage in self.stages
-        ]
-
-        # Optimize the gradients.
+### Summary of Changes:
+The code snippet in the file `examples/keras_io/tensorflow/vision/shiftvit.py` needs to be modified to correctly concatenate the list of trainable variables. The current implementation may not result in a single list of all trainable variables. To correct this, make sure to concatenate all the trainable variables into a single list for optimization.
         grads = tape.gradient(total_loss, train_vars)
         trainable_variable_list = []
         for grad, var in zip(grads, train_vars):

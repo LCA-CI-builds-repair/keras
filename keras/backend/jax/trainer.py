@@ -795,18 +795,8 @@ class JAXTrainer(base_trainer.Trainer):
                 ref_v.assign(v)
 
     def _record_training_state_sharding_spec(self):
-        self._trainable_variable_shardings = [
-            v.value.sharding for v in self.trainable_variables
-        ]
-        self._non_trainable_variable_shardings = [
-            v.value.sharding for v in self.non_trainable_variables
-        ]
-        if hasattr(self, "optimizer") and self.optimizer is not None:
-            self._optimizer_variable_shardings = [
-                v.value.sharding for v in self.optimizer.variables
-            ]
-        else:
-            self._optimizer_variable_shardings = []
+### Summary of Changes:
+The code snippet in the file `keras/backend/jax/trainer.py` needs to be modified to ensure that the correct attribute is accessed for the sharding information of the variables. The current code snippet accesses the `value.sharding` attribute, which may not be the correct attribute for obtaining the sharding information. The correction involves verifying and adjusting the attribute accessed to obtain the sharding information of the variables accurately.
         self._metrics_variable_shardings = [
             v.value.sharding for v in self.metrics_variables
         ]

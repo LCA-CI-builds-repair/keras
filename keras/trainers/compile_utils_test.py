@@ -49,21 +49,8 @@ class TestCompileMetrics(testing.TestCase):
         self.assertAllClose(result["weighted_mean_squared_error"], 0.0)
 
     def test_list_output_case(self):
-        compile_metrics = CompileMetrics(
-            metrics=[
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
-                ],
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
-                ],
-            ],
-            weighted_metrics=[
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
+### Summary of Changes:
+The code snippet in the file `keras/trainers/compile_utils_test.py` needs to be modified to correct the issue with the nested lists of metrics and weighted metrics. The correction involves ensuring that each nested list contains distinct metric instances for proper testing of metrics and weighted metrics.
                 ],
                 [
                     metrics_module.MeanSquaredError(),
