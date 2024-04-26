@@ -796,14 +796,14 @@ class JAXTrainer(base_trainer.Trainer):
 
     def _record_training_state_sharding_spec(self):
         self._trainable_variable_shardings = [
-            v.value.sharding for v in self.trainable_variables
+            v.sharding for v in self.trainable_variables
         ]
         self._non_trainable_variable_shardings = [
-            v.value.sharding for v in self.non_trainable_variables
+            v.sharding for v in self.non_trainable_variables
         ]
         if hasattr(self, "optimizer") and self.optimizer is not None:
             self._optimizer_variable_shardings = [
-                v.value.sharding for v in self.optimizer.variables
+                v.sharding for v in self.optimizer.variables
             ]
         else:
             self._optimizer_variable_shardings = []

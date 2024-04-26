@@ -51,19 +51,13 @@ class TestCompileMetrics(testing.TestCase):
     def test_list_output_case(self):
         compile_metrics = CompileMetrics(
             metrics=[
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
-                ],
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
-                ],
+                [metrics_module.MeanSquaredError(), metrics_module.MeanSquaredError()],
+                [metrics_module.MeanSquaredError(), metrics_module.MeanSquaredError()],
             ],
             weighted_metrics=[
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
+                [metrics_module.MeanSquaredError(), metrics_module.MeanSquaredError()],
+            ],
+        )
                 ],
                 [
                     metrics_module.MeanSquaredError(),

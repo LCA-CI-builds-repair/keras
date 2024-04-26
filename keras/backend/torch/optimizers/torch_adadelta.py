@@ -22,6 +22,7 @@ class Adadelta(
         rho = self.rho
 
         accumulated_grads = [
+        accumulated_grads = [
             self._accumulated_grads[self._get_variable_index(variable)].value
             for variable in keras_variables
         ]

@@ -9,7 +9,6 @@ class UpSampling1D(Layer):
     """Upsampling layer for 1D inputs.
 
     Repeats each temporal step `size` times along the time axis.
-
     Examples:
 
     >>> input_shape = (2, 2, 3)

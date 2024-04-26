@@ -24,6 +24,7 @@ class Adam(torch_parallel_optimizer.TorchParallelOptimizer, optimizers.Adam):
         alpha = lr * ops.sqrt(1 - beta_2_power) / (1 - beta_1_power)
 
         m_list = [
+        m_list = [
             self._momentums[self._get_variable_index(variable)].value
             for variable in keras_variables
         ]

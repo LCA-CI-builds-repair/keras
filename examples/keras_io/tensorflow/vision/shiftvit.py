@@ -669,12 +669,12 @@ class ShiftViTModel(keras.Model):
 
         # Apply gradients.
         train_vars = [
-            self.data_augmentation.trainable_variables,
-            self.patch_projection.trainable_variables,
-            self.global_avg_pool.trainable_variables,
+            *self.data_augmentation.trainable_variables,
+            *self.patch_projection.trainable_variables,
+            *self.global_avg_pool.trainable_variables,
         ]
-        train_vars = train_vars + [
-            stage.trainable_variables for stage in self.stages
+        train_vars += [
+            *stage.trainable_variables for stage in self.stages
         ]
 
         # Optimize the gradients.

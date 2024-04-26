@@ -26,18 +26,17 @@ class JaxOptimizer(base_optimizer.BaseOptimizer):
             current_optimizer_vars_value = [v.value for v in self.variables]
 
             new_g_accs = jax.lax.cond(
-                is_update_step,
-                lambda: [
-                    jnp.zeros(x.shape, dtype=x.dtype)
-                    for x in self._accumulated_gradients
-                ],
-                lambda: [
-                    grads[i] + self._accumulated_gradients[i]
-                    for i in range(len(grads))
-                ],
-            )
-
-            grads = jax.lax.cond(
+                grads = jax.lax.cond(
+                    is_update_step,
+                    lambda: [
+                        jnp.zeros(x.shape, dtype=x.dtype) + self._accumulated_gradients[i]
+                        for i, x in enumerate(self._accumulated_gradients)
+                    ],
+                    lambda: [
+                        grads[i] + self._accumulated_gradients[i]
+                        for i in range(len(grads))
+                    ],
+                )
                 is_update_step,
                 lambda: [
                     (grads[i] + self._accumulated_gradients[i]) / steps

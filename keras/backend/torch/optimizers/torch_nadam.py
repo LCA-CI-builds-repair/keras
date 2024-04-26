@@ -31,7 +31,6 @@ class Nadam(torch_parallel_optimizer.TorchParallelOptimizer, optimizers.Nadam):
         beta_2_power = ops.power(beta_2, local_step)
 
         self._u_product.assign(u_product_t)
-
         m_list = [
             self._momentums[self._get_variable_index(variable)].value
             for variable in keras_variables

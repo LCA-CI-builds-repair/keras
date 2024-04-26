@@ -41,6 +41,9 @@ class UpSamplingTest(testing.TestCase):
                     ],
                 ]
             ),
+                    ],
+                ]
+            ),
         )
 
     def test_upsampling_1d_correctness_with_ones(self):
