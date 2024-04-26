@@ -548,10 +548,10 @@ test_dataset = get_dataset_from_csv("test_data.csv", batch_size=265)
 
 # Evaluate the model on the test data.
 _, rmse = model.evaluate(test_dataset, verbose=0)
-print(f"Test MAE: {round(rmse, 3)}")
+print(f"Test RMSE: {round(rmse, 3)}")
 
 """
-You should achieve a Mean Absolute Error (MAE) at or around 0.7 on the test data.
+You should achieve a Root Mean Squared Error (RMSE) at or around 0.7 on the test data.
 """
 
 """

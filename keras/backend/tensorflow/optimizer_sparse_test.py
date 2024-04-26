@@ -109,7 +109,6 @@ class OptimizerSparseTest(testing.TestCase, parameterized.TestCase):
     def test_sparse_gradients(
         self,
         optimizer_class,
-        init_kwargs={},
         expect_model_sparse_variable_updates=False,
         expect_optimizer_sparse_variable_updates=False,
     ):

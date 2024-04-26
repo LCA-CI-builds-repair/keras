@@ -982,7 +982,7 @@ class TestTrainer(testing.TestCase, parameterized.TestCase):
         self.assertEqual(type(y), tf.RaggedTensor)
 
         # test training
-        if model_class in ["get_model", "get_functional"]:
+        if model_class.lower() in ["get_model", "get_functional"]:
             model.compile(optimizer="adam", loss=loss_fn)
             model.fit(x, x)
             y = model.predict(x)

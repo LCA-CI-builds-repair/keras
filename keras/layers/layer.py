@@ -361,7 +361,7 @@ class Layer(BackendLayer, Operation):
                 "and it looks like it has unbuilt state. This will cause "
                 "the layer to be marked as built, despite not being "
                 "actually built, which may cause failures down the line. "
-                "Make sure to implement a proper `build()` method."
+                "Ensure that the `build()` method is properly implemented."
             )
         self.built = True
 

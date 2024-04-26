@@ -109,8 +109,8 @@ class JaxDistributionLibTest(testing.TestCase):
         self.assertTrue(result.sharding.is_equivalent_to(target_layout, ndim=2))
 
     def test_distribute_input_data(self):
-        # This test only verify the single worker/process behavior.
-        # The multi-process test lives in g3.
+        # This test verifies the single worker/process behavior.
+        # Additional tests for multi-process behavior can be found in g3.
         jax_mesh = jax.sharding.Mesh(
             np.array(jax.devices()).reshape(2, 4), ("batch", "model")
         )

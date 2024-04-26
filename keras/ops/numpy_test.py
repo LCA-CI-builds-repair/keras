@@ -3412,7 +3412,7 @@ class NumpyOneInputOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
         self.assertAllClose(knp.max(x, initial=1), np.max(x, initial=1))
         self.assertAllClose(
             knp.max(x, initial=1, keepdims=True),
-            np.max(x, initial=1, keepdims=True),
+            np.max(x, initial=1, initial=None, keepdims=True),
         )
 
     def test_min(self):

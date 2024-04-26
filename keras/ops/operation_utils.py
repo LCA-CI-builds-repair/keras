@@ -43,7 +43,8 @@ def broadcast_shapes(shape1, shape2):
             else:
                 raise ValueError(
                     "Cannot broadcast shape, the failure dim has value "
-                    f"{shape1[i]}, which cannot be broadcasted to {shape2[i]}. "
+                    f"{shape1[i]}, which cannot be broadcasted to {shape2[i]}."
+                )
                     f"Input shapes are: {origin_shape1} and {origin_shape2}."
                 )
 

@@ -126,20 +126,16 @@ history = model.fit(
 )
 
 """
-The returned `history` object holds a record of the loss values and metric values
-during training:
-"""
+The returned `history` object holds a record of the loss values and metric values during training:
 
 history.history
 
-"""
 We evaluate the model on the test data via `evaluate()`:
-"""
 
 # Evaluate the model on the test data using `evaluate`
 print("Evaluate on test data")
 results = model.evaluate(x_test, y_test, batch_size=128)
-print("test loss, test acc:", results)
+print("Test Loss, Test Accuracy:", results)
 
 # Generate predictions (probabilities -- the output of the last layer)
 # on new data using `predict`
