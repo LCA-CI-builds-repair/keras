@@ -9,6 +9,8 @@ from keras import ops
 from keras import testing
 from keras.backend.common import keras_tensor
 
+from keras.backend.common.keras_tensor import KerasTensor, keras_tensor
+
 
 class KerasTensorTest(testing.TestCase):
     def test_attributes(self):

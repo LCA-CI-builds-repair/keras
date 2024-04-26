@@ -2,12 +2,7 @@ from keras import testing
 from keras.backend.common.name_scope import current_path
 from keras.backend.common.name_scope import name_scope
 
-
-class NameScopeTest(testing.TestCase):
-    def test_stacking(self):
-        self.assertEqual(current_path(), "")
-        with name_scope("outer") as outer:
-            self.assertEqual(outer.name, "outer")
+from keras.backend.common.name_scope import current_path, name_scope
             self.assertEqual(current_path(), "outer")
             with name_scope("middle") as middle:
                 self.assertEqual(middle.name, "middle")

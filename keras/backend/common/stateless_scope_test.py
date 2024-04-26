@@ -1,13 +1,10 @@
 import numpy as np
-
 from keras import backend
 from keras import ops
 from keras import testing
 from keras.backend.common.stateless_scope import StatelessScope
 
-
-class TestStatelessScope(testing.TestCase):
-    def test_basic_flow(self):
+from keras.backend.common.stateless_scope import StatelessScope
         var1 = backend.Variable(np.zeros((2,)))
         var2 = backend.Variable(np.zeros((2,)))
         var_out = backend.Variable(np.zeros((2,)))
