@@ -227,10 +227,13 @@ class SparseCategoricalCrossentropyTest(testing.TestCase):
         self.assertAllClose(result, 1.338, atol=1e-3)
 
     def test_weighted_from_logits(self):
-        scce_obj = metrics.SparseCategoricalCrossentropy(from_logits=True)
+import numpy as np
+from tensorflow.keras import metrics
 
-        y_true = np.array([1, 2])
-        logits = np.array([[1, 9, 0], [1, 8, 1]], dtype=np.float32)
-        sample_weight = np.array([1.5, 2.0])
-        result = scce_obj(y_true, logits, sample_weight=sample_weight)
-        self.assertAllClose(result, 4.0012, atol=1e-3)
+scce_obj = metrics.SparseCategoricalCrossentropy(from_logits=True)
+
+y_true = np.array([1, 2])
+logits = np.array([[1, 9, 0], [1, 8, 1]], dtype=np.float32)
+sample_weight = np.array([1.5, 2.0])
+result = scce_obj(y_true, logits, sample_weight=sample_weight)
+self.assertAllClose(result, 4.0012, atol=1e-3)
