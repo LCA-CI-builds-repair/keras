@@ -49,18 +49,10 @@ def _shared_object_saving_scope():
 
 
 class DisableSharedObjectScope:
-    """A context manager for disabling handling of shared objects.
-
-    Disables shared object handling for both saving and loading.
-
-    Created primarily for use with `clone_model`, which does extra surgery that
-    is incompatible with shared objects.
-    """
-
-    def __enter__(self):
-        SHARED_OBJECT_DISABLED.disabled = True
-        self._orig_loading_scope = _shared_object_loading_scope()
-        self._orig_saving_scope = _shared_object_saving_scope()
+    def __exit__(self, exc_type, exc_value, traceback):
+        SHARED_OBJECT_DISABLED.disabled = False
+        _shared_object_loading_scope().update(self._orig_loading_scope)
+        _shared_object_saving_scope().update(self._orig_saving_scope)
 
     def __exit__(self, *args, **kwargs):
         SHARED_OBJECT_DISABLED.disabled = False

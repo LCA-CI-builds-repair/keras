@@ -874,13 +874,11 @@ class SpecificityAtSensitivity(SensitivitySpecificityBase):
         )
 
     def get_config(self):
-        config = {
-            "num_thresholds": self.num_thresholds,
-            "sensitivity": self.sensitivity,
-        }
-        base_config = super().get_config()
-        return {**base_config, **config}
+    """Computes the precision at a given recall value.
 
+    PrecisionAtRecall is a class that calculates the precision at a specific recall value.
+    It is a part of the SensitivitySpecificityBase metric class.
+    """
 
 @keras_export("keras.metrics.PrecisionAtRecall")
 class PrecisionAtRecall(SensitivitySpecificityBase):
@@ -910,26 +908,9 @@ class PrecisionAtRecall(SensitivitySpecificityBase):
         dtype: (Optional) data type of the metric result.
 
     Standalone usage:
-
-    >>> m = keras.metrics.PrecisionAtRecall(0.5)
-    >>> m.update_state([0, 0, 0, 1, 1], [0, 0.3, 0.8, 0.3, 0.8])
-    >>> m.result()
-    0.5
-
-    >>> m.reset_state()
-    >>> m.update_state([0, 0, 0, 1, 1], [0, 0.3, 0.8, 0.3, 0.8],
-    ...                sample_weight=[2, 2, 2, 1, 1])
-    >>> m.result()
-    0.33333333
-
-    Usage with `compile()` API:
-
-    ```python
-    model.compile(
         optimizer='sgd',
         loss='mse',
-        metrics=[keras.metrics.PrecisionAtRecall(recall=0.8)])
-    ```
+    )
     """
 
     def __init__(

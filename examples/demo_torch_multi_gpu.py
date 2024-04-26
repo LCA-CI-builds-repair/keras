@@ -112,6 +112,8 @@ def train(model, train_loader, num_epochs, optimizer, loss_fn):
 
 
 def setup(current_gpu_index, num_gpu):
+import os
+
     # Device setup
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = "56492"

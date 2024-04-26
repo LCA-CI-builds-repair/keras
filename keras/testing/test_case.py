@@ -18,6 +18,9 @@ from keras.utils import traceback_utils
 
 
 class TestCase(unittest.TestCase):
+    from keras.backend import clear_session
+    from keras.utils import traceback_utils
+
     maxDiff = None
 
     def __init__(self, *args, **kwargs):

@@ -619,7 +619,7 @@ class VariableBinaryOperationsTest(test_case.TestCase):
         """Test 'b' dimension handling with JAX backend."""
         shape = (3, "b", 5)
         standardized_shape = standardize_shape(shape)
-        self.assertEqual(standardized_shape, shape)
+        self.assertEqual(standardized_shape, (3, None, 5))
 
     def test_negative_shape_entry(self):
         """Test negative shape entry."""

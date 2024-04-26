@@ -16,9 +16,6 @@ from keras.saving import serialization_lib
 # on exact weight ordering for each layer, so we need
 # to test across all types of layers.
 
-# TODO: reenable tests after tf_keras is available.
-tf_keras = None
-
 
 def get_sequential_model(keras):
     return keras.Sequential(

@@ -456,6 +456,9 @@ class TorchTrainer(base_trainer.Trainer):
             steps_per_execution=self.steps_per_execution,
         )
 
+        # Import the callbacks_module to access the CallbackList class
+        from keras.callbacks import callbacks as callbacks_module
+
         # Container that configures and calls callbacks.
         if not isinstance(callbacks, callbacks_module.CallbackList):
             callbacks = callbacks_module.CallbackList(

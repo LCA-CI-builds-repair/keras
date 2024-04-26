@@ -978,6 +978,8 @@ class TestTrainer(testing.TestCase, parameterized.TestCase):
         x = tf.ragged.constant([[1], [2, 3]])
 
         # test forward pass
+        import tensorflow as tf
+
         y = model(x)
         self.assertEqual(type(y), tf.RaggedTensor)
 

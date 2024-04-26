@@ -20,16 +20,11 @@ As shown by Touvron et al., if we can fix this discrepancy, we can significantly
 boost model performance.
 
 In this example, we implement the **FixRes** techniques introduced by Touvron et al.
-to fix this discrepancy.
-"""
-
-"""
 ## Imports
-"""
 
 import keras
 from keras import layers
-import tensorflow as tf  # just for image processing and pipeline
+import tensorflow as tf  # Import TensorFlow for image processing and pipeline
 
 import tensorflow_datasets as tfds
 
@@ -216,6 +211,10 @@ vanilla_sample_images, _ = next(iter(vanilla_train_dataset))
 visualize_dataset(vanilla_sample_images)
 
 """
+# the smaller resolution dataset.
+vanilla_sample_images, _ = next(iter(vanilla_train_dataset))
+visualize_dataset(vanilla_sample_images)
+
 ## Model training utilities
 
 We train multiple variants of ResNet50V2
@@ -223,11 +222,6 @@ We train multiple variants of ResNet50V2
 
 1. On the smaller resolution dataset (128x128). It will be trained from scratch.
 2. Then fine-tune the model from 1 on the larger resolution (224x224) dataset.
-3. Train another ResNet50V2 from scratch on the larger resolution dataset.
-
-As a reminder, the larger resolution datasets differ in terms of their augmentation
-transforms.
-"""
 
 
 def get_training_model(num_classes=5):
