@@ -122,7 +122,9 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
             expected_output=backend.convert_to_tensor(
                 [
                     [[[5, 6, 7]], [[2, 3, 4]]],
-                    [[[5, 6, 7]], [[2, 3, 4]]],
+                    [[[5, 6, 7]], [[2, 3, 4]]]
+                ]
+            )
                 ]
             ),
             supports_masking=False,
@@ -138,8 +140,6 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
         for output in ds.take(1):
             output = output.numpy()
         self.assertAllClose(output, expected_output)
-        # Test 4D input: shape (2, 2, 1, 3)
-        layer = layers.RandomFlip("vertical", seed=42)
         input_data = np.array(
             [
                 [
@@ -155,7 +155,9 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
         expected_output = np.array(
             [
                 [[[5, 6, 7]], [[2, 3, 4]]],
-                [[[5, 6, 7]], [[2, 3, 4]]],
+                [[[5, 6, 7]], [[2, 3, 4]]]
+            ]
+        )
             ]
         )
         ds = tf_data.Dataset.from_tensor_slices(input_data).batch(2).map(layer)

@@ -69,7 +69,9 @@ class ConvLSTM2DTest(testing.TestCase):
                 [
                     [[0.8661607, 0.8661607], [0.86909103, 0.86909103]],
                     [[0.8774414, 0.8774414], [0.8800861, 0.8800861]],
-                ],
+                ]
+            )
+        )
             ]
         )
         if backend.config.image_data_format() == "channels_first":

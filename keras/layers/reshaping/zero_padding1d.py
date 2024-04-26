@@ -31,7 +31,8 @@ class ZeroPadding1D(Layer):
       [ 6  7  8]
       [ 9 10 11]
       [ 0  0  0]
-      [ 0  0  0]]]
+      [ 0  0  0]]
+    ]
 
     Args:
         padding: Int, or tuple of int (length 2), or dictionary.

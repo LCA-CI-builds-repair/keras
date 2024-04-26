@@ -109,10 +109,11 @@ class SimpleRNNTest(testing.TestCase):
                         [0.59829646, 0.59829646],
                         [0.6734641, 0.6734641],
                         [0.6479671, 0.6479671],
-                    ],
+                    ]
                 ]
             ),
             output,
+        )
         )
 
     def test_statefulness(self):
