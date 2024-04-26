@@ -1046,6 +1046,8 @@ class RecallAtPrecision(SensitivitySpecificityBase):
         )
 
     def result(self):
+from keras import ops
+
         recalls = ops.divide(
             self.true_positives,
             self.true_positives + self.false_negatives + backend.epsilon(),
@@ -1055,7 +1057,7 @@ class RecallAtPrecision(SensitivitySpecificityBase):
             self.true_positives + self.false_positives + backend.epsilon(),
         )
         return self._find_max_under_constraint(
-            precisions, recalls, ops.greater_equal
+            precisions, recalls, ops.greater_equal)
         )
 
     def get_config(self):

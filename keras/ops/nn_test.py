@@ -166,14 +166,18 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         self.assertEqual(knn.multi_hot(x, 5, 2).shape, (None, 5, 1))
 
     @parameterized.product(dtype=["float32", "int32"])
-    def test_multi_hot_dtype(self, dtype):
-        # dtype tests
-        x = np.arange(5)
-        out = knn.multi_hot(x, 5, axis=0, dtype=dtype)
-        self.assertEqual(backend.standardize_dtype(out.dtype), dtype)
+import numpy as np
+from keras import backend
+from keras import nn as knn
 
-    def test_conv(self):
-        data_format = backend.config.image_data_format()
+def test_multi_hot_dtype(self, dtype):
+    # dtype tests
+    x = np.arange(5)
+    out = knn.multi_hot(x, 5, axis=0, dtype=dtype)
+    self.assertEqual(backend.standardize_dtype(out.dtype), dtype)
+
+def test_conv(self):
+    data_format = backend.config.image_data_format()
         # Test 1D conv.
         if data_format == "channels_last":
             input_shape = (None, 20, 3)
@@ -473,11 +477,14 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         self.assertEqual(knn.one_hot(x, 5, 2).shape, (None, 3, 5, 1))
 
     @parameterized.product(dtype=["float32", "int32"])
-    def test_one_hot_dtype(self, dtype):
-        # dtype tests
-        x = np.arange(5)
-        out = knn.one_hot(x, 5, axis=0, dtype=dtype)
+from keras import nn as knn
+from keras.layers import KerasTensor
+
         self.assertEqual(backend.standardize_dtype(out.dtype), dtype)
+
+    def test_moments(self):
+        x = KerasTensor([None, 3, 4])
+        self.assertEqual(knn.moments(x, axes=[0])[0].shape, (3, 4))
 
     def test_moments(self):
         x = KerasTensor([None, 3, 4])
