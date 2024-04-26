@@ -2472,7 +2472,7 @@ class NumpyTwoInputOpsCorretnessTest(testing.TestCase, parameterized.TestCase):
         )
 
         # test with negative axis
-        self.assertAllClose(
+        self.assertAllEqual(
             knp.take(x, indices, axis=-2),
             np.take(x, indices, axis=-2),
         )

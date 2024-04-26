@@ -13,8 +13,7 @@ except ImportError:
     pass
 
 import pytest  # noqa: E402
-
-from keras.backend import backend  # noqa: E402
+from tensorflow.python.keras.backend import backend  # noqa: E402
 
 
 def pytest_configure(config):

@@ -1,6 +1,5 @@
 import numpy as np
 import pytest
-
 from keras import backend
 from keras import layers
 from keras import testing

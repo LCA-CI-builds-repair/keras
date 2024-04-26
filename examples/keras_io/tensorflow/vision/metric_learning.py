@@ -232,8 +232,6 @@ model.compile(
 history = model.fit(AnchorPositivePairs(num_batches=1000), epochs=20)
 
 plt.plot(history.history["loss"])
-plt.show()
-
 """
 ## Testing
 

@@ -387,7 +387,6 @@ def _load_state(
         return
 
     failure = False
-
     if hasattr(trackable, "load_own_variables") and weights_store:
         if skip_mismatch or failed_trackables is not None:
             try:
@@ -395,6 +394,8 @@ def _load_state(
             except Exception as e:
                 failed_trackables.add(id(trackable))
                 error_msgs[id(trackable)] = trackable, e
+                # Log the error message or take necessary action based on the failure
+                print(f"Failed to load variables for trackable: {trackable}. Error: {e}")
                 failure = True
         else:
             trackable.load_own_variables(weights_store.get(inner_path))

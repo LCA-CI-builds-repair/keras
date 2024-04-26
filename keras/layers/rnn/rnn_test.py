@@ -382,5 +382,3 @@ class RNNTest(testing.TestCase):
 
         layer = layers.RNN(OneStateRNNCell(2), return_sequences=False)
         self.run_class_serialization_test(layer)
-
-    # TODO: test masking

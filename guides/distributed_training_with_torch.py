@@ -190,17 +190,21 @@ print(f"Running on {num_gpu} GPUs")
 
 
 def setup_device(current_gpu_index, num_gpus):
-    # Device setup
-    os.environ["MASTER_ADDR"] = "localhost"
-    os.environ["MASTER_PORT"] = "56492"
-    device = torch.device("cuda:{}".format(current_gpu_index))
-    torch.distributed.init_process_group(
-        backend="nccl",
-        init_method="env://",
-        world_size=num_gpus,
-        rank=current_gpu_index,
-    )
-    torch.cuda.set_device(device)
+import os
+import torch
+import torch.distributed
+
+# Device setup
+os.environ["MASTER_ADDR"] = "localhost"
+os.environ["MASTER_PORT"] = "56492"
+device = torch.device("cuda:{}".format(current_gpu_index))
+torch.distributed.init_process_group(
+    backend="nccl",
+    init_method="env://",
+    world_size=num_gpus,
+    rank=current_gpu_index,
+)
+torch.cuda.set_device(device)
 
 
 def cleanup():

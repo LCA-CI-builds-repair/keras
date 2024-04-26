@@ -73,11 +73,9 @@ and training datasets are generated from two subsets of the `train` directory, w
 of samples going to the validation dataset and 80% going to the training dataset.
 
 Having a validation dataset in addition to the test dataset is useful for tuning
-hyperparameters, such as the model architecture, for which the test dataset should not
-be used.
+hyperparameters, such as the model architecture, for which the test dataset should not be used.
 
-Before putting the model out into the real world however, it should be retrained using all
-available training data (without creating a validation dataset), so its performance is maximized.
+Before deploying the model in production, it should be retrained using all available training data (without creating a validation dataset) to maximize its performance.
 
 When using the `validation_split` & `subset` arguments, make sure to either specify a
 random seed, or to pass `shuffle=False`, so that the validation & training splits you

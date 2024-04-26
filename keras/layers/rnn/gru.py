@@ -112,11 +112,12 @@ class GRUCell(Layer, DropoutRNNCell):
             )
         implementation = kwargs.pop("implementation", 2)
         super().__init__(**kwargs)
-        self.implementation = implementation
-        self.units = units
-        self.activation = activations.get(activation)
-        self.recurrent_activation = activations.get(recurrent_activation)
-        self.use_bias = use_bias
+        
+        # Parameter validation
+        self.units = units if units is not None and units > 0 else 1
+        self.activation = activations.get(activation) if activation is not None else 'tanh'
+        self.recurrent_activation = activations.get(recurrent_activation) if recurrent_activation is not None else 'sigmoid'
+        self.use_bias = use_bias if use_bias is not None else True
 
         self.kernel_initializer = initializers.get(kernel_initializer)
         self.recurrent_initializer = initializers.get(recurrent_initializer)

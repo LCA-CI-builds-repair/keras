@@ -56,9 +56,15 @@ class Initializer:
         """Returns the initializer's configuration as a JSON-serializable dict.
 
         Returns:
-            A JSON-serializable Python dict.
+            A JSON-serializable Python dict containing the initializer's configuration.
         """
-        return {}
+        config = {
+            "initializer_type": "CustomInitializer",
+            "parameters": {
+                # Include any specific parameters used for initialization
+            }
+        }
+        return config
 
     @classmethod
     def from_config(cls, config):

@@ -14,13 +14,13 @@ class PadSequencesTest(testing.TestCase):
 
         # test truncating
         b = sequence_utils.pad_sequences(a, maxlen=2, truncating="pre")
-        self.assertAllClose(b, [[0, 1], [1, 2], [2, 3]])
+        self.assertAllEqual(b, [[0, 1], [1, 2], [2, 3]])
         b = sequence_utils.pad_sequences(a, maxlen=2, truncating="post")
-        self.assertAllClose(b, [[0, 1], [1, 2], [1, 2]])
+        self.assertAllEqual(b, [[0, 1], [1, 2], [1, 2]])
 
         # test value
         b = sequence_utils.pad_sequences(a, maxlen=3, value=1)
-        self.assertAllClose(b, [[1, 1, 1], [1, 1, 2], [1, 2, 3]])
+        self.assertAllEqual(b, [[1, 1, 1], [1, 1, 2], [1, 2, 3]])
 
     def test_pad_sequences_str(self):
         a = [["1"], ["1", "2"], ["1", "2", "3"]]
