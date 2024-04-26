@@ -486,7 +486,6 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         x = np.arange(5)
         out = knn.one_hot(x, 5, axis=0, dtype=dtype)
         self.assertEqual(backend.standardize_dtype(out.dtype), dtype)
-
     def test_moments(self):
         x = KerasTensor([None, 3, 4])
         self.assertEqual(knn.moments(x, axes=[0])[0].shape, (3, 4))

@@ -153,7 +153,7 @@ class PyDatasetAdapterTest(testing.TestCase, parameterized.TestCase):
             workers=4,
             # TODO: the github actions runner may have performance issue with
             # multiprocessing
-            # use_multiprocessing=True,
+            use_multiprocessing=True,
             max_queue_size=8,
             delay=0.5,
         )

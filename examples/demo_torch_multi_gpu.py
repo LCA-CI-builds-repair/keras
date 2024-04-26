@@ -119,7 +119,7 @@ def setup(current_gpu_index, num_gpu):
     dist.init_process_group(
         backend="nccl",
         init_method="env://",
-        world_size=num_gpu,
+        world_size=num_gpus,
         rank=current_gpu_index,
     )
     torch.cuda.set_device(device)

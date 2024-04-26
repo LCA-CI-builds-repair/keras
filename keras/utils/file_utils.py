@@ -292,7 +292,7 @@ def get_file(
             except urllib.error.HTTPError as e:
                 raise Exception(error_msg.format(origin, e.code, e.msg))
             except urllib.error.URLError as e:
-                raise Exception(error_msg.format(origin, e.errno, e.reason))
+                raise Exception(error_msg.format(origin, e.reason))
         except (Exception, KeyboardInterrupt):
             if os.path.exists(fpath):
                 os.remove(fpath)

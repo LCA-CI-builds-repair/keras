@@ -3445,6 +3445,7 @@ class NumpyOneInputOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
             knp.min(x, initial=1, keepdims=True),
             np.min(x, initial=1, keepdims=True),
         )
+        )
 
     def test_median(self):
         x = np.array([[1, 2, 3], [3, 2, 1]]).astype("float32")

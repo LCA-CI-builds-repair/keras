@@ -98,13 +98,12 @@ class FalsePositives(_ConfusionMatrixConditionCount):
         dtype: (Optional) data type of the metric result.
 
     Standalone usage:
-
     >>> m = keras.metrics.FalsePositives()
     >>> m.update_state([0, 1, 0, 0], [0, 0, 1, 1])
     >>> m.result()
     2.0
 
-    >>> m.reset_state()
+    >>> m.reset_states()
     >>> m.update_state([0, 1, 0, 0], [0, 0, 1, 1], sample_weight=[0, 0, 1, 0])
     >>> m.result()
     1.0
@@ -142,13 +141,14 @@ class FalseNegatives(_ConfusionMatrixConditionCount):
         dtype: (Optional) data type of the metric result.
 
     Standalone usage:
+    Standalone usage:
 
     >>> m = keras.metrics.FalseNegatives()
     >>> m.update_state([0, 1, 1, 1], [0, 1, 0, 0])
     >>> m.result()
     2.0
 
-    >>> m.reset_state()
+    >>> m.reset_states()
     >>> m.update_state([0, 1, 1, 1], [0, 1, 0, 0], sample_weight=[0, 0, 1, 0])
     >>> m.result()
     1.0
@@ -181,10 +181,6 @@ class TrueNegatives(_ConfusionMatrixConditionCount):
             predictions (i.e., above the threshold is `True`, below is `False`).
             If used with a loss function that sets `from_logits=True` (i.e. no
             sigmoid applied to predictions), `thresholds` should be set to 0.
-            One metric value is generated for each threshold value.
-        name: (Optional) string name of the metric instance.
-        dtype: (Optional) data type of the metric result.
-
     Standalone usage:
 
     >>> m = keras.metrics.TrueNegatives()
@@ -192,7 +188,7 @@ class TrueNegatives(_ConfusionMatrixConditionCount):
     >>> m.result()
     2.0
 
-    >>> m.reset_state()
+    >>> m.reset_states()
     >>> m.update_state([0, 1, 0, 0], [1, 1, 0, 0], sample_weight=[0, 0, 1, 0])
     >>> m.result()
     1.0
@@ -256,10 +252,10 @@ class Precision(Metric):
     """Computes the precision of the predictions with respect to the labels.
 
     The metric creates two local variables, `true_positives` and
-    `false_positives` that are used to compute the precision. This value is
-    ultimately returned as `precision`, an idempotent operation that simply
-    divides `true_positives` by the sum of `true_positives` and
-    `false_positives`.
+class Precision(Metric):
+    """Computes the precision of the predictions with respect to the labels.
+
+    The metric creates two local variables, `true_positives` and
 
     If `sample_weight` is `None`, weights default to 1.
     Use `sample_weight` of 0 to mask values.
