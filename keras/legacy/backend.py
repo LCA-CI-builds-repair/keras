@@ -1348,7 +1348,7 @@ def repeat_elements(x, rep, axis):
     x_shape = x.shape.as_list()
     x_rep.set_shape(x_shape)
     return x_rep
-
+}
 
 @keras_export("keras._legacy.backend.resize_images")
 def resize_images(

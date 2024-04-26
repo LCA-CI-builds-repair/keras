@@ -553,6 +553,7 @@ class H5IOStore:
             path = path.replace("layers", "_layer_checkpoint_dependencies")
             if path in self.h5_file and "vars" in self.h5_file[path]:
                 return self.h5_file[path]["vars"]
+    }
         return {}
 
     def close(self):
