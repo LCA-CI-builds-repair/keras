@@ -40,6 +40,10 @@ class UpSamplingTest(testing.TestCase):
                         [9.0, 10.0, 11.0],
                     ],
                 ]
+            )
+        )
+                    ],
+                ]
             ),
         )
 

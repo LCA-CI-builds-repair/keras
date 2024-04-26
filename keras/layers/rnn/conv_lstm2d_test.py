@@ -72,6 +72,8 @@ class ConvLSTM2DTest(testing.TestCase):
                 ],
             ]
         )
+            ]
+        )
         if backend.config.image_data_format() == "channels_first":
             sequence = sequence.transpose((0, 1, 4, 2, 3))
             expected_output = expected_output.transpose((0, 3, 1, 2))

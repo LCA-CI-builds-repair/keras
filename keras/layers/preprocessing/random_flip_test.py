@@ -104,8 +104,6 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
         self.run_layer_test(
             MockedRandomFlip,
             init_kwargs={
-                "mode": "vertical",
-                "seed": 42,
             },
             input_data=np.asarray(
                 [
@@ -123,6 +121,8 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
                 [
                     [[[5, 6, 7]], [[2, 3, 4]]],
                     [[[5, 6, 7]], [[2, 3, 4]]],
+                ]
+            )
                 ]
             ),
             supports_masking=False,
@@ -156,6 +156,8 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
             [
                 [[[5, 6, 7]], [[2, 3, 4]]],
                 [[[5, 6, 7]], [[2, 3, 4]]],
+            ]
+        )
             ]
         )
         ds = tf_data.Dataset.from_tensor_slices(input_data).batch(2).map(layer)

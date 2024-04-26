@@ -114,6 +114,7 @@ class SimpleRNNTest(testing.TestCase):
             ),
             output,
         )
+        )
 
     def test_statefulness(self):
         sequence = np.arange(24).reshape((2, 4, 3)).astype("float32")
