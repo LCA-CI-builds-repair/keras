@@ -1344,9 +1344,7 @@ def repeat_elements(x, rep, axis):
     x_shape *= reps
     x_rep = tf.reshape(x_rep, x_shape)
 
-    # Fix shape representation
-    x_shape = x.shape.as_list()
-    x_rep.set_shape(x_shape)
+    x_rep.set_shape(x.shape)
     return x_rep
 
 
