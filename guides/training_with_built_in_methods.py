@@ -139,7 +139,7 @@ We evaluate the model on the test data via `evaluate()`:
 # Evaluate the model on the test data using `evaluate`
 print("Evaluate on test data")
 results = model.evaluate(x_test, y_test, batch_size=128)
-print("test loss, test acc:", results)
+print("Test loss, test accuracy:", results)
 
 # Generate predictions (probabilities -- the output of the last layer)
 # on new data using `predict`

@@ -103,7 +103,6 @@ Here, we do some simple data processing to fix the data types of the columns.
 users["user_id"] = users["user_id"].apply(lambda x: f"user_{x}")
 users["age_group"] = users["age_group"].apply(lambda x: f"group_{x}")
 users["occupation"] = users["occupation"].apply(lambda x: f"occupation_{x}")
-
 movies["movie_id"] = movies["movie_id"].apply(lambda x: f"movie_{x}")
 
 ratings["movie_id"] = ratings["movie_id"].apply(lambda x: f"movie_{x}")

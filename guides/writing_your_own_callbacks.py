@@ -150,9 +150,9 @@ class CustomCallback(keras.callbacks.Callback):
         keys = list(logs.keys())
         print("Stop testing; got log keys: {}".format(keys))
 
-    def on_predict_begin(self, logs=None):
+    def on_predict_end(self, logs=None):
         keys = list(logs.keys())
-        print("Start predicting; got log keys: {}".format(keys))
+        print("Stop predicting; got log keys: {}".format(keys))
 
     def on_predict_end(self, logs=None):
         keys = list(logs.keys())

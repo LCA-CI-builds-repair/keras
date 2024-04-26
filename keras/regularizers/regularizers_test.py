@@ -1,10 +1,9 @@
 import numpy as np
-
 from keras import backend
 from keras import regularizers
 from keras import testing
 from keras.regularizers.regularizers import validate_float_arg
-
+import numpy as np
 
 # TODO: serialization tests
 class RegularizersTest(testing.TestCase):

@@ -200,7 +200,7 @@ def setup_device(current_gpu_index, num_gpus):
         world_size=num_gpus,
         rank=current_gpu_index,
     )
-    torch.cuda.set_device(device)
+    torch.cuda.set_device(current_gpu_index)
 
 
 def cleanup():

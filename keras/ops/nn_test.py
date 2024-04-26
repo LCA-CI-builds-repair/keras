@@ -166,7 +166,7 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         self.assertEqual(knn.multi_hot(x, 5, 2).shape, (None, 5, 1))
 
     @parameterized.product(dtype=["float32", "int32"])
-    def test_multi_hot_dtype(self, dtype):
+    def test_multi_hot_dtype(self, dtype: str):
         # dtype tests
         x = np.arange(5)
         out = knn.multi_hot(x, 5, axis=0, dtype=dtype)
@@ -473,7 +473,7 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         self.assertEqual(knn.one_hot(x, 5, 2).shape, (None, 3, 5, 1))
 
     @parameterized.product(dtype=["float32", "int32"])
-    def test_one_hot_dtype(self, dtype):
+    def test_one_hot_dtype(self, dtype: str):
         # dtype tests
         x = np.arange(5)
         out = knn.one_hot(x, 5, axis=0, dtype=dtype)

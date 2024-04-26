@@ -218,7 +218,6 @@ def compute_output_spec(fn, *args, **kwargs):
                 # which will likely error out when JAX tries to
                 # validate shapes as fully static.
                 # The error message will be much easier to understand.
-                pass
 
         if jax_out is None:
             maybe_symbolic_args, maybe_symbolic_kwargs = tree.map_structure(

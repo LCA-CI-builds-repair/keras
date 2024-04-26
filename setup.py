@@ -1,5 +1,4 @@
 """Setup script."""
-
 import os
 import pathlib
 
@@ -7,7 +6,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-def read(rel_path):
+def read(rel_path: str) -> str:
     here = os.path.abspath(os.path.dirname(__file__))
     with open(os.path.join(here, rel_path)) as fp:
         return fp.read()

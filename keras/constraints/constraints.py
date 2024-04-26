@@ -127,7 +127,7 @@ class NonNeg(Constraint):
 
 @keras_export(["keras.constraints.UnitNorm", "keras.constraints.unit_norm"])
 class UnitNorm(Constraint):
-    """Constrains the weights incident to each hidden unit to have unit norm.
+    """Constrains the weights incident to each hidden unit to have unit norm."""
 
     Args:
         axis: integer, axis along which to calculate weight norms.

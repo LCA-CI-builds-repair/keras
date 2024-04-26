@@ -3726,7 +3726,7 @@ class NumpyOneInputOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
         # test zero dimension
         x = np.ones(shape=(0,))
         self.assertEqual(len(knp.split(x, 2)), 2)
-        self.assertEqual(len(knp.Split(2)(x)), 2)
+        self.assertEqual(len(knp.split(2)(x)), 2)
 
     def test_sqrt(self):
         x = np.array([[1, 4, 9], [16, 25, 36]], dtype="float32")
@@ -4873,7 +4873,7 @@ class NumpyDtypeTest(testing.TestCase, parameterized.TestCase):
             self.assertEqual(
                 standardize_dtype(knp.array(x).dtype), expected_dtype
             )
-        # TODO: support the assertion of knp.Array
+        # TODO: Add support for asserting knp.Array
 
     @parameterized.named_parameters(
         named_product(dtypes=itertools.combinations(ALL_DTYPES, 2))

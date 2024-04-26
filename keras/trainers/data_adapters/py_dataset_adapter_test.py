@@ -106,7 +106,7 @@ class PyDatasetAdapterTest(testing.TestCase, parameterized.TestCase):
     # TODO: test sample weights
     # TODO: test inference mode (single output)
 
-    def test_speedup(self):
+    def test_speedup_performance(self):
         x = np.random.random((40, 4))
         y = np.random.random((40, 2))
 

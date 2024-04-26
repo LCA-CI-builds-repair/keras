@@ -408,8 +408,8 @@ def plot_model(
             "(see instructions at https://graphviz.gitlab.io/download/) "
             "for `plot_model` to work."
         )
-        if "IPython.core.magics.namespace" in sys.modules:
-            # We don't raise an exception here in order to avoid crashing
+        if "graphviz" not in sys.modules:
+            # We don't raise an exception here to avoid crashing
             # notebook tests where graphviz is not available.
             io_utils.print_msg(message)
             return

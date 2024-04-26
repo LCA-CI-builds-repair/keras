@@ -110,13 +110,13 @@ class GRUCell(Layer, DropoutRNNCell):
                 "Received an invalid value for argument `units`, "
                 f"expected a positive integer, got {units}."
             )
-        implementation = kwargs.pop("implementation", 2)
+        implementation: int = kwargs.pop("implementation", 2)
         super().__init__(**kwargs)
         self.implementation = implementation
-        self.units = units
-        self.activation = activations.get(activation)
-        self.recurrent_activation = activations.get(recurrent_activation)
-        self.use_bias = use_bias
+        self.units: int = units
+        self.activation = activations.get(activation) if activation is not None else None
+        self.recurrent_activation = activations.get(recurrent_activation) if recurrent_activation is not None else None
+        self.use_bias: bool = use_bias
 
         self.kernel_initializer = initializers.get(kernel_initializer)
         self.recurrent_initializer = initializers.get(recurrent_initializer)

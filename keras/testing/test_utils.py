@@ -98,7 +98,7 @@ def named_product(*args, **kwargs):
                 numeral_type=[float, int],
             )
         )
-        def test_conversion(self, x, numeral_type):
+        def test_conversion(self, x: Any, numeral_type: Callable):
             self.assertEqual(numeral_type(x), x)
     ```
     produces six tests (note that absl will reorder them by name):

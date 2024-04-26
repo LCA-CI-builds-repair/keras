@@ -49,6 +49,8 @@ def _shared_object_saving_scope():
 
 
 class DisableSharedObjectScope:
+    from keras.legacy.saving.saving_utils import _shared_object_loading_scope, _shared_object_saving_scope
+
     """A context manager for disabling handling of shared objects.
 
     Disables shared object handling for both saving and loading.
@@ -61,6 +63,11 @@ class DisableSharedObjectScope:
         SHARED_OBJECT_DISABLED.disabled = True
         self._orig_loading_scope = _shared_object_loading_scope()
         self._orig_saving_scope = _shared_object_saving_scope()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        SHARED_OBJECT_DISABLED.disabled = False
+        _set_shared_object_saving_scope(self._orig_saving_scope)
+        _set_shared_object_loading_scope(self._orig_loading_scope)
 
     def __exit__(self, *args, **kwargs):
         SHARED_OBJECT_DISABLED.disabled = False

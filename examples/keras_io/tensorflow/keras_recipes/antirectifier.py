@@ -15,6 +15,7 @@ to ReLU. Instead of zeroing-out the negative part of the input, it splits the ne
  and positive parts and returns the concatenation of the absolute value
 of both. This avoids loss of information, at the cost of an increase in dimensionality.
  To fix the dimensionality increase, we linearly combine the
+"""
 features back to a space of the original size.
 """
 

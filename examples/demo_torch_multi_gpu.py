@@ -122,7 +122,7 @@ def setup(current_gpu_index, num_gpu):
         world_size=num_gpu,
         rank=current_gpu_index,
     )
-    torch.cuda.set_device(device)
+    torch.cuda.set_device(current_gpu_index)
 
 
 def prepare(dataset, current_gpu_index, num_gpu, batch_size):

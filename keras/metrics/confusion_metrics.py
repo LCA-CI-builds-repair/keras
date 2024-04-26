@@ -910,13 +910,12 @@ class PrecisionAtRecall(SensitivitySpecificityBase):
         dtype: (Optional) data type of the metric result.
 
     Standalone usage:
-
     >>> m = keras.metrics.PrecisionAtRecall(0.5)
     >>> m.update_state([0, 0, 0, 1, 1], [0, 0.3, 0.8, 0.3, 0.8])
     >>> m.result()
     0.5
 
-    >>> m.reset_state()
+    >>> m.reset_states()
     >>> m.update_state([0, 0, 0, 1, 1], [0, 0.3, 0.8, 0.3, 0.8],
     ...                sample_weight=[2, 2, 2, 1, 1])
     >>> m.result()
@@ -933,16 +932,16 @@ class PrecisionAtRecall(SensitivitySpecificityBase):
     """
 
     def __init__(
-        self, recall, num_thresholds=200, class_id=None, name=None, dtype=None
+    def __init__(
+        self, recall: float, num_thresholds: int = 200, class_id: int = None, name: str = None, dtype: str = None
     ):
         if recall < 0 or recall > 1:
             raise ValueError(
-                "Argument `recall` must be in the range [0, 1]. "
+                "Invalid value for `recall`. It must be in the range [0, 1]. "
                 f"Received: recall={recall}"
             )
         self.recall = recall
         self.num_thresholds = num_thresholds
-        super().__init__(
             value=recall,
             num_thresholds=num_thresholds,
             class_id=class_id,
@@ -1127,7 +1126,8 @@ class AUC(Metric):
         thresholds: (Optional) A list of floating point values to use as the
             thresholds for discretizing the curve. If set, the `num_thresholds`
             parameter is ignored. Values should be in `[0, 1]`. Endpoint
-            thresholds equal to {`-epsilon`, `1+epsilon`} for a small positive
+            parameter is ignored. Values should be in `[0, 1]`. Endpoint
+            thresholds equal to {-epsilon, 1+epsilon} for a small positive
             epsilon value will be automatically included with these to correctly
             handle predictions equal to exactly 0 or 1.
         multi_label: boolean indicating whether multilabel data should be
@@ -1136,7 +1136,6 @@ class AUC(Metric):
             should be flattened into a single label before AUC computation. In
             the latter case, when multilabel data is passed to AUC, each
             label-prediction pair is treated as an individual data point. Should
-            be set to False for multi-class data.
         num_labels: (Optional) The number of labels, used when `multi_label` is
             True. If `num_labels` is not specified, then state variables get
             created on the first call to `update_state`.

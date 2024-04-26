@@ -615,7 +615,7 @@ class VariableBinaryOperationsTest(test_case.TestCase):
             standardize_dtype(invalid_dtype)
 
     @patch("keras.backend.config.backend", return_value="jax")
-    def test_jax_backend_b_dimension(self, mock_backend):
+    def test_jax_backend_b_dimension_handling(self, mock_backend):
         """Test 'b' dimension handling with JAX backend."""
         shape = (3, "b", 5)
         standardized_shape = standardize_shape(shape)

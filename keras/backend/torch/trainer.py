@@ -479,7 +479,7 @@ class TorchTrainer(base_trainer.Trainer):
             return outputs
 
         # Switch the torch Module back to testing mode.
-        self.eval()
+        self.train()
 
         self.make_predict_function()
         callbacks.on_predict_begin()

@@ -769,9 +769,9 @@ class IndexLookup(Layer):
             msg = tf.strings.format(
                 "When `num_oov_indices=0` all inputs should be in vocabulary, "
                 "found OOV values {}, consider setting `num_oov_indices=1`.",
-                (oov_inputs,),
+                (oov_inputs: tf.Tensor,),
             )
-            assertion = tf.Assert(tf.equal(tf.size(oov_indices), 0), [msg])
+            assertion: tf.Tensor = tf.Assert(tf.equal(tf.size(oov_indices), 0), [msg])
             lookup_checks.append(assertion)
         elif self.num_oov_indices > 1:
             # If we have multiple oov indices, we need a further hashing step.

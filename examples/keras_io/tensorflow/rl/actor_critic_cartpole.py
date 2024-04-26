@@ -41,9 +41,6 @@ remains upright. The agent, therefore, must learn to keep the pole from falling 
 """
 
 import os
-
-os.environ["KERAS_BACKEND"] = "tensorflow"
-
 import keras
 from keras import layers
 

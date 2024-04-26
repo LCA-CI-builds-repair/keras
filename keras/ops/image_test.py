@@ -270,11 +270,11 @@ class ImageOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
                 "scipy"
             )
         # TODO: `nearest` interpolation in jax and torch causes random index
-        # shifting, resulting in significant differences in output which leads
-        # to failure
+        # shifting, resulting in significant differences in output, leading to failure
         if backend.backend() in ("jax", "torch") and interpolation == "nearest":
             self.skipTest(
-                f"In {backend.backend()} backend, "
+                f"In {backend.backend()} backend, nearest interpolation causes random index shifting."
+            )
                 f"interpolation={interpolation} causes index shifting and "
                 "leads test failure"
             )
