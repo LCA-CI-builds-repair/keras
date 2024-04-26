@@ -103,12 +103,32 @@ class PyDatasetAdapterTest(testing.TestCase, parameterized.TestCase):
             self.assertAllClose(sample_order, list(range(64)))
 
     # TODO: test class_weight
-    # TODO: test sample weights
-    # TODO: test inference mode (single output)
+# Test sample weights
+def test_sample_weights(self):
+    x = np.random.random((40, 4))
+    y = np.random.random((40, 2))
+    sample_weights = np.random.random(40)
+    dataset = tf.data.Dataset.from_tensor_slices((x, y, sample_weights))
+    adapter = PyDatasetAdapter(dataset)
+    batch_size = 32
+    adapter = adapter.batch(batch_size)
+    for batch in adapter:
+        self.assertEqual(len(batch), 3)  # Ensure batch contains x, y, and sample weights
 
-    def test_speedup(self):
-        x = np.random.random((40, 4))
-        y = np.random.random((40, 2))
+# Test inference mode (single output)
+def test_inference_mode_single_output(self):
+    x = np.random.random((40, 4))
+    y = np.random.random((40, 1))  # Single output
+    dataset = tf.data.Dataset.from_tensor_slices((x, y))
+    adapter = PyDatasetAdapter(dataset)
+    batch_size = 32
+    adapter = adapter.batch(batch_size)
+    for batch in adapter:
+        self.assertEqual(len(batch), 2)  # Ensure batch contains x and y
+
+def test_speedup(self):
+    x = np.random.random((40, 4))
+    y = np.random.random((40, 2))
 
         no_speedup_py_dataset = ExamplePyDataset(
             x,

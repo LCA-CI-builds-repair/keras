@@ -977,15 +977,20 @@ class TestTrainer(testing.TestCase, parameterized.TestCase):
         x = tf.ragged.constant([[1], [2, 3]])
 
         # test forward pass
-        y = model(x)
-        self.assertEqual(type(y), tf.RaggedTensor)
+import tensorflow as tf
 
-        # test training
-        if model_class in ["get_model", "get_functional"]:
-            model.compile(optimizer="adam", loss=loss_fn)
-            model.fit(x, x)
-            y = model.predict(x)
-            self.assertEqual(type(y), tf.RaggedTensor)
+# Define model_class before using it in if condition
+model_class = "get_model"
+
+y = model(x)
+self.assertEqual(type(y), tf.RaggedTensor)
+
+# Test training
+if model_class in ["get_model", "get_functional"]:
+    model.compile(optimizer="adam", loss=loss_fn)
+    model.fit(x, x)
+    y = model.predict(x)
+    self.assertEqual(type(y), tf.RaggedTensor)
 
         # test if everything works with the sequential model
         model = keras.Sequential([model])

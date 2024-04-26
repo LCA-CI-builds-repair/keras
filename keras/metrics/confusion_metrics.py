@@ -1046,17 +1046,20 @@ class RecallAtPrecision(SensitivitySpecificityBase):
         )
 
     def result(self):
-        recalls = ops.divide(
-            self.true_positives,
-            self.true_positives + self.false_negatives + backend.epsilon(),
-        )
-        precisions = ops.divide(
-            self.true_positives,
-            self.true_positives + self.false_positives + backend.epsilon(),
-        )
-        return self._find_max_under_constraint(
-            precisions, recalls, ops.greater_equal
-        )
+import tensorflow.keras.backend as backend
+import tensorflow.keras.backend.ops as ops
+
+recalls = ops.divide(
+    self.true_positives,
+    self.true_positives + self.false_negatives + backend.epsilon(),
+)
+precisions = ops.divide(
+    self.true_positives,
+    self.true_positives + self.false_positives + backend.epsilon(),
+)
+return self._find_max_under_constraint(
+    precisions, recalls, ops.greater_equal
+)
 
     def get_config(self):
         config = {

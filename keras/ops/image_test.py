@@ -267,14 +267,13 @@ class ImageOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
             self.skipTest(
                 "In tensorflow backend, the numerical results of applying "
                 "affine_transform with fill_mode=wrap is inconsistent with"
-                "scipy"
-            )
-        # TODO: `nearest` interpolation in jax and torch causes random index
-        # shifting, resulting in significant differences in output which leads
-        # to failure
-        if backend.backend() in ("jax", "torch") and interpolation == "nearest":
-            self.skipTest(
-                f"In {backend.backend()} backend, "
+"scipy"
+)
+# Skip test for `nearest` interpolation in jax and torch
+if backend.backend() in ("jax", "torch") and interpolation == "nearest":
+    self.skipTest(
+        f"In {backend.backend()} backend, 'nearest' interpolation causes random index shifting, leading to significant output differences."
+    )
                 f"interpolation={interpolation} causes index shifting and "
                 "leads test failure"
             )

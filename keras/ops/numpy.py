@@ -185,14 +185,15 @@ def broadcast_shapes(shape1, shape2):
         if shape1[i] == 1:
             output_shape[i] = shape2[i]
         elif shape1[i] is None:
-            output_shape[i] = None if shape2[i] == 1 else shape2[i]
-        else:
-            if shape2[i] == 1 or shape2[i] is None or shape2[i] == shape1[i]:
-                output_shape[i] = shape1[i]
-            else:
-                raise ValueError(
-                    "Cannot broadcast shape, the failure dim has value "
-                    f"{shape1[i]}, which cannot be broadcasted to {shape2[i]}. "
+output_shape[i] = None if shape2[i] == 1 else shape2[i]
+else:
+    if shape2[i] == 1 or shape2[i] is None or shape2[i] == shape1[i]:
+        output_shape[i] = shape1[i]
+    else:
+        raise ValueError(
+            "Cannot broadcast shapes. The dimension with value "
+            f"{shape1[i]} in the first shape cannot be broadcasted to {shape2[i] in the second shape."
+        )
                     f"Input shapes are: {origin_shape1} and {origin_shape2}."
                 )
 

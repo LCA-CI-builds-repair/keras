@@ -1338,16 +1338,16 @@ def repeat_elements(x, rep, axis):
     x_rep = tf.tile(x_rep, reps)
 
     # Merging
-    reps = np.delete(reps, auxiliary_axis)
-    reps[axis] = rep
-    reps = tf.constant(reps, dtype="int32")
-    x_shape *= reps
-    x_rep = tf.reshape(x_rep, x_shape)
+reps = np.delete(reps, auxiliary_axis)
+reps[axis] = rep
+reps = tf.constant(reps, dtype="int32")
+x_shape *= reps
+x_rep = tf.reshape(x_rep, x_shape)
 
-    # Fix shape representation
-    x_shape = x.shape.as_list()
-    x_rep.set_shape(x_shape)
-    return x_rep
+# Fix shape representation
+x_shape = tf.shape(x)
+x_rep = tf.reshape(x_rep, x_shape)
+return x_rep
 
 
 @keras_export("keras._legacy.backend.resize_images")
