@@ -3348,7 +3348,6 @@ class NumpyOneInputOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
         self.assertAllClose(knp.isfinite(x), np.isfinite(x))
         self.assertAllClose(knp.Isfinite()(x), np.isfinite(x))
 
-    # TODO: fix and reenable
     def DISABLED_test_isinf(self):
         x = np.array([[1, 2, np.inf], [np.nan, np.nan, np.nan]])
         self.assertAllClose(knp.isinf(x), np.isinf(x))

@@ -1,16 +1,14 @@
 """Legacy Keras 1/2 backend functions."""
-
 import itertools
 
 import numpy as np
 
 from keras import backend
 from keras.api_export import keras_export
-from keras.utils.module_utils import tensorflow as tf
+from keras.utils import tensorflow as tf
 
 py_any = any
 py_all = all
-
 
 @keras_export("keras._legacy.backend.abs")
 def abs(x):

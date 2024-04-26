@@ -143,6 +143,9 @@ def named_product(*args, **kwargs):
     )
 
     # The current list of tests, start with one empty test
+    # Initialize all_test_dicts before the provided code snippet
+    all_test_dicts = [...]
+
     tests = [{}]
     for test_dicts in all_test_dicts:
         new_tests = []

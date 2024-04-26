@@ -1,10 +1,8 @@
 """Legacy Keras 1/2 layers.
-
 AlphaDropout
 RandomHeight
 RandomWidth
 ThresholdedReLU
-"""
 
 from keras import backend
 from keras.api_export import keras_export

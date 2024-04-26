@@ -294,10 +294,9 @@ Much faster, isn't it?
 
 """
 ## Low-level handling of losses tracked by the model
-
 Layers & models recursively track any losses created during the forward pass
 by layers that call `self.add_loss(value)`. The resulting list of scalar loss
-values are available via the property `model.losses`
+values are available via the property `self.losses`
 at the end of the forward pass.
 
 If you want to be using these loss components, you should sum them

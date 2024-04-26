@@ -278,7 +278,8 @@ class Precision(Metric):
             threshold values in `[0, 1]`. A threshold is compared with
             prediction values to determine the truth value of predictions (i.e.,
             above the threshold is `True`, below is `False`). If used with a
-            loss function that sets `from_logits=True` (i.e. no sigmoid applied
+            loss function that sets `from_logits=True` (i.e. no sigmoid applied),
+            the thresholds should be specified accordingly.
             to predictions), `thresholds` should be set to 0. One metric value
             is generated for each threshold value. If neither `thresholds` nor
             `top_k` are set, the default is to calculate precision with

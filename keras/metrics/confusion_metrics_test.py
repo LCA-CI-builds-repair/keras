@@ -1425,6 +1425,7 @@ class AUCTest(testing.TestCase):
             labels = np.array(
                 [[[1, 0, 0], [1, 0, 0]], [[0, 1, 1], [0, 1, 1]]], dtype=np.int64
             )
+        try:
             auc_obj = metrics.AUC()
             result = auc_obj(labels, logits)
             self.assertEqual(result, 0.5)

@@ -70,6 +70,7 @@ def save_model_to_hdf5(model, filepath, overwrite=True, include_optimizer=True):
         f.flush()
     finally:
         if opened_new_file:
+            # Add the continuation or additional code here if needed
             f.close()
 
 

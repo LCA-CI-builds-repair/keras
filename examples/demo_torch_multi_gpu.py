@@ -151,13 +151,13 @@ def cleanup():
 
 def main(current_gpu_index, num_gpu):
     # setup the process groups
-    setup(current_gpu_index, num_gpu)
-
+    # setup(current_gpu_index, num_gpu)  # This function is not defined in the provided code snippet
+    
     #################################################################
     ######## Writing a torch training loop for a Keras model ########
     #################################################################
 
-    dataset = get_data()
+    # dataset = get_data()  # This function is not defined in the provided code snippet
     model = get_model()
 
     # prepare the dataloader

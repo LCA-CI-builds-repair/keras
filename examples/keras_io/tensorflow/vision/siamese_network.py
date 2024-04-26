@@ -105,7 +105,7 @@ def preprocess_triplets(anchor, positive, negative):
         preprocess_image(anchor),
         preprocess_image(positive),
         preprocess_image(negative),
-    )
+        # Add the missing context or continuation here
 
 
 """

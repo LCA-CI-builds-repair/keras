@@ -89,12 +89,12 @@ class CallbackList(Callback):
     def on_epoch_begin(self, epoch, logs=None):
         logs = logs or {}
         for callback in self.callbacks:
-            callback.on_epoch_begin(epoch, logs)
+            callback.on_epoch_begin(epoch, logs=logs)
 
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
         for callback in self.callbacks:
-            callback.on_epoch_end(epoch, logs)
+            callback.on_epoch_end(epoch, logs=logs)
 
     def on_train_batch_begin(self, batch, logs=None):
         logs = logs or {}

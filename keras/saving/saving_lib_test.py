@@ -589,6 +589,7 @@ class SavingTest(testing.TestCase):
 @pytest.mark.requires_trainable_backend
 class SavingAPITest(testing.TestCase):
     def test_saving_api_errors(self):
+        import os
         from keras.saving import saving_api
 
         model = _get_basic_functional_model()

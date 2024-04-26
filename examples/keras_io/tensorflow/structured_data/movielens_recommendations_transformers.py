@@ -97,7 +97,8 @@ movies = pd.read_csv(
 )
 
 """
-Here, we do some simple data processing to fix the data types of the columns.
+Data Processing:
+- Fix the data types of the columns for users and movies.
 """
 
 users["user_id"] = users["user_id"].apply(lambda x: f"user_{x}")

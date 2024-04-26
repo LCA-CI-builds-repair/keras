@@ -402,9 +402,10 @@ def plot_model(
             return
         else:
             raise ImportError(message)
+
     if not check_graphviz():
         message = (
-            "You must install graphviz "
+            "You must install graphviz \n"
             "(see instructions at https://graphviz.gitlab.io/download/) "
             "for `plot_model` to work."
         )
