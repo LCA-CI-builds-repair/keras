@@ -1342,11 +1342,8 @@ def repeat_elements(x, rep, axis):
     reps[axis] = rep
     reps = tf.constant(reps, dtype="int32")
     x_shape *= reps
-    x_rep = tf.reshape(x_rep, x_shape)
+    x_rep = tf.reshape(reps, x_shape)
 
-    # Fix shape representation
-    x_shape = x.shape.as_list()
-    x_rep.set_shape(x_shape)
     return x_rep
 
 
