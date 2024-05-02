@@ -977,11 +977,11 @@ class TestTrainer(testing.TestCase, parameterized.TestCase):
         model = getattr(self, model_class)()()
         x = tf.ragged.constant([[1], [2, 3]])
 
-        # test forward pass
+        # Test forward pass
         y = model(x)
         self.assertEqual(type(y), tf.RaggedTensor)
 
-        # test training
+        # Test training
         if model_class in ["get_model", "get_functional"]:
             model.compile(optimizer="adam", loss=loss_fn)
             model.fit(x, x)
