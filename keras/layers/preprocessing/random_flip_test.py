@@ -112,10 +112,8 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
                     [
                         [[2, 3, 4]],
                         [[5, 6, 7]],
-                    ],
-                    [
-                        [[2, 3, 4]],
-                        [[5, 6, 7]],
+import tensorflow.data as tf_data
+
                     ],
                 ]
             ),
@@ -142,6 +140,16 @@ class RandomFlipTest(testing.TestCase, parameterized.TestCase):
         layer = layers.RandomFlip("vertical", seed=42)
         input_data = np.array(
             [
+                [
+                    [[2, 3, 4]],
+                    [[5, 6, 7]],
+                ],
+                [
+                    [[2, 3, 4]],
+                    [[5, 6, 7]],
+                ]
+            ]
+        )
                 [
                     [[2, 3, 4]],
                     [[5, 6, 7]],

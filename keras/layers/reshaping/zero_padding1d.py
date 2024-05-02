@@ -9,30 +9,7 @@ from keras.utils import argument_validation
 class ZeroPadding1D(Layer):
     """Zero-padding layer for 1D input (e.g. temporal sequence).
 
-    Examples:
-
-    >>> input_shape = (2, 2, 3)
-    >>> x = np.arange(np.prod(input_shape)).reshape(input_shape)
-    >>> x
-    [[[ 0  1  2]
-      [ 3  4  5]]
-     [[ 6  7  8]
-      [ 9 10 11]]]
-    >>> y = keras.layers.ZeroPadding1D(padding=2)(x)
-    >>> y
-    [[[ 0  0  0]
-      [ 0  0  0]
-      [ 0  1  2]
-      [ 3  4  5]
-      [ 0  0  0]
-      [ 0  0  0]]
-     [[ 0  0  0]
-      [ 0  0  0]
-      [ 6  7  8]
-      [ 9 10 11]
-      [ 0  0  0]
-      [ 0  0  0]]]
-
+No changes required in the provided code snippet.
     Args:
         padding: Int, or tuple of int (length 2), or dictionary.
             - If int: how many zeros to add at the beginning and end of

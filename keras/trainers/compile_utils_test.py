@@ -58,68 +58,17 @@ class TestCompileMetrics(testing.TestCase):
                 [
                     metrics_module.MeanSquaredError(),
                     metrics_module.MeanSquaredError(),
-                ],
-            ],
-            weighted_metrics=[
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
-                ],
-                [
-                    metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(),
-                ],
-            ],
-        )
-        # Test symbolic build
-        y_true = [backend.KerasTensor((3, 4)), backend.KerasTensor((3, 4))]
-        y_pred = [backend.KerasTensor((3, 4)), backend.KerasTensor((3, 4))]
-        compile_metrics.build(y_true, y_pred)
-        self.assertEqual(len(compile_metrics.metrics), 8)
-
-        # Test eager build
-        y_true = [
-            np.array([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]]),
-            np.array([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]]),
-        ]
-        y_pred = [
-            np.array([[0.4, 0.1], [0.2, 0.6], [0.6, 0.1]]),
-            np.array([[0.4, 0.1], [0.2, 0.6], [0.6, 0.1]]),
-        ]
-        sample_weight = np.array([1, 0.0, 1])
-        compile_metrics.build(y_true, y_pred)
-        self.assertEqual(len(compile_metrics.metrics), 8)
-
-        # Test update / result / reset flow
-        compile_metrics.update_state(
-            y_true, y_pred, sample_weight=sample_weight
-        )
-        y_pred = [
-            np.array([[0.3, 0.2], [0.1, 0.4], [0.2, 0.3]]),
-            np.array([[0.3, 0.2], [0.1, 0.4], [0.2, 0.3]]),
-        ]
-        compile_metrics.update_state(
-            y_true, y_pred, sample_weight=sample_weight
-        )
-        result = compile_metrics.result()
-        self.assertIsInstance(result, dict)
-        self.assertEqual(len(result), 8)
-        self.assertAllClose(result["mean_squared_error"], 0.055833336)
-        self.assertAllClose(result["weighted_mean_squared_error"], 0.0725)
-
-        compile_metrics.reset_state()
-        result = compile_metrics.result()
-        self.assertIsInstance(result, dict)
+No changes required in the provided code snippet.
         self.assertEqual(len(result), 8)
         self.assertAllClose(result["mean_squared_error"], 0.0)
         self.assertAllClose(result["weighted_mean_squared_error"], 0.0)
-
-    def test_dict_output_case(self):
-        compile_metrics = CompileMetrics(
-            metrics={
-                "output_1": [
                     metrics_module.MeanSquaredError(),
-                    metrics_module.MeanSquaredError(name="mse"),
+                    metrics_module.MeanSquaredError(),
+                ],
+                [
+                    metrics_module.MeanSquaredError(),
+                    metrics_module.MeanSquaredError(),
+                ]
                 ],
                 "output_2": [
                     metrics_module.MeanSquaredError(),
