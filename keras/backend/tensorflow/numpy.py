@@ -296,7 +296,6 @@ def mean(x, axis=None, keepdims=False):
             gather_indices = [i for i in range(rank) if i not in axis]
             return tf.IndexedSlices(
                 tf.reduce_mean(x.values, axis=axis),
-                x.indices,
                 tf.gather(x.dense_shape, gather_indices, axis=0),
             )
     x = convert_to_tensor(x)

@@ -157,7 +157,7 @@ def named_product(*args, **kwargs):
                 new_test.update(test_dict)
                 new_test["testcase_name"] = testcase_name
                 new_tests.append(new_test)
-        # Overwrite the list of tests with the product obtained so far
+            # Overwrite the list of tests with the product obtained so far
         tests = new_tests
 
     return tests

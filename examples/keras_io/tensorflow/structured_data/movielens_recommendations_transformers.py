@@ -131,6 +131,8 @@ genres = [
     "Mystery",
     "Romance",
     "Sci-Fi",
+    # Add more genres as needed
+]
     "Thriller",
     "War",
     "Western",
@@ -346,13 +348,12 @@ by the attention layer for the transformer architecture.
 
 6. The method returns a tuple of two elements:  `encoded_transformer_features` and
 `encoded_other_features`.
-"""
-
-
 def encode_input_features(
     inputs,
     include_user_id=True,
     include_user_features=True,
+    include_movie_features=True,
+):
     include_movie_features=True,
 ):
     encoded_transformer_features = []
@@ -361,13 +362,8 @@ def encode_input_features(
     other_feature_names = []
     if include_user_id:
         other_feature_names.append("user_id")
-    if include_user_features:
-        other_feature_names.extend(USER_FEATURES)
-
-    ## Encode user features
-    for feature_name in other_feature_names:
-        # Convert the string input values into integer indices.
         vocabulary = CATEGORICAL_FEATURES_WITH_VOCABULARY[feature_name]
+        idx = StringLookup(vocabulary=vocabulary, mask_token=None, num_oov_indices=0)()
         idx = StringLookup(vocabulary=vocabulary, mask_token=None, num_oov_indices=0)(
             inputs[feature_name]
         )
