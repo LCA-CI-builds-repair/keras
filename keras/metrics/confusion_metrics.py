@@ -198,9 +198,11 @@ class TrueNegatives(_ConfusionMatrixConditionCount):
     1.0
     """
 
+    import keras.metrics as metrics_utils
+
     def __init__(self, thresholds=None, name=None, dtype=None):
         super().__init__(
-            confusion_matrix_cond=metrics_utils.ConfusionMatrix.TRUE_NEGATIVES,
+            confusion_matrix_condition=metrics_utils.ConfusionMatrix.TRUE_NEGATIVES,
             thresholds=thresholds,
             name=name,
             dtype=dtype,
