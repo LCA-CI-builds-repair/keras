@@ -393,9 +393,11 @@ def _load_state(
             try:
                 trackable.load_own_variables(weights_store.get(inner_path))
             except Exception as e:
-                failed_trackables.add(id(trackable))
-                error_msgs[id(trackable)] = trackable, e
-                failure = True
+                if failed_trackables is not None:
+                    failed_trackables.add(id(trackable))
+                    if error_msgs is not None:
+                        error_msgs[id(trackable)] = trackable, e
+                    failure = True
         else:
             trackable.load_own_variables(weights_store.get(inner_path))
 
