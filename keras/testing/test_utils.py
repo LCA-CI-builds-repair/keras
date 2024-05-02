@@ -151,12 +151,12 @@ def named_product(*args, **kwargs):
                 # Augment the testcase name by appending
                 testcase_name = test.get("testcase_name", "")
                 testcase_name += "_" if testcase_name else ""
-                testcase_name += test_dict["testcase_name"]
-                new_test = test.copy()
-                # Augment the test by adding all the parameters
-                new_test.update(test_dict)
-                new_test["testcase_name"] = testcase_name
-                new_tests.append(new_test)
+            testcase_name += test_dict["testcase_name"]
+            new_test = test.copy()
+            # Augment the test by adding all the parameters
+            new_test.update(test_dict)
+            new_test["testcase_name"] = testcase_name
+            new_tests.append(new_test)
         # Overwrite the list of tests with the product obtained so far
         tests = new_tests
 
