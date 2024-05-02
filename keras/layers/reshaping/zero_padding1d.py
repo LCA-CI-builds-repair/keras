@@ -18,21 +18,14 @@ class ZeroPadding1D(Layer):
       [ 3  4  5]]
      [[ 6  7  8]
       [ 9 10 11]]]
-    >>> y = keras.layers.ZeroPadding1D(padding=2)(x)
+    >>> y = keras.layers.ZeroPadding1D(padding=1)(x)
     >>> y
-    [[[ 0  0  0]
-      [ 0  0  0]
-      [ 0  1  2]
-      [ 3  4  5]
-      [ 0  0  0]
-      [ 0  0  0]]
-     [[ 0  0  0]
-      [ 0  0  0]
-      [ 6  7  8]
-      [ 9 10 11]
-      [ 0  0  0]
-      [ 0  0  0]]]
-
+    [[[ 0  0  1  2]
+      [ 0  3  4  5]
+      [ 0  0  0  0]]
+     [[ 0  0  6  7]
+      [ 0  9 10 11]
+      [ 0  0  0  0]]]
     Args:
         padding: Int, or tuple of int (length 2), or dictionary.
             - If int: how many zeros to add at the beginning and end of
