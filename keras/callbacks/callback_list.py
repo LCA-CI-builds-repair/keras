@@ -140,6 +140,7 @@ class CallbackList(Callback):
         logs = logs or {}
         for callback in self.callbacks:
             callback.on_test_begin(logs)
+            callback.on_test_begin(logs)
 
     def on_test_end(self, logs=None):
         logs = logs or {}

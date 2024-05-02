@@ -14,8 +14,7 @@ This example shows how to create custom layers, using the Antirectifier layer
 to ReLU. Instead of zeroing-out the negative part of the input, it splits the negative
  and positive parts and returns the concatenation of the absolute value
 of both. This avoids loss of information, at the cost of an increase in dimensionality.
- To fix the dimensionality increase, we linearly combine the
-features back to a space of the original size.
+# To fix the dimensionality increase, we linearly combine the features back to a space of the original size.
 """
 
 """

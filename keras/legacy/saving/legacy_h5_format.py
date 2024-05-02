@@ -62,8 +62,6 @@ def save_model_to_hdf5(model, filepath, overwrite=True, include_optimizer=True):
             model_weights_group = f.create_group("model_weights")
             save_weights_to_hdf5_group(model_weights_group, model)
 
-            # TODO(b/128683857): Add integration tests between tf.keras and
-            # external Keras, to avoid breaking TF.js users.
             if include_optimizer and hasattr(model, "optimizer"):
                 save_optimizer_weights_to_hdf5_group(f, model.optimizer)
 

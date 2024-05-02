@@ -21,7 +21,7 @@ nvcc --version
 cd "src/github/keras"
 pip install -U pip setuptools
 
-if [ "$KERAS_BACKEND" == "tensorflow" ]
+if [ "$KERAS_BACKEND" = "tensorflow" ]
 then
    echo "TensorFlow backend detected."
    pip install -r requirements-tensorflow-cuda.txt --progress-bar off
@@ -37,7 +37,7 @@ then
                --cov=keras
 fi
 
-if [ "$KERAS_BACKEND" == "jax" ]
+if [ "$KERAS_BACKEND" = "jax" ]
 then
    echo "JAX backend detected."
    pip install -r requirements-jax-cuda.txt --progress-bar off
@@ -57,7 +57,7 @@ then
                --cov=keras
 fi
 
-if [ "$KERAS_BACKEND" == "torch" ]
+if [ "$KERAS_BACKEND" = "torch" ]
 then
    echo "PyTorch backend detected."
    pip install -r requirements-torch-cuda.txt --progress-bar off

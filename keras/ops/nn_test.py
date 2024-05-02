@@ -163,7 +163,9 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         x = KerasTensor([None, 3, 1])
         self.assertEqual(knn.multi_hot(x, 5).shape, (None, 1, 5))
         self.assertEqual(knn.multi_hot(x, 5, 1).shape, (None, 3, 1))
-        self.assertEqual(knn.multi_hot(x, 5, 2).shape, (None, 5, 1))
+import numpy as np
+
+        self.assertEqual(knn.multi_hot(x, 5, 2).shape, (1, 5, 1))
 
     @parameterized.product(dtype=["float32", "int32"])
     def test_multi_hot_dtype(self, dtype):
@@ -473,13 +475,19 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         self.assertEqual(knn.one_hot(x, 5, 2).shape, (None, 3, 5, 1))
 
     @parameterized.product(dtype=["float32", "int32"])
-    def test_one_hot_dtype(self, dtype):
-        # dtype tests
+import numpy as np
+
         x = np.arange(5)
         out = knn.one_hot(x, 5, axis=0, dtype=dtype)
         self.assertEqual(backend.standardize_dtype(out.dtype), dtype)
 
     def test_moments(self):
+        x = KerasTensor([None, 3, 4])
+        self.assertEqual(knn.moments(x, axes=[0])[0].shape, (3, 4))
+        self.assertEqual(knn.moments(x, axes=[0, 1])[0].shape, (3,))
+        self.assertEqual(
+            knn.moments(x, axes=[0, 1], keepdims=True)[0].shape, (1, 1, 4)
+        )
         x = KerasTensor([None, 3, 4])
         self.assertEqual(knn.moments(x, axes=[0])[0].shape, (3, 4))
         self.assertEqual(knn.moments(x, axes=[0, 1])[0].shape, (4,))
@@ -494,12 +502,13 @@ class NNOpsDynamicShapeTest(testing.TestCase, parameterized.TestCase):
         )
 
     def test_batch_normalization(self):
-        x = KerasTensor([None, 3, 4])
-        mean = KerasTensor([4])
-        variance = KerasTensor([4])
+from keras.layers import KerasTensor
+
+        mean = KerasTensor([3])
+        x = KerasTensor([None, 3, 4, 5])
         self.assertEqual(
-            knn.batch_normalization(x, mean, variance, axis=-1).shape,
-            (None, 3, 4),
+            knn.batch_normalization(x, mean, variance, axis=2).shape,
+            (None, 3, 4, 5),
         )
 
         x = KerasTensor([None, 3, 4, 5])
