@@ -94,6 +94,7 @@ class CallbackList(Callback):
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
         for callback in self.callbacks:
+            callback.on_epoch_end(epoch, logs=logs)
             callback.on_epoch_end(epoch, logs)
 
     def on_train_batch_begin(self, batch, logs=None):
@@ -105,6 +106,7 @@ class CallbackList(Callback):
         logs = logs or {}
         for callback in self.callbacks:
             callback.on_train_batch_end(batch, logs=logs)
+            callback.on_train_batch_end(batch, logs=logs)
 
     def on_test_batch_begin(self, batch, logs=None):
         logs = logs or {}
@@ -114,6 +116,7 @@ class CallbackList(Callback):
     def on_test_batch_end(self, batch, logs=None):
         logs = logs or {}
         for callback in self.callbacks:
+            callback.on_test_batch_end(batch, logs=logs)
             callback.on_test_batch_end(batch, logs=logs)
 
     def on_predict_batch_begin(self, batch, logs=None):
@@ -145,13 +148,10 @@ class CallbackList(Callback):
         logs = logs or {}
         for callback in self.callbacks:
             callback.on_test_end(logs)
-
-    def on_predict_begin(self, logs=None):
-        logs = logs or {}
-        for callback in self.callbacks:
-            callback.on_predict_begin(logs)
+            callback.on_test_begin(logs)
 
     def on_predict_end(self, logs=None):
         logs = logs or {}
         for callback in self.callbacks:
+            callback.on_predict_end(logs)
             callback.on_predict_end(logs)
