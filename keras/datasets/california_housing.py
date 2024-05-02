@@ -50,9 +50,9 @@ def load_data(
             to serve as an approximate replacement for the
             deprecated `boston_housing` dataset.
         path: path where to cache the dataset locally
-            (relative to `~/.keras/datasets`).
-        test_split: fraction of the data to reserve as test set.
-        seed: Random seed for shuffling the data
+        (relative to `~/.keras/datasets`).
+    test_split: fraction of the data to reserve as test set.
+    seed: Random seed for shuffling the data
             before computing the test split.
 
     Returns:

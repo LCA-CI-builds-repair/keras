@@ -409,6 +409,7 @@ def _load_state(
                 failure = True
         else:
             trackable.load_assets(assets_store.get(inner_path))
+            trackable.load_assets(assets_store.get(inner_path))
 
     if failed_trackables is not None:
         currently_failed = len(failed_trackables)

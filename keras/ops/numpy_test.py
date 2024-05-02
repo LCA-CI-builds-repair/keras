@@ -3760,13 +3760,14 @@ class NumpyOneInputOpsCorrectnessTest(testing.TestCase, parameterized.TestCase):
         )
 
     @pytest.mark.skipif(
-        backend.backend() != "tensorflow",
-        reason="Only test tensorflow backend",
-    )
-    def test_split_with_jit_in_tf(self):
-        import tensorflow as tf
+@pytest.mark.skipif(
+    backend.backend() != "tensorflow",
+    reason="Only test tensorflow backend",
+)
+def test_split_with_jit_in_tf(self):
+    import tensorflow as tf
 
-        x = knp.array([[1, 2, 3], [3, 2, 1]])
+    x = knp.array([[1, 2, 3], [3, 2, 1]])
         indices = knp.array([1, 2])
         x_np = np.array([[1, 2, 3], [3, 2, 1]])
         indices_np = np.array([1, 2])

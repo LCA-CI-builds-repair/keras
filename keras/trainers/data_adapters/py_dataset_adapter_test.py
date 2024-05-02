@@ -140,13 +140,15 @@ class PyDatasetAdapterTest(testing.TestCase, parameterized.TestCase):
         adapter = py_dataset_adapter.PyDatasetAdapter(
             no_speedup_py_dataset, shuffle=False
         )
-        gen = adapter.get_numpy_iterator()
-        t0 = time.time()
-        for batch in gen:
-            pass
-        no_speedup_time = time.time() - t0
+import time
 
-        speedup_py_dataset = ExamplePyDataset(
+gen = adapter.get_numpy_iterator()
+t0 = time.time()
+for batch in gen:
+    pass
+no_speedup_time = time.time() - t0
+
+speedup_py_dataset = ExamplePyDataset(
             x,
             y,
             batch_size=4,
@@ -167,13 +169,15 @@ class PyDatasetAdapterTest(testing.TestCase, parameterized.TestCase):
         speedup_time = time.time() - t0
 
         self.assertLess(speedup_time, no_speedup_time)
+import numpy as np
 
-    def test_dict_inputs(self):
-        inputs = {
-            "x": np.random.random((40, 4)),
-            "y": np.random.random((40, 2)),
-        }
-        py_dataset = DictPyDataset(inputs, batch_size=4)
+inputs = {
+    "x": np.random.random((40, 4)),
+    "y": np.random.random((40, 2)),
+}
+py_dataset = DictPyDataset(inputs, batch_size=4)
+adapter = py_dataset_adapter.PyDatasetAdapter(py_dataset, shuffle=False)
+gen = adapter.get_numpy_iterator()
         adapter = py_dataset_adapter.PyDatasetAdapter(py_dataset, shuffle=False)
         gen = adapter.get_numpy_iterator()
         for batch in gen:
