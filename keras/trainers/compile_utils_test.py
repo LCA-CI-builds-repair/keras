@@ -69,7 +69,7 @@ class TestCompileMetrics(testing.TestCase):
                     metrics_module.MeanSquaredError(),
                     metrics_module.MeanSquaredError(),
                 ],
-            ],
+            ]
         )
         # Test symbolic build
         y_true = [backend.KerasTensor((3, 4)), backend.KerasTensor((3, 4))]
