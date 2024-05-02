@@ -603,6 +603,8 @@ class ActivationsTest(testing.TestCase):
         result = activations.tanh(x[np.newaxis, :])[0]
         expected = np.tanh(x)
         self.assertAllClose(result, expected, rtol=1e-05)
+        expected = np.tanh(x)
+        self.assertAllClose(result, expected, rtol=1e-05)
 
         # Test with 1D array
         x_1d = np.random.uniform(-10, 10, 5)

@@ -2473,7 +2473,7 @@ class NumpyTwoInputOpsCorretnessTest(testing.TestCase, parameterized.TestCase):
             knp.take(x, indices, axis=-2),
             np.take(x, indices, axis=-2),
         )
-
+    
     @parameterized.named_parameters(
         named_product(
             [
