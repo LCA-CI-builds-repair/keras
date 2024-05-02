@@ -32,7 +32,6 @@ class ZeroPadding1D(Layer):
       [ 9 10 11]
       [ 0  0  0]
       [ 0  0  0]]]
-
     Args:
         padding: Int, or tuple of int (length 2), or dictionary.
             - If int: how many zeros to add at the beginning and end of
