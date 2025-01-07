@@ -1,6 +1,7 @@
 import numpy as np
 import tree
 
+MAX_ATTEMPTS = 3
 from keras.backend import config
 from keras.backend import standardize_dtype
 from keras.backend.common import dtypes
@@ -12,9 +13,24 @@ def add(x1, x2):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
-    dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
-        getattr(x2, "dtype", type(x2)),
+    
+    attempts = 0
+    while attempts < MAX_ATTEMPTS:
+        try:
+            dtype = dtypes.result_type(
+                getattr(x1, "dtype", type(x1)),
+                getattr(x2, "dtype", type(x2)),
+            )
+            x1 = convert_to_tensor(x1, dtype)
+            x2 = convert_to_tensor(x2, dtype)
+            return np.subtract(x1, x2)
+        except (ValueError, TypeError) as e:
+            attempts += 1
+            if attempts == MAX_ATTEMPTS:
+                raise e
+            print(f"Error: {e}. Retrying...")
+            x1 = convert_to_tensor(x1)
+            x2 = convert_to_tensor(x2)
     )
     x1 = convert_to_tensor(x1, dtype)
     x2 = convert_to_tensor(x2, dtype)
@@ -23,6 +39,22 @@ def add(x1, x2):
 
 def einsum(subscripts, *operands, **kwargs):
     operands = tree.map_structure(convert_to_tensor, operands)
+    
+    attempts = 0
+    while attempts < MAX_ATTEMPTS:
+        try:
+            dtypes_to_resolve = []
+            for x in operands:
+                dtypes_to_resolve.append(getattr(x, "dtype", type(x)))
+            result_dtype = dtypes.result_type(*dtypes_to_resolve)
+            compute_dtype = result_dtype
+            # TODO: np.einsum doesn't support bfloat16
+            if compute_dtype == "bfloat16":
+                compute_dtype = "float32"
+            operands = tree.map_structure(lambda x: x.astype(compute_dtype), operands)
+            return np.einsum(subscripts, *operands, **kwargs).astype(result_dtype)
+        except (ValueError, TypeError) as e:
+            attempts += 1
     dtypes_to_resolve = []
     for x in operands:
         dtypes_to_resolve.append(getattr(x, "dtype", type(x)))
@@ -52,11 +84,26 @@ def subtract(x1, x2):
 def matmul(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
-    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    
+    attempts = 0
+    while attempts < MAX_ATTEMPTS:
+        try:
+            dtype = dtypes.result_type(x1.dtype, x2.dtype)
+            return np.matmul(x1, x2).astype(dtype)
+        except (ValueError, TypeError) as e:
+            attempts += 1
+            if attempts == MAX_ATTEMPTS:
+                raise e
+            print(f"Error: {e}. Retrying...")
+            x1 = convert_to_tensor(x1)
+            x2 = convert_to_tensor(x2)
+            
     return np.matmul(x1, x2).astype(dtype)
 
 
 def multiply(x1, x2):
+    if not isinstance(x1, (int, float)):
+        x1 = convert_to_tensor(x1)
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
@@ -64,10 +111,26 @@ def multiply(x1, x2):
     dtype = dtypes.result_type(
         getattr(x1, "dtype", type(x1)),
         getattr(x2, "dtype", type(x2)),
+    attempts = 0
+    while attempts < MAX_ATTEMPTS:
+        try:
+            dtype = dtypes.result_type(
+                getattr(x1, "dtype", type(x1)),
+                getattr(x2, "dtype", type(x2)),
+            )
+            x1 = convert_to_tensor(x1, dtype)
+            x2 = convert_to_tensor(x2, dtype)
+            return np.multiply(x1, x2)
+        except (ValueError, TypeError) as e:
+            attempts += 1
+            if attempts == MAX_ATTEMPTS:
+                raise e
+            print(f"Error: {e}. Retrying...")
+            if isinstance(x1, (int, float)):
+                x1 = convert_to_tensor(x1)
+            if isinstance(x2, (int, float)):
+                x2 = convert_to_tensor(x2)
     )
-    x1 = convert_to_tensor(x1, dtype)
-    x2 = convert_to_tensor(x2, dtype)
-    return np.multiply(x1, x2)
 
 
 def mean(x, axis=None, keepdims=False):
