@@ -74,6 +74,8 @@ def mean(x, axis=None, keepdims=False):
     if isinstance(x, (list, tuple)):
         x = stack(x)
     x = convert_to_tensor(x)
+    if x.dtype == torch.bool:
+        x = cast(x, "int32")
     if axis == () or axis == []:
         # Torch handles the empty axis case differently from numpy.
         return x
@@ -222,6 +224,8 @@ def arange(start, stop=None, step=1, dtype=None):
         if stop is not None:
             dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
         dtype = dtypes.result_type(*dtypes_to_resolve)
+    if dtype == torch.bool:
+        raise ValueError("arange does not support dtype bool")
     dtype = to_torch_dtype(dtype)
     if stop is None:
         return torch.arange(end=start, dtype=dtype, device=get_device())
@@ -276,7 +280,7 @@ def arctanh(x):
 def argmax(x, axis=None):
     x = convert_to_tensor(x)
 
-    # TODO: torch.argmax doesn't support bool
+    # Convert bool to int32 for compatibility with torch.argmax
     if standardize_dtype(x.dtype) == "bool":
         x = cast(x, "uint8")
 

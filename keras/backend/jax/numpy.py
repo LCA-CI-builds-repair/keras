@@ -14,6 +14,8 @@ def add(x1, x2):
 
 
 def bincount(x, weights=None, minlength=0):
+    if x.dtype == jnp.bool_:
+        x = cast(x, "int32")
     if len(x.shape) == 2:
         if weights is None:
 
@@ -59,6 +61,8 @@ def multiply(x1, x2):
 
 def mean(x, axis=None, keepdims=False):
     x = convert_to_tensor(x)
+    if x.dtype == jnp.bool_:
+        x = cast(x, "int32")
     ori_dtype = standardize_dtype(x.dtype)
     # `jnp.mean` does not handle low precision (e.g., float16) overflow
     # correctly, so we compute with float32 and cast back to the original type.
@@ -117,6 +121,8 @@ def append(x1, x2, axis=None):
 
 
 def arange(start, stop=None, step=1, dtype=None):
+    if dtype == jnp.bool_:
+        raise ValueError("arange does not support dtype bool")
     if dtype is None:
         dtypes_to_resolve = [
             getattr(start, "dtype", type(start)),
@@ -233,6 +239,8 @@ def broadcast_to(x, shape):
 
 def ceil(x):
     x = convert_to_tensor(x)
+    if x.dtype == jnp.bool_:
+        x = cast(x, "int32")
     if standardize_dtype(x.dtype) == "int64":
         dtype = config.floatx()
     else:
