@@ -135,13 +135,13 @@ def append(x1, x2, axis=None):
 
 
 def arange(start, stop=None, step=None, dtype=None):
+    start = convert_to_tensor(start)
+    step = convert_to_tensor(step or 1)  # Default step is 1 if None
+    stop = convert_to_tensor(stop) if stop is not None else None
     if dtype is None:
-        dtypes_to_resolve = [
-            getattr(start, "dtype", type(start)),
-            getattr(step, "dtype", type(step)),
-        ]
+        dtypes_to_resolve = [start.dtype, step.dtype]
         if stop is not None:
-            dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
+            dtypes_to_resolve.append(stop.dtype)
         dtype = dtypes.result_type(*dtypes_to_resolve)
     return np.arange(start, stop, step=step, dtype=dtype)
 
