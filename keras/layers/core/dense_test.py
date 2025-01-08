@@ -186,6 +186,8 @@ class DenseTest(testing.TestCase):
         layer = layers.Dense(units=16)
         layer.build((None, 8))
         layer.enable_lora(4)
+        # Assert that LoRA is explicitly enabled.
+        self.assertTrue(layer.lora_enabled, "LoRA was not enabled after calling enable_lora().")
         self.assertLen(layer.trainable_weights, 3)
         self.assertLen(layer.non_trainable_weights, 1)
         # Try eager call
@@ -229,6 +231,7 @@ class DenseTest(testing.TestCase):
         # Try loading a normal checkpoint into a lora model
         new_model.save_weights(temp_filepath)
         model.load_weights(temp_filepath)
+        # Validate that LoRA mode doesn't break after loading weights.
         self.assertAllClose(model.predict(x), new_model.predict(x))
 
     def test_lora_rank_argument(self):
