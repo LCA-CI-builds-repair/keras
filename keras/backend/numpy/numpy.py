@@ -8,13 +8,15 @@ from keras.backend.numpy.core import convert_to_tensor
 
 
 def add(x1, x2):
+    if x1 is None or x2 is None:
+        raise ValueError("Inputs to `minimum` cannot be None.")
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
-        getattr(x2, "dtype", type(x2)),
+        getattr(x1, "dtype", type(x1)) if x1 is not None else float,
+        getattr(x2, "dtype", type(x2)) if x2 is not None else float,
     )
     x1 = convert_to_tensor(x1, dtype)
     x2 = convert_to_tensor(x2, dtype)
@@ -36,13 +38,15 @@ def einsum(subscripts, *operands, **kwargs):
 
 
 def subtract(x1, x2):
+    if x1 is None or x2 is None:
+        raise ValueError("Inputs to `maximum` cannot be None.")
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
-        getattr(x2, "dtype", type(x2)),
+        getattr(x1, "dtype", type(x1)) if x1 is not None else float,
+        getattr(x2, "dtype", type(x2)) if x2 is not None else float,
     )
     x1 = convert_to_tensor(x1, dtype)
     x2 = convert_to_tensor(x2, dtype)
@@ -57,13 +61,15 @@ def matmul(x1, x2):
 
 
 def multiply(x1, x2):
+    if x1 is None or x2 is None:
+        raise ValueError("Inputs to `subtract` cannot be None.")
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
-        getattr(x2, "dtype", type(x2)),
+        getattr(x1, "dtype", type(x1)) if x1 is not None else float,
+        getattr(x2, "dtype", type(x2)) if x2 is not None else float,
     )
     x1 = convert_to_tensor(x1, dtype)
     x2 = convert_to_tensor(x2, dtype)
@@ -623,13 +629,15 @@ def logspace(start, stop, num=50, endpoint=True, base=10, dtype=None, axis=0):
 
 
 def maximum(x1, x2):
+    if x1 is None or x2 is None:
+        raise ValueError("Inputs to `add` cannot be None.")
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
-        getattr(x2, "dtype", type(x2)),
+        getattr(x1, "dtype", type(x1)) if x1 is not None else float,
+        getattr(x2, "dtype", type(x2)) if x2 is not None else float,
     )
     x1 = convert_to_tensor(x1, dtype)
     x2 = convert_to_tensor(x2, dtype)
