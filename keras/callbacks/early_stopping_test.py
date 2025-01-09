@@ -73,6 +73,35 @@ class EarlyStoppingTest(testing.TestCase):
                 epochs=2,
                 verbose=0,
             )
+    @pytest.mark.requires_trainable_backend
+    def test_invalid_auto_mode_handling(self):
+        # Test fallback behavior when 'auto' mode is used with an unrecognized metric
+        x_train = np.random.random((10, 5))
+        y_train = np.random.random((10, 1))
+        model = models.Sequential(
+            (
+                layers.Dense(1, activation="relu"),
+                layers.Dense(1, activation="relu"),
+            )
+        )
+        model.compile(
+            optimizer="adam",
+            loss="mae",
+            metrics=["mse", "accuracy"],
+        )
+        with pytest.warns(UserWarning, match="auto.*minimized or maximized"):
+            stopper = callbacks.EarlyStopping(
+                monitor="custom_metric", mode="auto"
+            )
+            model.fit(
+                x_train,
+                y_train,
+                batch_size=5,
+                validation_split=0.2,
+                callbacks=[stopper],
+                epochs=3,
+                verbose=0,
+            )
 
     @pytest.mark.requires_trainable_backend
     def test_early_stopping_patience(self):
