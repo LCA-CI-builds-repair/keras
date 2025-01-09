@@ -186,8 +186,13 @@ class DenseTest(testing.TestCase):
         layer = layers.Dense(units=16)
         layer.build((None, 8))
         layer.enable_lora(4)
+        self.assertTrue(layer.lora_enabled, "Lora was not properly enabled.")
         self.assertLen(layer.trainable_weights, 3)
         self.assertLen(layer.non_trainable_weights, 1)
+        # Validate trainable_weight and non_trainable_weights consistency
+        self.assertEqual(sum(w.trainable for w in layer.trainable_weights), 3)
+        self.assertEqual(sum(w.trainable for w in layer.non_trainable_weights), 0)
+
         # Try eager call
         x = np.random.random((64, 8))
         y = np.random.random((64, 16))
