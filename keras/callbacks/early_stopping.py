@@ -79,6 +79,24 @@ class EarlyStopping(Callback):
     ):
         super().__init__()
 
+        # Validate input parameters
+        if not isinstance(monitor, str):
+            raise ValueError(
+                f"monitor must be a string. Got: {monitor}"
+            )
+        if not isinstance(patience, int) or patience < 0:
+            raise ValueError(
+                f"patience must be a non-negative integer. Got: {patience}"
+            )
+        if not isinstance(verbose, int) or verbose not in {0, 1}:
+            raise ValueError(
+                f"verbose must be 0 or 1. Got: {verbose}"
+            )
+        if not isinstance(start_from_epoch, int) or start_from_epoch < 0:
+            raise ValueError(
+                f"start_from_epoch must be a non-negative integer. Got: {start_from_epoch}"
+            )
+
         self.monitor = monitor
         self.patience = patience
         self.verbose = verbose
@@ -92,7 +110,7 @@ class EarlyStopping(Callback):
 
         if mode not in ["auto", "min", "max"]:
             warnings.warn(
-                f"EarlyStopping mode {mode} is unknown, fallback to auto mode.",
+                f"EarlyStopping mode '{mode}' is unknown, fallback to auto mode.",
                 stacklevel=2,
             )
             mode = "auto"

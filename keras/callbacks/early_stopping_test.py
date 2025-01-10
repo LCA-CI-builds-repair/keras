@@ -235,3 +235,30 @@ class EarlyStoppingTest(testing.TestCase):
         )
         # Test for boundary condition when 'patience' = 0.
         self.assertGreaterEqual(len(history.epoch), start_from_epoch)
+
+    def test_early_stopping_invalid_arguments(self):
+        # Test invalid monitor
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(monitor=123)
+
+        # Test invalid patience
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(patience=-1)
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(patience=1.5)
+
+        # Test invalid verbose
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(verbose=2)
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(verbose=-1)
+
+        # Test invalid start_from_epoch
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(start_from_epoch=-1)
+        with self.assertRaises(ValueError):
+            callbacks.EarlyStopping(start_from_epoch=1.5)
+
+        # Test mode warning
+        with self.assertWarns(Warning):
+            callbacks.EarlyStopping(mode="invalid")
