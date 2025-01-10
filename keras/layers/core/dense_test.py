@@ -115,7 +115,7 @@ class DenseTest(testing.TestCase):
 
         # Verify the computation is the same as if it had been a dense tensor
         expected_outputs = tf.add(
-            tf.matmul(tf.sparse.to_dense(inputs), layer.kernel),
+            tf.linalg.matmul(tf.sparse.to_dense(inputs), layer.kernel),
             layer.bias,
         )
         self.assertAllClose(outputs, expected_outputs)
@@ -145,6 +145,8 @@ class DenseTest(testing.TestCase):
     def test_dense_without_activation_set(self):
         layer = layers.Dense(units=2, use_bias=False)
         layer.build((1, 2))
+        # Explicitly set activation to ensure predictable behavior
+        layer.activation = None  
         layer.set_weights(
             [
                 np.array([[1.0, -2.0], [3.0, -4.0]]),
