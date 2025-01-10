@@ -117,21 +117,20 @@ def append(x1, x2, axis=None):
 
 
 def arange(start, stop=None, step=1, dtype=None):
-    if dtype is None:
-        dtypes_to_resolve = [
-            getattr(start, "dtype", type(start)),
-            getattr(step, "dtype", type(step)),
-        ]
-        if stop is not None:
-            dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
-        dtype = dtypes.result_type(*dtypes_to_resolve)
+    # Ensure dtype resolution is properly handled in all scenarios
+    dtype = dtype or dtypes.result_type(
+        getattr(start, 'dtype', type(start)),
+        getattr(step, 'dtype', type(step)),
+        (getattr(stop, 'dtype', type(stop)) if stop is not None else None)
+    )
     dtype = standardize_dtype(dtype)
     return jnp.arange(start, stop, step=step, dtype=dtype)
 
 
 def arccos(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    ori_dtype = standardize_dtype(x.dtype)
+    if ori_dtype in ["int64", "uint64"]:  # Expanded to handle unsigned
         dtype = config.floatx()
     else:
         dtype = dtypes.result_type(x.dtype, float)

@@ -232,6 +232,10 @@ def arange(start, stop=None, step=1, dtype=None):
 
 def arccos(x):
     x = convert_to_tensor(x)
+    # Explicitly cast dtypes for compatibility
+    ori_dtype = standardize_dtype(x.dtype)
+    if ori_dtype in ["int64", "uint64"]:  # Added missing handling for uint64
+        x = cast(x, config.floatx())
     return torch.arccos(x)
 
 
