@@ -73,6 +73,8 @@ def mean(x, axis=None, keepdims=False):
 
 def max(x, axis=None, keepdims=False, initial=None):
     x = convert_to_tensor(x)
+    if standardize_dtype(x.dtype) == 'int64':
+        x = cast(x, config.floatx())
     return jnp.max(x, axis=axis, keepdims=keepdims, initial=initial)
 
 

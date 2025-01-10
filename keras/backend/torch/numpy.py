@@ -109,6 +109,10 @@ def mean(x, axis=None, keepdims=False):
 
 def max(x, axis=None, keepdims=False, initial=None):
     x = convert_to_tensor(x)
+    # Handle int64 consistently
+    if standardize_dtype(x.dtype) == 'int64':
+        x = cast(x, config.floatx())
+
     if 0 in x.shape:
         if initial is None:
             raise ValueError("Cannot compute the max of an empty tensor.")
