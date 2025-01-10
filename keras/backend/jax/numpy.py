@@ -10,6 +10,9 @@ from keras.backend.jax.core import convert_to_tensor
 def add(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
+    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    x1 = cast(x1, dtype)
+    x2 = cast(x2, dtype)
     return jnp.add(x1, x2)
 
 
@@ -42,6 +45,9 @@ def einsum(subscripts, *operands, **kwargs):
 def subtract(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
+    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    x1 = cast(x1, dtype)
+    x2 = cast(x2, dtype)
     return jnp.subtract(x1, x2)
 
 
@@ -73,6 +79,8 @@ def mean(x, axis=None, keepdims=False):
 
 def max(x, axis=None, keepdims=False, initial=None):
     x = convert_to_tensor(x)
+    if initial is not None and x.size == 0:
+        return jnp.full((1,) * (len(x.shape) if keepdims else 0), initial)
     return jnp.max(x, axis=axis, keepdims=keepdims, initial=initial)
 
 
@@ -242,6 +250,8 @@ def ceil(x):
 
 def clip(x, x_min, x_max):
     x = convert_to_tensor(x)
+    x_min = convert_to_tensor(x_min)
+    x_max = convert_to_tensor(x_max)
     if standardize_dtype(x.dtype) == "bool":
         x = cast(x, "int32")
     return jnp.clip(x, x_min, x_max)

@@ -24,6 +24,9 @@ TORCH_INT_TYPES = (
 def add(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
+    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    x1 = cast(x1, dtype)
+    x2 = cast(x2, dtype)
     return torch.add(x1, x2)
 
 
@@ -386,6 +389,9 @@ def clip(x, x_min, x_max):
     x = convert_to_tensor(x)
     x_min = convert_to_tensor(x_min)
     x_max = convert_to_tensor(x_max)
+    ori_dtype = standardize_dtype(x.dtype)
+    if ori_dtype == "bool":
+        x = cast(x, "int32")
     ori_dtype = standardize_dtype(x.dtype)
 
     # TODO: torch.clip doesn't support float16 with cpu
