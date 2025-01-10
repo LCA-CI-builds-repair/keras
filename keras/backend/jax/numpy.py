@@ -136,6 +136,21 @@ def arccos(x):
     else:
         dtype = dtypes.result_type(x.dtype, float)
     x = cast(x, dtype)
+    return jnp.log1p(x)
+
+
+def result_type(*arrays_and_dtypes):
+    result_dtype = dtypes.result_type(*arrays_and_dtypes)
+    if result_dtype in ('float16', 'bfloat16'):
+        result_dtype = 'float32'
+    return result_dtype
+
+
+def logaddexp(x1, x2):
+    x1 = convert_to_tensor(x1)
+    x2 = convert_to_tensor(x2)
+    dtype = dtypes.result_type(x1.dtype, x2.dtype, float)
+    x1 = cast(x1, dtype)
     return jnp.arccos(x)
 
 
@@ -212,6 +227,15 @@ def argsort(x, axis=-1):
 
 def array(x, dtype=None):
     return jnp.array(x, dtype=dtype)
+
+
+def result_type(*arrays_and_dtypes):
+    # In JAX, operations involving None always result in a float32.
+    result_dtype = dtypes.result_type(*arrays_and_dtypes)
+    # Protect against low-precision overflow
+    if result_dtype in ('float16', 'bfloat16'):
+      result_dtype = 'float32'
+    return result_dtype
 
 
 def average(x, axis=None, weights=None):
