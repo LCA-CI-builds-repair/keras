@@ -1,4 +1,5 @@
 import warnings
+import numpy as np
 
 from keras import ops
 from keras.api_export import keras_export
@@ -41,6 +42,9 @@ class EarlyStopping(Callback):
         restore_best_weights: Whether to restore model weights from the epoch
             with the best value of the monitored quantity. If `False`, the model
             weights obtained at the last step of training are used. An epoch
+        retry_limit: Maximum number of attempts to try to get a valid value for the
+            monitored quantity. Defaults to 3.
+        retry_patience: Number of epochs to wait before retrying to get a valid value.
             will be restored regardless of the performance relative to the
             `baseline`. If no epoch improves on `baseline`, training will run
             for `patience` epochs and restore weights from the best epoch in
@@ -76,6 +80,8 @@ class EarlyStopping(Callback):
         baseline=None,
         restore_best_weights=False,
         start_from_epoch=0,
+        retry_limit=3,
+        retry_patience=1,
     ):
         super().__init__()
 
@@ -85,6 +91,8 @@ class EarlyStopping(Callback):
         self.baseline = baseline
         self.min_delta = abs(min_delta)
         self.wait = 0
+        self.retry_limit = retry_limit
+        self.retry_patience = retry_patience
         self.stopped_epoch = 0
         self.restore_best_weights = restore_best_weights
         self.best_weights = None
@@ -179,7 +187,7 @@ class EarlyStopping(Callback):
         # Only check after the first epoch.
         if self.wait >= self.patience and epoch > 0:
             self.stopped_epoch = epoch
-            self.model.stop_training = True
+            self.model.stop_training = True            
             if self.restore_best_weights and self.best_weights is not None:
                 if self.verbose > 0:
                     io_utils.print_msg(
@@ -193,7 +201,10 @@ class EarlyStopping(Callback):
         if self.stopped_epoch > 0 and self.verbose > 0:
             io_utils.print_msg(
                 f"Epoch {self.stopped_epoch + 1}: early stopping"
-            )
+            )        
+        if self.retry_count >= self.retry_limit:
+            io_utils.print_msg(
+                f"Failed to get monitor value after {self.retry_limit} attempts")
 
     def get_monitor_value(self, logs):
         logs = logs or {}
@@ -210,4 +221,7 @@ class EarlyStopping(Callback):
         return monitor_value
 
     def _is_improvement(self, monitor_value, reference_value):
+        if monitor_value is None or np.isnan(monitor_value):
+            # If the monitor value is None or NaN, assume no improvement
+            return False
         return self.monitor_op(monitor_value - self.min_delta, reference_value)
