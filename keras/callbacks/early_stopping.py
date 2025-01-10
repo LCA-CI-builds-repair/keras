@@ -99,6 +99,12 @@ class EarlyStopping(Callback):
         self.mode = mode
 
     def _set_monitor_op(self):
+        def remove_prefix(text, prefix):
+            # Helper function to replace removeprefix() for compatibility.
+            if text.startswith(prefix):
+                return text[len(prefix):]
+            return text
+
         if self.mode == "min":
             self.monitor_op = ops.less
             return
@@ -106,7 +112,7 @@ class EarlyStopping(Callback):
             self.monitor_op = ops.greater
             return
         else:
-            metric_name = self.monitor.removeprefix("val_")
+            metric_name = remove_prefix(self.monitor, "val_")
             if metric_name == "loss":
                 self.monitor_op = ops.less
                 return

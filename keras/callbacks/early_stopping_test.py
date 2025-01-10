@@ -61,6 +61,7 @@ class EarlyStoppingTest(testing.TestCase):
             )
 
         with self.assertRaises(ValueError):
+            # Case with an invalid monitor value, ensure fallback works.
             cbks = [
                 callbacks.EarlyStopping(patience=patience, monitor="unknown")
             ]
