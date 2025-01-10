@@ -1,5 +1,6 @@
 import warnings
 
+from keras import backend as K
 from keras import ops
 from keras.api_export import keras_export
 from keras.callbacks.callback import Callback
@@ -153,6 +154,13 @@ class EarlyStopping(Callback):
         self.best_weights = None
         self.best_epoch = 0
 
+    def on_train_begin(self, logs=None):
+        # Add input validation and retry limit
+        if self.patience < 0:
+            raise ValueError("Patience must be a non-negative number.")
+        self.retries = 0
+        self.on_train_begin_original(logs)
+
     def on_epoch_end(self, epoch, logs=None):
         current = self.get_monitor_value(logs)
         if current is None or epoch < self.start_from_epoch:
@@ -164,24 +172,34 @@ class EarlyStopping(Callback):
 
         self.wait += 1
         if self._is_improvement(current, self.best):
-            self.best = current
-            self.best_epoch = epoch
-            if self.restore_best_weights:
-                self.best_weights = self.model.get_weights()
-            # Only restart wait if we beat both the baseline and our previous
-            # best.
-            if self.baseline is None or self._is_improvement(
-                current, self.baseline
-            ):
-                self.wait = 0
-            return
+            # Reset retry counter on improvement
+            self.retries = 0
+            try:
+                self.best = current
+                self.best_epoch = epoch
+                if self.restore_best_weights:
+                    self.best_weights = self.model.get_weights()
+                # Only restart wait if we beat both the baseline and our previous
+                # best.
+                if self.baseline is None or self._is_improvement(
+                    current, self.baseline
+                ):
+                    self.wait = 0
+                return
+            except (TypeError, ValueError):
+                # Retry up to 3 times on errors
+                self.retries += 1
+                if self.retries < 3:
+                    return
+                else:
+                    raise
 
         # Only check after the first epoch.
-        if self.wait >= self.patience and epoch > 0:
+        if self.wait >= self.patience and epoch > self.start_from_epoch:
             self.stopped_epoch = epoch
             self.model.stop_training = True
             if self.restore_best_weights and self.best_weights is not None:
-                if self.verbose > 0:
+                if self.verbose > 0 and not K.is_tpu_environment():
                     io_utils.print_msg(
                         "Restoring model weights from "
                         "the end of the best epoch: "
