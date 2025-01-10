@@ -79,14 +79,15 @@ def mean(x, axis=None, keepdims=False):
         return x
     elif isinstance(axis, int):
         axis = (axis,)  # see [NB] below
-
     ori_dtype = standardize_dtype(x.dtype)
-    # torch.mean only supports floating point inputs
-    compute_dtype = dtypes.result_type(x.dtype, "float32")
-    if "int" in ori_dtype or ori_dtype == "bool":
+    if "int" in ori_dtype or ori_dtype == "bool" or "uint" in ori_dtype:
+        # Torch does not support mean for non-floating-point types. Cast to float32.
+        compute_dtype = "float32"
         result_dtype = compute_dtype
+        x = cast(x, compute_dtype)
     else:
         result_dtype = ori_dtype
+        compute_dtype = result_dtype
 
     # [NB] the python torch op torch.mean() is generated into
     # `torch._C._VariableFunctions.pyi`, and the method
