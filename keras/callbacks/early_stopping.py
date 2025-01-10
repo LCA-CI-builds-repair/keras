@@ -1,6 +1,7 @@
 import warnings
 
 from keras import ops
+from keras.utils import engine_utils
 from keras.api_export import keras_export
 from keras.callbacks.callback import Callback
 from keras.trainers import compile_utils
@@ -29,6 +30,8 @@ class EarlyStopping(Callback):
         patience: Number of epochs with no improvement after which training will
             be stopped. Defaults to `0`.
         verbose: Verbosity mode, 0 or 1. Mode 0 is silent, and mode 1 displays
+            messages when the callback takes an action. Defaults to `0`.
+        retry_limit: The maximum number of attempts to retry the input validation. Defaults to `3`.
             messages when the callback takes an action. Defaults to `0`.
         mode: One of `{"auto", "min", "max"}`. In `min` mode, training will stop
             when the quantity monitored has stopped decreasing; in `"max"` mode
@@ -73,11 +76,13 @@ class EarlyStopping(Callback):
         patience=0,
         verbose=0,
         mode="auto",
+        retry_limit=3,
         baseline=None,
         restore_best_weights=False,
         start_from_epoch=0,
     ):
         super().__init__()
+        self.retry_limit = retry_limit
 
         self.monitor = monitor
         self.patience = patience
