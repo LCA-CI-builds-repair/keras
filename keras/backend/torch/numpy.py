@@ -73,6 +73,14 @@ def multiply(x1, x2):
 def mean(x, axis=None, keepdims=False):
     if isinstance(x, (list, tuple)):
         x = stack(x)
+
+    # Torch is not very good with dtype promotion and will produce incorrect
+    # results for certain operations if the inputs are not float32, so we cast
+    # all inputs to float32 here. We cast back to the original dtype at the
+    # end.
+    original_dtype = x.dtype
+    x = cast(x, "float32")
+
     x = convert_to_tensor(x)
     if axis == () or axis == []:
         # Torch handles the empty axis case differently from numpy.
@@ -104,7 +112,7 @@ def mean(x, axis=None, keepdims=False):
         keepdims,
         dtype=to_torch_dtype(compute_dtype),
     )
-    return cast(result, result_dtype)
+    return cast(result, original_dtype)
 
 
 def max(x, axis=None, keepdims=False, initial=None):
