@@ -197,9 +197,19 @@ def arctan(x):
 
 
 def arctan2(x1, x2):
+    # Ensure dtype handling for potential uint64 issues
+    if hasattr(x1, "dtype") and hasattr(x2, "dtype"):
+        try:
+            dtype = dtypes.result_type(x1.dtype, x2.dtype, float)
+        except TypeError:
+            # Fallback to resolving dtype manually if dtypes.result_type fails
+            dtype = np.promote_types(np.promote_types(x1.dtype, x2.dtype), float)
+    else:
+        dtype = dtypes.result_type(getattr(x1, "dtype", type(x1)),
+                                   getattr(x2, "dtype", type(x2)),
+                                   float)
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
-    dtype = dtypes.result_type(x1.dtype, x2.dtype, float)
     x1 = x1.astype(dtype)
     x2 = x2.astype(dtype)
     return np.arctan2(x1, x2)
