@@ -157,7 +157,7 @@ class EarlyStopping(Callback):
         current = self.get_monitor_value(logs)
         if current is None or epoch < self.start_from_epoch:
             # If no monitor value exists or still in initial warm-up stage.
-            return
+            return False
         if self.restore_best_weights and self.best_weights is None:
             # Restore the weights after first epoch if no progress is ever made.
             self.best_weights = self.model.get_weights()

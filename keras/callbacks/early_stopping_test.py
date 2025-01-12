@@ -170,6 +170,9 @@ class EarlyStoppingTest(testing.TestCase):
             early_stop.on_epoch_end(epoch, logs={"val_loss": losses[epoch]})
             if early_stop.model.stop_training:
                 break
+
+        assert early_stop.stopped_epoch == 4
+
         # The best configuration is in epoch 2 (loss = 0.1000),
         # and while patience = 2, we're restoring the best weights,
         # so we end up at the epoch with the best weights, i.e. epoch 2
