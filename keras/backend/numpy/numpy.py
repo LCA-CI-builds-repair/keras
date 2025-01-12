@@ -453,7 +453,7 @@ def floor(x):
     x = convert_to_tensor(x)
     dtype = (
         config.floatx()
-        if standardize_dtype(x.dtype) == "int64"
+        if standardize_dtype(x.dtype) in ["bool", "int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"]
         else dtypes.result_type(x.dtype, float)
     )
     x = x.astype(dtype)
@@ -546,7 +546,7 @@ def log(x):
     x = convert_to_tensor(x)
     dtype = (
         config.floatx()
-        if standardize_dtype(x.dtype) == "int64"
+        if standardize_dtype(x.dtype) in ["bool", "int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"] 
         else dtypes.result_type(x.dtype, float)
     )
     return np.log(x, dtype=dtype)
@@ -556,7 +556,7 @@ def log10(x):
     x = convert_to_tensor(x)
     dtype = (
         config.floatx()
-        if standardize_dtype(x.dtype) == "int64"
+        if standardize_dtype(x.dtype) in ["bool", "int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"] 
         else dtypes.result_type(x.dtype, float)
     )
     return np.log10(x, dtype=dtype)
@@ -566,7 +566,7 @@ def log1p(x):
     x = convert_to_tensor(x)
     dtype = (
         config.floatx()
-        if standardize_dtype(x.dtype) == "int64"
+        if standardize_dtype(x.dtype) in ["bool", "int8", "int16", "int32", "int64", "uint8", "uint16", "uint32", "uint64"] 
         else dtypes.result_type(x.dtype, float)
     )
     return np.log1p(x, dtype=dtype)
