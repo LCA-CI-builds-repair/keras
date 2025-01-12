@@ -13,7 +13,11 @@ def add(x1, x2):
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
+        getattr(
+            x1,
+            "dtype",
+            "bool" if isinstance(x1, bool) else type(x1)
+        ),  
         getattr(x2, "dtype", type(x2)),
     )
     x1 = convert_to_tensor(x1, dtype)
@@ -41,7 +45,11 @@ def subtract(x1, x2):
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
+        getattr(
+            x1, 
+            "dtype",
+            "bool" if isinstance(x1, bool) else type(x1)  
+        ),
         getattr(x2, "dtype", type(x2)),
     )
     x1 = convert_to_tensor(x1, dtype)
@@ -62,7 +70,11 @@ def multiply(x1, x2):
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
-        getattr(x1, "dtype", type(x1)),
+        getattr(
+            x1, 
+            "dtype", 
+            "bool" if isinstance(x1, bool) else type(x1)
+        ),
         getattr(x2, "dtype", type(x2)),
     )
     x1 = convert_to_tensor(x1, dtype)
