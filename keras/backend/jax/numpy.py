@@ -456,7 +456,7 @@ def linspace(
 
 def log(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    if standardize_dtype(x.dtype) in ("int64", "float16"):
         x = cast(x, config.floatx())
     return jnp.log(x)
 
