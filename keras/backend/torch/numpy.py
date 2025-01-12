@@ -361,6 +361,7 @@ def bincount(x, weights=None, minlength=0):
 
 def broadcast_to(x, shape):
     x = convert_to_tensor(x)
+    shape = standardize_shape(shape)
     return torch.broadcast_to(x, shape)
 
 
