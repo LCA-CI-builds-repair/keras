@@ -81,10 +81,47 @@ class DenseTest(testing.TestCase):
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
 
     def test_dense_errors(self):
+        # Test invalid units
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=-1)
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=0)
+
+        # Test invalid activation
+        with self.assertRaisesRegex(ValueError, "Unknown activation function"):
+            layers.Dense(units=2, activation="invalid_activation")
+
+        # Test invalid kernel constraint
+        with self.assertRaisesRegex(ValueError, "Unknown constraint"):
+            layers.Dense(units=2, kernel_constraint="invalid_constraint")
+
+        # Test invalid bias constraint
+        with self.assertRaisesRegex(ValueError, "Unknown constraint"):
+            layers.Dense(units=2, bias_constraint="invalid_constraint")
+
+        # Test invalid kernel regularizer
+        with self.assertRaisesRegex(ValueError, "Unknown regularizer"):
+            layers.Dense(units=2, kernel_regularizer="invalid_regularizer")
+
+        # Test invalid bias regularizer
+        with self.assertRaisesRegex(ValueError, "Unknown regularizer"):
+            layers.Dense(units=2, bias_regularizer="invalid_regularizer")
+
+        # Test incompatible input dimensions
         with self.assertRaisesRegex(ValueError, "incompatible with the layer"):
             layer = layers.Dense(units=2, activation="relu")
             layer(keras_tensor.KerasTensor((1, 2)))
             layer(keras_tensor.KerasTensor((1, 3)))
+        # Test invalid input rank
+        with self.assertRaisesRegex(ValueError, "Input should have rank"):
+            layer = layers.Dense(units=2)
+            layer(keras_tensor.KerasTensor((1,)))
+
+        # Test non-numeric input dtype
+        with self.assertRaisesRegex(TypeError, "numeric dtype expected"):
+            layer = layers.Dense(units=2)
+            layer.build((1, 2))
+            layer(backend.convert_to_tensor(["a", "b"]))
 
     @pytest.mark.skipif(
         not backend.SUPPORTS_SPARSE_TENSORS,
