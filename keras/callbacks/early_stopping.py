@@ -168,10 +168,12 @@ class EarlyStopping(Callback):
             self.best_epoch = epoch
             if self.restore_best_weights:
                 self.best_weights = self.model.get_weights()
-            # Only restart wait if we beat both the baseline and our previous
-            # best.
-            if self.baseline is None or self._is_improvement(
-                current, self.baseline
+            if self.baseline is not None:
+                # Restart wait only when current value improves over baseline
+                if self._is_improvement(current, self.baseline):
+                    self.wait = 0
+            else:
+                # No baseline, restart wait whenever we get a new best value
             ):
                 self.wait = 0
             return
@@ -210,4 +212,4 @@ class EarlyStopping(Callback):
         return monitor_value
 
     def _is_improvement(self, monitor_value, reference_value):
-        return self.monitor_op(monitor_value - self.min_delta, reference_value)
+        return self.monitor_op(monitor_value, reference_value - self.min_delta)
