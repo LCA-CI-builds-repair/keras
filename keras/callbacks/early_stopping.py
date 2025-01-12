@@ -147,11 +147,11 @@ class EarlyStopping(Callback):
         # Allow instances to be re-used
         self.wait = 0
         self.stopped_epoch = 0
+        self.best_epoch = 0
         self.best = (
             float("inf") if self.monitor_op == ops.less else -float("inf")
         )
         self.best_weights = None
-        self.best_epoch = 0
 
     def on_epoch_end(self, epoch, logs=None):
         current = self.get_monitor_value(logs)
@@ -182,10 +182,13 @@ class EarlyStopping(Callback):
             self.model.stop_training = True
             if self.restore_best_weights and self.best_weights is not None:
                 if self.verbose > 0:
+                    best_epoch_msg = (
+                        f"{self.best_epoch + 1}"
+                        if hasattr(self, "best_epoch") else "best"
+                    )
                     io_utils.print_msg(
-                        "Restoring model weights from "
-                        "the end of the best epoch: "
-                        f"{self.best_epoch + 1}."
+                        f"Restoring model weights from the end of "
+                        f"the {best_epoch_msg} epoch."
                     )
                 self.model.set_weights(self.best_weights)
 
