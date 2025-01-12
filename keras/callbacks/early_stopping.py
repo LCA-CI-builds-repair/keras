@@ -89,6 +89,10 @@ class EarlyStopping(Callback):
         self.restore_best_weights = restore_best_weights
         self.best_weights = None
         self.start_from_epoch = start_from_epoch
+        
+        if self.start_from_epoch < 0:
+            raise ValueError(
+                f"start_from_epoch must be >= 0, got {start_from_epoch}")
 
         if mode not in ["auto", "min", "max"]:
             warnings.warn(
@@ -150,6 +154,7 @@ class EarlyStopping(Callback):
         self.best = (
             float("inf") if self.monitor_op == ops.less else -float("inf")
         )
+        self.baseline_met = False if self.baseline is not None else True
         self.best_weights = None
         self.best_epoch = 0
 
@@ -167,13 +172,15 @@ class EarlyStopping(Callback):
             self.best = current
             self.best_epoch = epoch
             if self.restore_best_weights:
-                self.best_weights = self.model.get_weights()
+                self.best_weights = self.model.get_weights()            
             # Only restart wait if we beat both the baseline and our previous
             # best.
             if self.baseline is None or self._is_improvement(
                 current, self.baseline
             ):
                 self.wait = 0
+                if not self.baseline_met:
+                    self.baseline_met = True
             return
 
         # Only check after the first epoch.
@@ -181,7 +188,7 @@ class EarlyStopping(Callback):
             self.stopped_epoch = epoch
             self.model.stop_training = True
             if self.restore_best_weights and self.best_weights is not None:
-                if self.verbose > 0:
+                if self.verbose > 0 and self.baseline_met:
                     io_utils.print_msg(
                         "Restoring model weights from "
                         "the end of the best epoch: "
@@ -192,7 +199,9 @@ class EarlyStopping(Callback):
     def on_train_end(self, logs=None):
         if self.stopped_epoch > 0 and self.verbose > 0:
             io_utils.print_msg(
-                f"Epoch {self.stopped_epoch + 1}: early stopping"
+                (f"Epoch {self.stopped_epoch + 1}: early stopping. "
+                 f"Best epoch was {self.best_epoch + 1} with "
+                 f"{self.monitor} = {self.best:.5f}")
             )
 
     def get_monitor_value(self, logs):
@@ -201,7 +210,8 @@ class EarlyStopping(Callback):
         if monitor_value is None:
             warnings.warn(
                 (
-                    f"Early stopping conditioned on metric `{self.monitor}` "
+                    f"Early stopping conditioned on metric "
+                    f"`{self.monitor}` "
                     "which is not available. "
                     f"Available metrics are: {','.join(list(logs.keys()))}"
                 ),
