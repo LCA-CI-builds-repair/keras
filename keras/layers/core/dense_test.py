@@ -51,6 +51,27 @@ class DenseTest(testing.TestCase):
             supports_masking=True,
         )
 
+    def test_dense_invalid_inputs(self):
+        # Test invalid units
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=-1)
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=0)
+            
+        # Test invalid input dims
+        layer = layers.Dense(units=2)
+        with self.assertRaisesRegex(ValueError, "Input should have rank"):
+            layer(keras_tensor.KerasTensor(shape=()))  # scalar
+            
+        # Test invalid activation
+        with self.assertRaisesRegex(ValueError, "Unknown activation"):
+            layers.Dense(units=2, activation="invalid_activation")
+            
+        # Test dtype mismatch
+        layer = layers.Dense(units=2, dtype="float32")
+        with self.assertRaisesRegex(TypeError, "dtype incompatible"):
+            layer(keras_tensor.KerasTensor(shape=(1, 2), dtype="int32"))
+
     def test_dense_correctness(self):
         # With bias and activation.
         layer = layers.Dense(units=2, activation="relu")
