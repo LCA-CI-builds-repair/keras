@@ -53,6 +53,8 @@ def matmul(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    x1 = x1.astype(dtype)
+    x2 = x2.astype(dtype)
     return np.matmul(x1, x2).astype(dtype)
 
 
@@ -771,6 +773,8 @@ def repeat(x, repeats, axis=None):
 
 
 def reshape(x, new_shape):
+    if isinstance(new_shape, (list, tuple)):
+        new_shape = tuple(new_shape)
     return np.reshape(x, new_shape)
 
 
