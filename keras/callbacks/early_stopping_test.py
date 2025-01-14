@@ -221,7 +221,7 @@ class EarlyStoppingTest(testing.TestCase):
         )
         # Test 'patience' argument functions correctly when used
         # in conjunction with 'start_from_epoch'.
-        self.assertGreaterEqual(len(history.epoch), patience + start_from_epoch)
+        self.assertEqual(len(history.epoch), patience + start_from_epoch)
 
         start_from_epoch = 2
         patience = 0
@@ -234,4 +234,4 @@ class EarlyStoppingTest(testing.TestCase):
             x_train, y_train, callbacks=[stopper], verbose=0, epochs=20
         )
         # Test for boundary condition when 'patience' = 0.
-        self.assertGreaterEqual(len(history.epoch), start_from_epoch)
+        self.assertEqual(len(history.epoch), start_from_epoch)

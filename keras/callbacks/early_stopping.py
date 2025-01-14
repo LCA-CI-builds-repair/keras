@@ -163,7 +163,7 @@ class EarlyStopping(Callback):
             self.best_weights = self.model.get_weights()
 
         self.wait += 1
-        if self._is_improvement(current, self.best):
+        if current is not None and self._is_improvement(current, self.best):
             self.best = current
             self.best_epoch = epoch
             if self.restore_best_weights:
