@@ -148,7 +148,7 @@ def arange(start, stop=None, step=None, dtype=None):
 
 def arccos(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    if standardize_dtype(str(x.dtype)) == "int64":
         dtype = config.floatx()
     else:
         dtype = dtypes.result_type(x.dtype, float)
@@ -158,7 +158,7 @@ def arccos(x):
 
 def arccosh(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    if standardize_dtype(str(x.dtype)) == "int64":
         dtype = config.floatx()
     else:
         dtype = dtypes.result_type(x.dtype, float)
@@ -168,7 +168,7 @@ def arccosh(x):
 
 def arcsin(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    if standardize_dtype(str(x.dtype)) == "int64":
         dtype = config.floatx()
     else:
         dtype = dtypes.result_type(x.dtype, float)
@@ -178,7 +178,7 @@ def arcsin(x):
 
 def arcsinh(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    if standardize_dtype(str(x.dtype)) == "int64":
         dtype = config.floatx()
     else:
         dtype = dtypes.result_type(x.dtype, float)
@@ -425,7 +425,7 @@ def equal(x1, x2):
 
 def exp(x):
     x = convert_to_tensor(x)
-    ori_dtype = standardize_dtype(x.dtype)
+    ori_dtype = standardize_dtype(str(x.dtype))
     if "int" in ori_dtype or ori_dtype == "bool":
         x = x.astype(config.floatx())
     return np.exp(x)
@@ -438,7 +438,7 @@ def expand_dims(x, axis):
 
 def expm1(x):
     x = convert_to_tensor(x)
-    ori_dtype = standardize_dtype(x.dtype)
+    ori_dtype = standardize_dtype(str(x.dtype))
     if "int" in ori_dtype or ori_dtype == "bool":
         x = x.astype(config.floatx())
     return np.expm1(x)
@@ -729,7 +729,8 @@ def prod(x, axis=None, keepdims=False, dtype=None):
     axis = tuple(axis) if isinstance(axis, list) else axis
     x = convert_to_tensor(x)
     if dtype is None:
-        dtype = dtypes.result_type(x.dtype)
+        ori_dtype = standardize_dtype(str(x.dtype))
+        dtype = ori_dtype
         if dtype in ("bool", "int8", "int16"):
             dtype = "int32"
         elif dtype in ("uint8", "uint16"):
@@ -741,7 +742,7 @@ def quantile(x, q, axis=None, method="linear", keepdims=False):
     axis = tuple(axis) if isinstance(axis, list) else axis
     x = convert_to_tensor(x)
 
-    ori_dtype = standardize_dtype(x.dtype)
+    ori_dtype = standardize_dtype(str(x.dtype))
     # np.quantile doesn't support bool
     if ori_dtype == "bool":
         x = x.astype(config.floatx())
@@ -828,7 +829,7 @@ def stack(x, axis=0):
 def std(x, axis=None, keepdims=False):
     axis = tuple(axis) if isinstance(axis, list) else axis
     x = convert_to_tensor(x)
-    ori_dtype = standardize_dtype(x.dtype)
+    ori_dtype = standardize_dtype(str(x.dtype))
     if "int" in ori_dtype or ori_dtype == "bool":
         x = x.astype(config.floatx())
     return np.std(x, axis=axis, keepdims=keepdims)
