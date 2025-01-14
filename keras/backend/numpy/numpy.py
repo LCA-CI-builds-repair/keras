@@ -12,10 +12,11 @@ def add(x1, x2):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
-    dtype = dtypes.result_type(
+    dtypes_to_resolve = [
         getattr(x1, "dtype", type(x1)),
         getattr(x2, "dtype", type(x2)),
-    )
+    ]
+    dtype = dtypes.result_type(*dtypes_to_resolve)
     x1 = convert_to_tensor(x1, dtype)
     x2 = convert_to_tensor(x2, dtype)
     return np.add(x1, x2)
@@ -151,7 +152,8 @@ def arccos(x):
     if standardize_dtype(x.dtype) == "int64":
         dtype = config.floatx()
     else:
-        dtype = dtypes.result_type(x.dtype, float)
+        dtypes_to_resolve = [x1.dtype, x2.dtype, float]
+    dtype = dtypes.result_type(*dtypes_to_resolve)
     x = x.astype(dtype)
     return np.arccos(x)
 
