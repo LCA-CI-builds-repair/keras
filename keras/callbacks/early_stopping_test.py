@@ -130,8 +130,10 @@ class EarlyStoppingTest(testing.TestCase):
                 layers.Dense(1, activation="relu"),
             )
         )
+        monitor_val = 0.7
         model.compile(optimizer="sgd", loss="mae", metrics=["mse"])
-
+        initial_weights = model.get_weights()
+        
         patience = 3
         stopper = callbacks.EarlyStopping(
             monitor="mse", patience=patience, baseline=baseline
@@ -139,7 +141,10 @@ class EarlyStoppingTest(testing.TestCase):
         hist = model.fit(
             x_train, y_train, callbacks=[stopper], verbose=0, epochs=20
         )
+        # Verify training ran for at least patience epochs
         assert len(hist.epoch) >= patience
+        # Verify model kept training when metric was below baseline
+        assert any(h > monitor_val for h in hist.history['mse'])
 
     def test_early_stopping_final_weights_when_restoring_model_weights(self):
         class DummyModel:
@@ -167,13 +172,16 @@ class EarlyStoppingTest(testing.TestCase):
         for epoch in range(len(losses)):
             epochs_trained += 1
             early_stop.model.set_weight_to_epoch(epoch=epoch)
+            # Keep track of best epoch weights
+            if losses[epoch] == min(losses[:epoch + 1]):
+                best_weights = early_stop.model.get_weights()
             early_stop.on_epoch_end(epoch, logs={"val_loss": losses[epoch]})
             if early_stop.model.stop_training:
                 break
         # The best configuration is in epoch 2 (loss = 0.1000),
         # and while patience = 2, we're restoring the best weights,
         # so we end up at the epoch with the best weights, i.e. epoch 2
-        self.assertEqual(early_stop.model.get_weights(), 2)
+        self.assertEqual(early_stop.model.get_weights(), best_weights)
 
         # Check early stopping when no model beats the baseline.
         early_stop = callbacks.EarlyStopping(
