@@ -191,8 +191,11 @@ def amax(x, axis=None, keepdims=False):
     if axis is None:
         return torch.amax(x)
     if axis == () or axis == []:
-        # Torch handles the empty axis case differently from numpy.
-        return x
+        if "int" in standardize_dtype(x.dtype):
+            initial_value = torch.iinfo(torch.int64).min
+        else:
+            initial_value = torch.finfo(torch.float32).min
+        return torch.full(x.shape, initial_value, dtype=x.dtype)
     return torch.amax(x, dim=axis, keepdim=keepdims)
 
 
@@ -201,8 +204,11 @@ def amin(x, axis=None, keepdims=False):
     if axis is None:
         return torch.amin(x)
     if axis == () or axis == []:
-        # Torch handles the empty axis case differently from numpy.
-        return x
+        if "int" in standardize_dtype(x.dtype):
+            initial_value = torch.iinfo(torch.int64).max
+        else:
+            initial_value = torch.finfo(torch.float32).max
+        return torch.full(x.shape, initial_value, dtype=x.dtype)
     return torch.amin(x, dim=axis, keepdim=keepdims)
 
 
