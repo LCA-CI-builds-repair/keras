@@ -170,7 +170,30 @@ def all(x, axis=None, keepdims=False):
         axis = (axis,)
     for a in axis:
         # `torch.all` does not handle multiple axes.
-        x = torch.all(x, dim=a, keepdim=keepdims)
+        x = torch.from_numpy(x)  # needed for complex type conversion
+    return torch.conj(x).resolve_conj()
+
+def copy(x):
+    x = convert_to_tensor(x)
+    return x.clone().detach()
+
+def cos(x):
+    x = convert_to_tensor(x)
+    if standardize_dtype(x.dtype) in TORCH_INT_TYPES or standardize_dtype(x.dtype) == "bool":
+        dtype = config.floatx()
+    else:
+        dtype = dtypes.result_type(x.dtype, float)
+    x = cast(x, dtype)
+    return torch.cos(x)  
+
+def cosh(x):
+    x = convert_to_tensor(x)
+    if standardize_dtype(x.dtype) in TORCH_INT_TYPES or standardize_dtype(x.dtype) == "bool":
+        dtype = config.floatx()  
+    else:
+        dtype = dtypes.result_type(x.dtype, float)
+    x = cast(x, dtype)
+    return torch.cosh(x).all(x, dim=a, keepdim=keepdims)
     return cast(x, "bool")
 
 
