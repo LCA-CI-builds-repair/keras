@@ -2,10 +2,10 @@ import builtins
 import math
 
 import torch
+from torch import Tensor
 
 from keras.backend import KerasTensor
 from keras.backend import config
-from keras.backend.common import dtypes
 from keras.backend.common.variables import standardize_dtype
 from keras.backend.torch.core import cast
 from keras.backend.torch.core import convert_to_tensor
@@ -35,11 +35,13 @@ def einsum(subscripts, *operands, **kwargs):
 def subtract(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
-    # TODO: torch.subtract doesn't support bool
-    if standardize_dtype(x1.dtype) == "bool":
-        x1 = cast(x1, x2.dtype)
-    if standardize_dtype(x2.dtype) == "bool":
-        x2 = cast(x2, x1.dtype)
+    if isinstance(x1, Tensor) and isinstance(x2, Tensor):
+        x1, x2 = torch.broadcast_tensors(x1, x2)
+    else:
+        if isinstance(x1, Tensor):
+            x2 = x1.new_full(x1.shape, x2)
+        else:
+            x1 = x2.new_full(x2.shape, x1)
     return torch.subtract(x1, x2)
 
 
@@ -70,13 +72,15 @@ def multiply(x1, x2):
     return torch.multiply(x1, x2)
 
 
-def mean(x, axis=None, keepdims=False):
+def mean(x, axis=None, keepdims=False, dtype=None):
     if isinstance(x, (list, tuple)):
         x = stack(x)
     x = convert_to_tensor(x)
     if axis == () or axis == []:
         # Torch handles the empty axis case differently from numpy.
         return x
+    if dtype is None:
+        dtype = config.floatx()
     elif isinstance(axis, int):
         axis = (axis,)  # see [NB] below
 
@@ -101,7 +105,7 @@ def mean(x, axis=None, keepdims=False):
     result = torch.mean(
         x,
         axis,
-        keepdims,
+        keepdim=keepdims,
         dtype=to_torch_dtype(compute_dtype),
     )
     return cast(result, result_dtype)
@@ -156,9 +160,6 @@ def absolute(x):
 
 def abs(x):
     x = convert_to_tensor(x)
-    # bool are always non-negative
-    if standardize_dtype(x.dtype) == "bool":
-        return x
     return torch.abs(x)
 
 
@@ -170,7 +171,8 @@ def all(x, axis=None, keepdims=False):
         axis = (axis,)
     for a in axis:
         # `torch.all` does not handle multiple axes.
-        x = torch.all(x, dim=a, keepdim=keepdims)
+        x = torch.from_numpy(x)
+    return torch.conj(x).resolve_conj().all(x, dim=a, keepdim=keepdims)
     return cast(x, "bool")
 
 
@@ -216,11 +218,11 @@ def append(x1, x2, axis=None):
 def arange(start, stop=None, step=1, dtype=None):
     if dtype is None:
         dtypes_to_resolve = [
-            getattr(start, "dtype", type(start)),
-            getattr(step, "dtype", type(step)),
+            start.dtype if isinstance(start, torch.Tensor) else type(start),
+            step.dtype if isinstance(step, torch.Tensor) else type(step),
         ]
         if stop is not None:
-            dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
+            dtypes_to_resolve.append(stop.dtype if isinstance(stop, torch.Tensor) else type(stop))  
         dtype = dtypes.result_type(*dtypes_to_resolve)
     dtype = to_torch_dtype(dtype)
     if stop is None:
@@ -258,11 +260,6 @@ def arctan(x):
 def arctan2(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
-    result_dtype = dtypes.result_type(x1.dtype, x2.dtype, float)
-    compute_dtype = result_dtype
-    # TODO: torch.arctan2 doesn't support float16 with cpu
-    if get_device() == "cpu" and compute_dtype == "float16":
-        compute_dtype = "float32"
     x1 = cast(x1, compute_dtype)
     x2 = cast(x2, compute_dtype)
     return cast(torch.arctan2(x1, x2), result_dtype)
@@ -387,11 +384,6 @@ def clip(x, x_min, x_max):
     x_min = convert_to_tensor(x_min)
     x_max = convert_to_tensor(x_max)
     ori_dtype = standardize_dtype(x.dtype)
-
-    # TODO: torch.clip doesn't support float16 with cpu
-    if get_device() == "cpu" and ori_dtype == "float16":
-        x = cast(x, "float32")
-        return cast(torch.clip(x, min=x_min, max=x_max), "float16")
 
     if ori_dtype == "bool":
         x = cast(x, "int32")
