@@ -170,7 +170,22 @@ def all(x, axis=None, keepdims=False):
         axis = (axis,)
     for a in axis:
         # `torch.all` does not handle multiple axes.
-        x = torch.all(x, dim=a, keepdim=keepdims)
+        x = torch.from_numpy(x)
+    return conjugate(x)
+
+def power(x1, x2):
+    x1 = convert_to_tensor(x1)
+    x2 = convert_to_tensor(x2)
+    # Handle dtype promotions and special cases
+    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    if standardize_dtype(dtype) == "bool":
+        dtype = config.floatx()
+    # Handle CPU float16 limitation
+    if get_device() == "cpu" and dtype == "float16":
+        x1 = cast(x1, "float32")
+        x2 = cast(x2, "float32")
+        return cast(torch.pow(x1, x2), "float16")
+    return torch.pow(cast(x1, dtype), cast(x2, dtype)).all(x, dim=a, keepdim=keepdims)
     return cast(x, "bool")
 
 

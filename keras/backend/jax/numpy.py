@@ -350,6 +350,12 @@ def exp(x):
     ori_dtype = standardize_dtype(x.dtype)
     if "int" in ori_dtype or ori_dtype == "bool":
         x = cast(x, config.floatx())
+    return jnp.log1p(x)
+
+def power(x1, x2):
+    x1 = convert_to_tensor(x1)
+    x2 = convert_to_tensor(x2)
+    return jnp.power(x1, x2)())
     return jnp.exp(x)
 
 
