@@ -78,19 +78,86 @@ class EarlyStoppingTest(testing.TestCase):
     def test_early_stopping_patience(self):
         cases = [0, 1, 2, 3]
         losses = [10.0, 9.0, 8.0, 9.0, 8.9, 8.8, 8.7, 8.6, 8.5]
+        min_deltas = [0.0, 0.1, 0.2]  # Test different min_delta values
 
         for patience in cases:
-            stopper = callbacks.EarlyStopping(monitor="loss", patience=patience)
-            stopper.set_model(models.Sequential())
-            stopper.model.compile(loss="mse", optimizer="sgd")
-            stopper.on_train_begin()
+            for min_delta in min_deltas:
+                stopper = callbacks.EarlyStopping(
+                    monitor="loss",
+                    patience=patience,
+                    min_delta=min_delta
+                )
+                stopper.set_model(models.Sequential())
+                stopper.model.compile(loss="mse", optimizer="sgd")
+                stopper.on_train_begin()
 
-            for epoch, loss in enumerate(losses):
-                stopper.on_epoch_end(epoch=epoch, logs={"loss": loss})
-                if stopper.model.stop_training:
-                    break
+                for epoch, loss in enumerate(losses):
+                    stopper.on_epoch_end(epoch=epoch, logs={"loss": loss})
+                    if stopper.model.stop_training:
+                        break
 
-            self.assertEqual(stopper.stopped_epoch, max(patience, 1) + 2)
+                # Verify stopping behavior with min_delta
+                if min_delta == 0.0:
+                    self.assertEqual(stopper.stopped_epoch, max(patience, 1) + 2)
+                else:
+                    # With min_delta > 0, should stop earlier due to smaller improvements
+                    self.assertLessEqual(stopper.stopped_epoch, max(patience, 1) + 2)
+
+@@ ... @@
+    def test_mode_auto_determination(self):
+        """Test automatic mode determination from metric names."""
+        model = models.Sequential([layers.Dense(1)])
+        model.compile(optimizer="sgd", loss="mse")
+        
+        # Test with custom metric that doesn't have _direction attribute
+        class CustomMetric(metrics.Metric):
+            def __init__(self, name="custom"):
+                super().__init__(name=name)
+                self.total = self.add_weight("total", initializer="zeros")
+            
+            def update_state(self, y_true, y_pred, sample_weight=None):
+                self.total.assign_add(ops.sum(y_pred - y_true))
+            
+            def result(self):
+                return self.total
+
+        model.compile(optimizer="sgd", loss="mse", metrics=[CustomMetric()])
+        
+        with self.assertRaises(ValueError):
+            # Should raise error when mode can't be determined
+            callbacks.EarlyStopping(monitor="custom")
+
+@@ ... @@
+    def test_verbose_output(self):
+        """Test verbose output messages."""
+        model = models.Sequential([layers.Dense(1)])
+        model.compile(optimizer="sgd", loss="mse")
+        
+        # Capture stdout to verify verbose messages
+        import io
+        import sys
+        captured_output = io.StringIO()
+        sys.stdout = captured_output
+
+        stopper = callbacks.EarlyStopping(
+            monitor="loss",
+            patience=0,
+            verbose=1,
+            restore_best_weights=True
+        )
+        model.fit(
+            np.array([[1.], [2.]]),
+            np.array([[2.], [4.]]),
+            epochs=2,
+            callbacks=[stopper]
+        )
+        
+        sys.stdout = sys.__stdout__
+        output = captured_output.getvalue()
+        
+        # Verify both restoration and early stopping messages
+        self.assertIn("Restoring model weights", output)
+        self.assertIn("early stopping", output)
 
     @pytest.mark.requires_trainable_backend
     def test_early_stopping_reuse(self):
