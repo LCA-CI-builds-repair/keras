@@ -332,6 +332,7 @@ def average(x, axis=None, weights=None):
 
 def bincount(x, weights=None, minlength=0):
     x = convert_to_tensor(x)
+    x = cast(x, "int32")  # Ensure dtype matches with the expected output
     dtypes_to_resolve = [x.dtype]
     if weights is not None:
         weights = convert_to_tensor(weights)
@@ -361,6 +362,8 @@ def bincount(x, weights=None, minlength=0):
 
 def broadcast_to(x, shape):
     x = convert_to_tensor(x)
+    if standardize_dtype(x.dtype) == "bool":
+        x = cast(x, "int32")  # Convert bool to int32 for compatibility
     return torch.broadcast_to(x, shape)
 
 

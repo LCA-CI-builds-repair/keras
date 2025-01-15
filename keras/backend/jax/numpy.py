@@ -228,6 +228,10 @@ def average(x, axis=None, weights=None):
 
 
 def broadcast_to(x, shape):
+    x = convert_to_tensor(x)
+    dtype = standardize_dtype(x.dtype)
+    if dtype == "bool":
+        x = cast(x, "int32")  # Convert bool to int32 for compatibility
     return jnp.broadcast_to(x, shape)
 
 
