@@ -292,7 +292,7 @@ def ceil(x):
 
 
 def clip(x, x_min, x_max):
-    x = convert_to_tensor(x)
+    x = convert_to_tensor(x, dtype="float32")
     dtype = standardize_dtype(x.dtype)
     if dtype == "bool":
         dtype = "int32"
