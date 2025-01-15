@@ -187,6 +187,11 @@ class EarlyStopping(Callback):
                         "the end of the best epoch: "
                         f"{self.best_epoch + 1}."
                     )
+                    io_utils.print_msg(
+                        "Restoring model weights from "
+                        "the end of the best epoch: "
+                        f"{self.best_epoch + 1}."
+                    )
                 self.model.set_weights(self.best_weights)
 
     def on_train_end(self, logs=None):
