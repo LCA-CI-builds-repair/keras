@@ -106,7 +106,8 @@ class EarlyStopping(Callback):
             self.monitor_op = ops.greater
             return
         else:
-            metric_name = self.monitor.removeprefix("val_")
+            # Backward-compatible implementation of removeprefix
+            metric_name = self.monitor[len("val_") :] if self.monitor.startswith("val_") else self.monitor
             if metric_name == "loss":
                 self.monitor_op = ops.less
                 return
