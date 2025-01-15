@@ -81,10 +81,22 @@ class DenseTest(testing.TestCase):
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
 
     def test_dense_errors(self):
+        # Test input shape validation
         with self.assertRaisesRegex(ValueError, "incompatible with the layer"):
             layer = layers.Dense(units=2, activation="relu")
             layer(keras_tensor.KerasTensor((1, 2)))
             layer(keras_tensor.KerasTensor((1, 3)))
+
+        # Test units validation
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=-1)
+            
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=0)
+
+        # Test invalid activation
+        with self.assertRaisesRegex(ValueError, "Unknown activation function"):
+            layers.Dense(units=2, activation="invalid_activation")
 
     @pytest.mark.skipif(
         not backend.SUPPORTS_SPARSE_TENSORS,
