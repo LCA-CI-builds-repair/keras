@@ -12,6 +12,12 @@ def add(x1, x2):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
+    if isinstance(x1, str) or isinstance(x2,str):
+      raise Type Error
+    if not isinstance(x1, (int, float)):
+        x1 = convert_to_tensor(x1)
+    if not isinstance(x2, (int, float)):
+        x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(
         getattr(x1, "dtype", type(x1)),
         getattr(x2, "dtype", type(x2)),
