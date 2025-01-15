@@ -411,7 +411,13 @@ def conjugate(x):
 
 def conj(x):
     if not isinstance(x, torch.Tensor):
-        x = torch.from_numpy(x)  # needed for complex type conversion
+        x = torch
+
+def log1p(x):
+    x = convert_to_tensor(x)
+    if standardize_dtype(x.dtype) == "int64":
+        x = cast(x, config.floatx())
+    return torch.log1p(x).from_numpy(x)  # needed for complex type conversion
     return torch.conj(x).resolve_conj()
 
 
