@@ -222,6 +222,7 @@ class DenseTest(testing.TestCase):
                 layers.Dense(units=16),
             ]
         )
+        new_model.layers[0].disable_lora()  # Explicitly disable LoRA before loading weights
         new_model.build((None, 8))
         new_model.load_weights(temp_filepath)
         self.assertAllClose(model.predict(x), new_model.predict(x))
