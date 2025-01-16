@@ -9,6 +9,7 @@ from keras import layers
 from keras import models
 from keras import saving
 from keras import testing
+from keras import keras_tensor
 from keras.backend.common import keras_tensor
 
 
