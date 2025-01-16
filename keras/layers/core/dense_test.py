@@ -185,6 +185,15 @@ class DenseTest(testing.TestCase):
     def test_enable_lora(self):
         layer = layers.Dense(units=16)
         layer.build((None, 8))
+        # Test invalid rank
+        with self.assertRaisesRegex(ValueError, "LoRA rank must be positive"):
+            layer.enable_lora(-1)
+        with self.assertRaisesRegex(ValueError, "LoRA rank must be positive"):
+            layer.enable_lora(0)
+        # Test rank larger than input dim
+        with self.assertRaisesRegex(ValueError, "LoRA rank cannot be larger than"):
+            layer.enable_lora(10)
+            
         layer.enable_lora(4)
         self.assertLen(layer.trainable_weights, 3)
         self.assertLen(layer.non_trainable_weights, 1)
@@ -232,6 +241,12 @@ class DenseTest(testing.TestCase):
         self.assertAllClose(model.predict(x), new_model.predict(x))
 
     def test_lora_rank_argument(self):
+        # Test invalid rank in constructor
+        with self.assertRaisesRegex(ValueError, "LoRA rank must be positive"):
+            layers.Dense(units=5, lora_rank=-1)
+        with self.assertRaisesRegex(ValueError, "LoRA rank must be positive"):
+            layers.Dense(units=5, lora_rank=0)
+
         self.run_layer_test(
             layers.Dense,
             init_kwargs={
