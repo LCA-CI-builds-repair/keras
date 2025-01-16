@@ -99,6 +99,7 @@ class EarlyStopping(Callback):
         self.mode = mode
 
     def _set_monitor_op(self):
+        # Improved handling of monitor operator inference
         if self.mode == "min":
             self.monitor_op = ops.less
             return
@@ -130,6 +131,8 @@ class EarlyStopping(Callback):
                             else:
                                 self.monitor_op = ops.less
                                 return
+        # Fallback to default behavior to avoid crashes
+        self.monitor_op = ops.greater if self.mode == "max" else ops.less
         raise ValueError(
             f"EarlyStopping callback received monitor={self.monitor} "
             "but Keras isn't able to automatically determine whether "
