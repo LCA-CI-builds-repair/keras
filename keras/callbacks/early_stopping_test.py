@@ -59,6 +59,42 @@ class EarlyStoppingTest(testing.TestCase):
                 epochs=2,
                 verbose=0,
             )
+    @pytest.mark.requires_trainable_backend
+    def test_early_stopping_fallback_to_minimization(self):
+        """Tests whether falling back to minimization works for unrecognized metrics."""
+        x_train = np.random.random((10, 5))
+        y_train = np.random.random((10, 1))
+        model = models.Sequential(
+            (
+                layers.Dense(1, activation="relu"),
+                layers.Dense(1, activation="relu"),
+            )
+        )
+        model.compile(
+            loss="mae",
+            optimizer="sgd",
+            metrics=["mse"],
+        )
+        cbks = [
+            callbacks.EarlyStopping(
+                patience=2, monitor="custom_metric_unknown", mode="auto"
+            )
+        ]
+
+        try:
+            model.fit(
+                x_train,
+                y_train,
+                batch_size=5,
+                validation_data=None,
+                callbacks=cbks,
+                epochs=3,
+                verbose=0,
+            )
+        except ValueError:
+            self.fail(
+                "EarlyStopping fallback to minimization failed for unrecognized metrics."
+            )
 
         with self.assertRaises(ValueError):
             cbks = [
