@@ -100,7 +100,6 @@ class EarlyStopping(Callback):
 
     def _set_monitor_op(self):
         if self.mode == "min":
-            self.monitor_op = ops.less
             return
         elif self.mode == "max":
             self.monitor_op = ops.greater
@@ -138,11 +137,16 @@ class EarlyStopping(Callback):
             "on the highest metric value, or pass `mode='min'` "
             "in order to use the lowest value."
         )
+        self.monitor_op = ops.less
+        if self.baseline is not None and not isinstance(
+            self.baseline, (float, int)
+        ):
+            raise ValueError(f"baseline value must be a number, got {self.baseline}")
 
     def on_train_begin(self, logs=None):
         self._set_monitor_op()
         if self.monitor_op == ops.less:
-            self.min_delta *= -1
+            self.min_delta = abs(self.min_delta) * -1
 
         # Allow instances to be re-used
         self.wait = 0
@@ -160,6 +164,7 @@ class EarlyStopping(Callback):
             return
         if self.restore_best_weights and self.best_weights is None:
             # Restore the weights after first epoch if no progress is ever made.
+            self.best = current
             self.best_weights = self.model.get_weights()
 
         self.wait += 1
@@ -167,6 +172,10 @@ class EarlyStopping(Callback):
             self.best = current
             self.best_epoch = epoch
             if self.restore_best_weights:
+                if self.verbose > 0:
+                    io_utils.print_msg(
+                        f"Epoch {epoch + 1}: saving best model weights."
+                    )
                 self.best_weights = self.model.get_weights()
             # Only restart wait if we beat both the baseline and our previous
             # best.
@@ -174,10 +183,7 @@ class EarlyStopping(Callback):
                 current, self.baseline
             ):
                 self.wait = 0
-            return
-
-        # Only check after the first epoch.
-        if self.wait >= self.patience and epoch > 0:
+        elif self.wait >= self.patience and epoch >= self.start_from_epoch:
             self.stopped_epoch = epoch
             self.model.stop_training = True
             if self.restore_best_weights and self.best_weights is not None:
