@@ -36,6 +36,8 @@ def einsum(subscripts, *operands, **kwargs):
 
 
 def subtract(x1, x2):
+    x1 = _resolve_none_to_default(x1)
+    x2 = _resolve_none_to_default(x2)
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
@@ -57,6 +59,8 @@ def matmul(x1, x2):
 
 
 def multiply(x1, x2):
+    x1 = _resolve_none_to_default(x1)
+    x2 = _resolve_none_to_default(x2)
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
