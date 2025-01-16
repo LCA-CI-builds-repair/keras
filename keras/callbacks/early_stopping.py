@@ -207,7 +207,22 @@ class EarlyStopping(Callback):
                 ),
                 stacklevel=2,
             )
+            return None
+            
+        # Handle numpy scalar types
+        if isinstance(monitor_value, (np.generic, np.ndarray)):
+            monitor_value = monitor_value.item()
+            
+        if not isinstance(monitor_value, (int, float)):
+            warnings.warn(
+                f"Monitor value must be a scalar, got {type(monitor_value)}",
+                stacklevel=2,
+            )
+            return None
+            
         return monitor_value
 
     def _is_improvement(self, monitor_value, reference_value):
+        if monitor_value is None or reference_value is None:
+            return False
         return self.monitor_op(monitor_value - self.min_delta, reference_value)
