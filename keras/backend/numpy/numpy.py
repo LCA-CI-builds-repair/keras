@@ -8,6 +8,7 @@ from keras.backend.numpy.core import convert_to_tensor
 
 
 def add(x1, x2):
+    print("Adding", x1, x2)
     if not isinstance(x1, (int, float)):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
@@ -50,6 +51,7 @@ def subtract(x1, x2):
 
 
 def matmul(x1, x2):
+    print("Matmul", x1, x2)
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
     dtype = dtypes.result_type(x1.dtype, x2.dtype)
