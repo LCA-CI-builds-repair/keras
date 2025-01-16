@@ -235,3 +235,27 @@ class EarlyStoppingTest(testing.TestCase):
         )
         # Test for boundary condition when 'patience' = 0.
         self.assertGreaterEqual(len(history.epoch), start_from_epoch)
+
+    def test_early_stopping_with_nan_inf(self):
+        model = DummyModel()
+        early_stop = callbacks.EarlyStopping(monitor='loss', patience=2)
+        early_stop.set_model(model)
+        early_stop.on_train_begin()
+        
+        # Test NaN handling
+        self.assertFalse(
+            early_stop._is_improvement(float('nan'), 0.0),
+            "NaN should not be considered an improvement"
+        )
+        
+        # Test Infinity handling
+        self.assertFalse(
+            early_stop._is_improvement(float('inf'), 0.0),
+            "Infinity should not be considered an improvement"
+        )
+        
+        # Test None handling
+        self.assertFalse(
+            early_stop._is_improvement(None, 0.0),
+            "None should not be considered an improvement"
+        )

@@ -210,4 +210,10 @@ class EarlyStopping(Callback):
         return monitor_value
 
     def _is_improvement(self, monitor_value, reference_value):
-        return self.monitor_op(monitor_value - self.min_delta, reference_value)
+        # Handle NaN/infinity cases
+        if monitor_value is None:
+            return False
+        if ops.isnan(monitor_value) or ops.isinf(monitor_value):
+            return False
+        # Use min_delta for float comparison
+        return self.monitor_op(monitor_value - self.min_delta, reference_value) 
