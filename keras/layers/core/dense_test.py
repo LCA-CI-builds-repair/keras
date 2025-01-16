@@ -142,7 +142,7 @@ class DenseTest(testing.TestCase):
         self.assertEqual(layer.bias, None)
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
 
-    def test_dense_without_activation_set(self):
+    def test_dense_without_activation_set(self):        
         layer = layers.Dense(units=2, use_bias=False)
         layer.build((1, 2))
         layer.set_weights(
@@ -150,12 +150,26 @@ class DenseTest(testing.TestCase):
                 np.array([[1.0, -2.0], [3.0, -4.0]]),
             ]
         )
+        inputs = np.array(
+            [[-1.0, 2.0]],
+        )
         layer.activation = None
         inputs = np.array(
             [[-1.0, 2.0]],
         )
         self.assertEqual(layer.bias, None)
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
+
+        # Test setting activation to None before build
+        layer2 = layers.Dense(units=2, use_bias=False)
+        layer2.activation = None
+        layer2.build((1, 2))
+        layer2.set_weights(
+            [
+                np.array([[1.0, -2.0], [3.0, -4.0]]),
+            ]
+        )
+        self.assertAllClose(layer2(inputs), [[5.0, -6.0]])
 
     def test_dense_with_activation(self):
         layer = layers.Dense(units=2, use_bias=False, activation="relu")
