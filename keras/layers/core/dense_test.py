@@ -186,6 +186,16 @@ class DenseTest(testing.TestCase):
         layer = layers.Dense(units=16)
         layer.build((None, 8))
         layer.enable_lora(4)
+       self.assertGreaterEqual(
+            layer.lora_rank,
+            1,
+            msg="Lora rank must be at least 1.",
+       )
+       self.assertLessEqual(
+            layer.lora_rank,
+            min(layer.input_dim, layer.units),
+            msg="Lora rank cannot exceed the minimum of input_dim and output units.",
+       )
         self.assertLen(layer.trainable_weights, 3)
         self.assertLen(layer.non_trainable_weights, 1)
         # Try eager call
