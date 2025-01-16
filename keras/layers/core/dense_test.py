@@ -11,10 +11,10 @@ from keras import saving
 from keras import testing
 from keras.backend.common import keras_tensor
 
-
 class DenseTest(testing.TestCase):
     @pytest.mark.requires_trainable_backend
     def test_dense_basics(self):
+        """Test basic Dense layer configurations."""
         # 2D case, no bias.
         self.run_layer_test(
             layers.Dense,
@@ -51,7 +51,9 @@ class DenseTest(testing.TestCase):
             supports_masking=True,
         )
 
+
     def test_dense_correctness(self):
+        """Test Dense layer numerical correctness."""
         # With bias and activation.
         layer = layers.Dense(units=2, activation="relu")
         layer.build((1, 2))
@@ -80,7 +82,9 @@ class DenseTest(testing.TestCase):
         self.assertEqual(layer.bias, None)
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
 
+
     def test_dense_errors(self):
+        """Test Dense layer error conditions."""
         with self.assertRaisesRegex(ValueError, "incompatible with the layer"):
             layer = layers.Dense(units=2, activation="relu")
             layer(keras_tensor.KerasTensor((1, 2)))
@@ -118,7 +122,10 @@ class DenseTest(testing.TestCase):
             tf.matmul(tf.sparse.to_dense(inputs), layer.kernel),
             layer.bias,
         )
-        self.assertAllClose(outputs, expected_outputs)
+        self.assertAllClose(
+            outputs, expected_outputs, 
+            msg="Sparse tensor output mismatch"
+        )
 
         # Verify the gradient is sparse
         with tf.GradientTape() as g:
@@ -129,6 +136,7 @@ class DenseTest(testing.TestCase):
         )
 
     def test_dense_no_activation(self):
+        """Test Dense layer with no activation function."""
         layer = layers.Dense(units=2, use_bias=False, activation=None)
         layer.build((1, 2))
         layer.set_weights(
@@ -141,6 +149,7 @@ class DenseTest(testing.TestCase):
         )
         self.assertEqual(layer.bias, None)
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
+
 
     def test_dense_without_activation_set(self):
         layer = layers.Dense(units=2, use_bias=False)
@@ -156,6 +165,7 @@ class DenseTest(testing.TestCase):
         )
         self.assertEqual(layer.bias, None)
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
+
 
     def test_dense_with_activation(self):
         layer = layers.Dense(units=2, use_bias=False, activation="relu")
@@ -173,6 +183,7 @@ class DenseTest(testing.TestCase):
         expected_output = np.array([[5.0, 0.0]])
         self.assertAllClose(output, expected_output)
 
+
     def test_dense_constraints(self):
         layer = layers.Dense(units=2, kernel_constraint="non_neg")
         layer.build((None, 2))
@@ -180,6 +191,7 @@ class DenseTest(testing.TestCase):
         layer = layers.Dense(units=2, bias_constraint="non_neg")
         layer.build((None, 2))
         self.assertIsInstance(layer.bias.constraint, constraints.NonNeg)
+
 
     @pytest.mark.requires_trainable_backend
     def test_enable_lora(self):
