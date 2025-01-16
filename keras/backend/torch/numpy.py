@@ -74,10 +74,7 @@ def mean(x, axis=None, keepdims=False):
     if isinstance(x, (list, tuple)):
         x = stack(x)
     x = convert_to_tensor(x)
-    if axis == () or axis == []:
-        # Torch handles the empty axis case differently from numpy.
-        return x
-    elif isinstance(axis, int):
+    if isinstance(axis, int):
         axis = (axis,)  # see [NB] below
 
     ori_dtype = standardize_dtype(x.dtype)
@@ -87,6 +84,10 @@ def mean(x, axis=None, keepdims=False):
         result_dtype = compute_dtype
     else:
         result_dtype = ori_dtype
+
+    if axis == () or axis == []:
+        # Empty axis - return the tensor directly but with the correct dtype
+        return cast(x, result_dtype)
 
     # [NB] the python torch op torch.mean() is generated into
     # `torch._C._VariableFunctions.pyi`, and the method
