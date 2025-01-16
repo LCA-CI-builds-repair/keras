@@ -25,12 +25,17 @@ def einsum(subscripts, *operands, **kwargs):
     operands = tree.map_structure(convert_to_tensor, operands)
     dtypes_to_resolve = []
     for x in operands:
-        dtypes_to_resolve.append(getattr(x, "dtype", type(x)))
+        dtype = getattr(x, "dtype", None)
+        if dtype is None or dtype == "bfloat16":
+            dtype = config.floatx()
+        dtypes_to_resolve.append(dtype)
     result_dtype = dtypes.result_type(*dtypes_to_resolve)
     compute_dtype = result_dtype
     # TODO: np.einsum doesn't support bfloat16
     if compute_dtype == "bfloat16":
         compute_dtype = "float32"
+    elif compute_dtype == "int64":
+        compute_dtype = config.floatx()
     operands = tree.map_structure(lambda x: x.astype(compute_dtype), operands)
     return np.einsum(subscripts, *operands, **kwargs).astype(result_dtype)
 
@@ -128,7 +133,11 @@ def append(x1, x2, axis=None):
     axis = tuple(axis) if isinstance(axis, list) else axis
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
-    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    dtype = dtypes.result_type(
+        getattr(x1, "dtype", type(x1)),
+        getattr(x2, "dtype", type(x2)),
+        config.floatx()
+    )
     x1 = x1.astype(dtype)
     x2 = x2.astype(dtype)
     return np.append(x1, x2, axis=axis)
@@ -138,7 +147,7 @@ def arange(start, stop=None, step=None, dtype=None):
     if dtype is None:
         dtypes_to_resolve = [
             getattr(start, "dtype", type(start)),
-            getattr(step, "dtype", type(step)),
+            getattr(step, "dtype", type(step)) if step is not None else config.floatx(),
         ]
         if stop is not None:
             dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
@@ -148,7 +157,7 @@ def arange(start, stop=None, step=None, dtype=None):
 
 def arccos(x):
     x = convert_to_tensor(x)
-    if standardize_dtype(x.dtype) == "int64":
+    if standardize_dtype(x.dtype) in ("int64", "bfloat16"):
         dtype = config.floatx()
     else:
         dtype = dtypes.result_type(x.dtype, float)
@@ -544,11 +553,11 @@ def linspace(
 
 def log(x):
     x = convert_to_tensor(x)
-    dtype = (
-        config.floatx()
-        if standardize_dtype(x.dtype) == "int64"
-        else dtypes.result_type(x.dtype, float)
-    )
+    ori_dtype = standardize_dtype(x.dtype)
+    if ori_dtype == "int64" or ori_dtype == "bfloat16":
+        dtype = config.floatx()
+    else:
+        dtype = dtypes.result_type(x.dtype, float)
     return np.log(x, dtype=dtype)
 
 
