@@ -10,6 +10,11 @@ from keras.backend.jax.core import convert_to_tensor
 def add(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
+    result_dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    if result_dtype == "int64":
+        result_dtype = "float32"  # Cast problematic int64 to float32
+    x1 = cast(x1, result_dtype)
+    x2 = cast(x2, result_dtype)
     return jnp.add(x1, x2)
 
 
@@ -42,6 +47,11 @@ def einsum(subscripts, *operands, **kwargs):
 def subtract(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
+    result_dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    if result_dtype == "int64":
+        result_dtype = "float32"  # Cast problematic int64 to float32
+    x1 = cast(x1, result_dtype)
+    x2 = cast(x2, result_dtype)
     return jnp.subtract(x1, x2)
 
 
@@ -54,6 +64,11 @@ def matmul(x1, x2):
 def multiply(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
+    result_dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    if result_dtype == "int64":
+        result_dtype = "float32"  # Cast problematic int64 to float32
+    x1 = cast(x1, result_dtype)
+    x2 = cast(x2, result_dtype)
     return jnp.multiply(x1, x2)
 
 
