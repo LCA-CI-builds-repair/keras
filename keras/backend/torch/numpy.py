@@ -21,6 +21,25 @@ TORCH_INT_TYPES = (
 )
 
 
+def _standardize_torch_dtype(dtype):
+    if dtype is None:
+        return None
+    if isinstance(dtype, str):
+        # Convert string dtype to torch dtype
+        if dtype == "float32":
+            return torch.float32
+        elif dtype == "float64":
+            return torch.float64
+        elif dtype == "float16":
+            return torch.float16
+        elif dtype == "int32":
+            return torch.int32
+        elif dtype == "int64":
+            return torch.int64
+        # Add more dtype conversions as needed
+    return dtype
+
+
 def add(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
@@ -73,7 +92,7 @@ def multiply(x1, x2):
 def mean(x, axis=None, keepdims=False):
     if isinstance(x, (list, tuple)):
         x = stack(x)
-    x = convert_to_tensor(x)
+    x = convert_to_tensor(x, dtype=_standardize_torch_dtype(x.dtype))
     if axis == () or axis == []:
         # Torch handles the empty axis case differently from numpy.
         return x
@@ -87,6 +106,7 @@ def mean(x, axis=None, keepdims=False):
         result_dtype = compute_dtype
     else:
         result_dtype = ori_dtype
+    compute_dtype = _standardize_torch_dtype(compute_dtype)
 
     # [NB] the python torch op torch.mean() is generated into
     # `torch._C._VariableFunctions.pyi`, and the method
@@ -104,7 +124,7 @@ def mean(x, axis=None, keepdims=False):
         keepdims,
         dtype=to_torch_dtype(compute_dtype),
     )
-    return cast(result, result_dtype)
+    return cast(result, _standardize_torch_dtype(result_dtype))
 
 
 def max(x, axis=None, keepdims=False, initial=None):
