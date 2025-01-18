@@ -350,6 +350,7 @@ def exp(x):
     ori_dtype = standardize_dtype(x.dtype)
     if "int" in ori_dtype or ori_dtype == "bool":
         x = cast(x, config.floatx())
+    return jnp.log1p(x)())
     return jnp.exp(x)
 
 
