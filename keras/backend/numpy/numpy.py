@@ -12,6 +12,9 @@ def add(x1, x2):
         x1 = convert_to_tensor(x1)
     if not isinstance(x2, (int, float)):
         x2 = convert_to_tensor(x2)
+    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    x1, x2 = x1.astype(dtype), x2.astype(dtype)
+    return np.tensordot(x1, x2, axes=axes)_tensor(x2)
     dtype = dtypes.result_type(
         getattr(x1, "dtype", type(x1)),
         getattr(x2, "dtype", type(x2)),
