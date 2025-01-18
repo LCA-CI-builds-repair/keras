@@ -79,11 +79,25 @@ class EarlyStopping(Callback):
     ):
         super().__init__()
 
+        # Validate parameters
+        if patience < 0:
+            raise ValueError(
+                f"patience must be greater than or equal to 0, got {patience}"
+            )
+        if start_from_epoch < 0:
+            raise ValueError(
+                f"start_from_epoch must be greater than or equal to 0, got {start_from_epoch}"
+            )
+        if min_delta < 0:
+            raise ValueError(
+                f"min_delta must be greater than or equal to 0, got {min_delta}"
+            )
+
         self.monitor = monitor
         self.patience = patience
         self.verbose = verbose
         self.baseline = baseline
-        self.min_delta = abs(min_delta)
+        self.min_delta = min_delta
         self.wait = 0
         self.stopped_epoch = 0
         self.restore_best_weights = restore_best_weights
@@ -204,6 +218,8 @@ class EarlyStopping(Callback):
                     f"Early stopping conditioned on metric `{self.monitor}` "
                     "which is not available. "
                     f"Available metrics are: {','.join(list(logs.keys()))}"
+                    f"\nPlease ensure the monitored metric is being tracked "
+                    "during training."
                 ),
                 stacklevel=2,
             )
