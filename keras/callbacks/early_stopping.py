@@ -47,7 +47,8 @@ class EarlyStopping(Callback):
             that set. Defaults to `False`.
         start_from_epoch: Number of epochs to wait before starting to monitor
             improvement. This allows for a warm-up period in which no
-            improvement is expected and thus training will not be stopped.
+            improvement is expected and thus training will not be stopped. Must be
+            a non-negative integer.
             Defaults to `0`.
 
 
@@ -197,7 +198,10 @@ class EarlyStopping(Callback):
 
     def get_monitor_value(self, logs):
         logs = logs or {}
-        monitor_value = logs.get(self.monitor)
+        if not logs:
+            warnings.warn("Logs dict is empty. Monitoring will start when "
+                        "metrics are available.", stacklevel=2)
+            return None
         if monitor_value is None:
             warnings.warn(
                 (
