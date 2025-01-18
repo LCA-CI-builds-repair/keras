@@ -50,6 +50,24 @@ class DenseTest(testing.TestCase):
             expected_num_losses=2,  # we have 2 regularizers.
             supports_masking=True,
         )
+        
+    def test_dense_invalid_args(self):
+        # Test invalid units
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=-1)
+        with self.assertRaisesRegex(ValueError, "units must be a positive integer"):
+            layers.Dense(units=0)
+            
+        # Test invalid activation
+        with self.assertRaisesRegex(ValueError, "Unknown activation function"):
+            layers.Dense(units=1, activation="invalid_activation")
+            
+        # Test invalid input dimensions
+        layer = layers.Dense(units=2)
+        with self.assertRaisesRegex(ValueError, "Input should have rank >= 2"):
+            layer.build((1,))
+        with self.assertRaisesRegex(ValueError, "Input should have rank >= 2"):
+            layer(np.array([1.0]))
 
     def test_dense_correctness(self):
         # With bias and activation.
@@ -61,9 +79,7 @@ class DenseTest(testing.TestCase):
                 np.array([5.0, -6.0]),
             ]
         )
-        inputs = np.array(
-            [[-1.0, 2.0]],
-        )
+        inputs = np.array([[-1.0, 2.0]])
         self.assertAllClose(layer(inputs), [[10.0, 0.0]])
 
         # Just a kernel matmul.
@@ -74,9 +90,7 @@ class DenseTest(testing.TestCase):
                 np.array([[1.0, -2.0], [3.0, -4.0]]),
             ]
         )
-        inputs = np.array(
-            [[-1.0, 2.0]],
-        )
+        inputs = np.array([[-1.0, 2.0]])
         self.assertEqual(layer.bias, None)
         self.assertAllClose(layer(inputs), [[5.0, -6.0]])
 
@@ -85,6 +99,11 @@ class DenseTest(testing.TestCase):
             layer = layers.Dense(units=2, activation="relu")
             layer(keras_tensor.KerasTensor((1, 2)))
             layer(keras_tensor.KerasTensor((1, 3)))
+            
+        # Test input shape validation
+        layer = layers.Dense(units=2)
+        with self.assertRaisesRegex(ValueError, "Last dimension of inputs should be defined"):
+            layer.build((None, None))
 
     @pytest.mark.skipif(
         not backend.SUPPORTS_SPARSE_TENSORS,
