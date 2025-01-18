@@ -259,7 +259,7 @@ def arctan2(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
     result_dtype = dtypes.result_type(x1.dtype, x2.dtype, float)
-    compute_dtype = result_dtype
+    compute_dtype = "float32"  # Fix: Change to float32 for torch.arctan2
     # TODO: torch.arctan2 doesn't support float16 with cpu
     if get_device() == "cpu" and compute_dtype == "float16":
         compute_dtype = "float32"
