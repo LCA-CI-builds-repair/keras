@@ -238,6 +238,7 @@ class DenseTest(testing.TestCase):
                 "units": 5,
                 "activation": "sigmoid",
                 "kernel_regularizer": "l2",
+                "bias_regularizer": "l2",
                 "lora_rank": 2,
             },
             input_shape=(2, 3, 4),
