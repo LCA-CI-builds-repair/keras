@@ -30,7 +30,7 @@ def einsum(subscripts, *operands, **kwargs):
     compute_dtype = result_dtype
     # TODO: np.einsum doesn't support bfloat16
     if compute_dtype == "bfloat16":
-        compute_dtype = "float32"
+        compute_dtype = np.float32
     operands = tree.map_structure(lambda x: x.astype(compute_dtype), operands)
     return np.einsum(subscripts, *operands, **kwargs).astype(result_dtype)
 
@@ -138,7 +138,7 @@ def arange(start, stop=None, step=None, dtype=None):
     if dtype is None:
         dtypes_to_resolve = [
             getattr(start, "dtype", type(start)),
-            getattr(step, "dtype", type(step)),
+            getattr(step, "dtype", type(step)) if step is not None else int,
         ]
         if stop is not None:
             dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
