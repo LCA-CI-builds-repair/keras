@@ -52,6 +52,11 @@ class DenseTest(testing.TestCase):
         )
 
     def test_dense_correctness(self):
+        # Check initialization of kernel weights
+        layer = layers.Dense(units=2, kernel_initializer='zeros')
+        layer.build((1, 2))
+        np.testing.assert_array_equal(layer.kernel.numpy(), np.zeros((2, 2)))
+
         # With bias and activation.
         layer = layers.Dense(units=2, activation="relu")
         layer.build((1, 2))
