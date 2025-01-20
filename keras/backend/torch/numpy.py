@@ -74,6 +74,10 @@ def mean(x, axis=None, keepdims=False):
     if isinstance(x, (list, tuple)):
         x = stack(x)
     x = convert_to_tensor(x)
+    ori_dtype = standardize_dtype(x.dtype)
+    # Ensure float16 is converted to float32 for CPU operations
+    if get_device() == "cpu" and ori_dtype == "float16":
+        x = cast(x, "float32")
     if axis == () or axis == []:
         # Torch handles the empty axis case differently from numpy.
         return x
