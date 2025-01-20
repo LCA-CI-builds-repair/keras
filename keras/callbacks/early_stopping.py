@@ -97,6 +97,17 @@ class EarlyStopping(Callback):
             )
             mode = "auto"
         self.mode = mode
+        self._validate_monitor()
+    def _validate_monitor(self):
+        # Ensure the monitor metric provided is valid
+        if not isinstance(self.monitor, str) or not self.monitor:
+            raise ValueError("Monitor must be a non-empty string.")
+        
+        # Check if the metric is in the expected format
+        if not any(self.monitor.startswith(prefix) for prefix in ["val_", ""]):
+            raise ValueError(
+                "Monitor should start with 'val_' or be a valid metric name."
+            )
 
     def _set_monitor_op(self):
         if self.mode == "min":
@@ -141,6 +152,12 @@ class EarlyStopping(Callback):
 
     def on_train_begin(self, logs=None):
         self._set_monitor_op()
+        # Revalidate monitor after setting the operation
+        if not callable(self.monitor_op):
+            raise ValueError(
+                f"Monitor operation for {self.monitor} is not callable. "
+                "Ensure the metric and mode are set correctly."
+            )
         if self.monitor_op == ops.less:
             self.min_delta *= -1
 
