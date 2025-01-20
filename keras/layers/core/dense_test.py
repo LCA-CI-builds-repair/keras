@@ -207,7 +207,7 @@ class DenseTest(testing.TestCase):
         model.save(temp_filepath)
 
         new_model = saving.load_model(temp_filepath)
-        self.assertFalse(new_model.layers[0].lora_enabled)
+        self.assertTrue(new_model.layers[0].lora_enabled)
         self.assertAllClose(model.predict(x), new_model.predict(x))
 
         # Try saving and reloading the model's weights only
@@ -224,6 +224,7 @@ class DenseTest(testing.TestCase):
         )
         new_model.build((None, 8))
         new_model.load_weights(temp_filepath)
+        new_model.layers[0].enable_lora(4)
         self.assertAllClose(model.predict(x), new_model.predict(x))
 
         # Try loading a normal checkpoint into a lora model
