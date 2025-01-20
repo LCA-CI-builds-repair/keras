@@ -25,10 +25,9 @@ class EarlyStoppingTest(testing.TestCase):
             loss="mae",
             optimizer="adam",
             metrics=[
-                "mse",
-                "acc",
-                "accuracy",
-                "hinge",
+                metrics.MeanSquaredError(name="mse"),
+                metrics.Accuracy(name="acc"),
+                metrics.Hinge(name="hinge"),
                 metrics.F1Score(name="f1_score"),
             ],
         )
