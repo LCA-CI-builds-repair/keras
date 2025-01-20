@@ -52,7 +52,7 @@ def subtract(x1, x2):
 def matmul(x1, x2):
     x1 = convert_to_tensor(x1)
     x2 = convert_to_tensor(x2)
-    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    dtype = dtypes.result_type(getattr(x1, "dtype", type(x1)), getattr(x2, "dtype", type(x2)))
     return np.matmul(x1, x2).astype(dtype)
 
 
@@ -142,7 +142,7 @@ def arange(start, stop=None, step=None, dtype=None):
         ]
         if stop is not None:
             dtypes_to_resolve.append(getattr(stop, "dtype", type(stop)))
-        dtype = dtypes.result_type(*dtypes_to_resolve)
+        dtype = dtypes.result_type(*dtypes_to_resolve, float)
     return np.arange(start, stop, step=step, dtype=dtype)
 
 
