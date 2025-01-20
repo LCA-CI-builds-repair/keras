@@ -62,7 +62,7 @@ def mean(x, axis=None, keepdims=False):
     ori_dtype = standardize_dtype(x.dtype)
     # `jnp.mean` does not handle low precision (e.g., float16) overflow
     # correctly, so we compute with float32 and cast back to the original type.
-    compute_dtype = dtypes.result_type(x.dtype, "float32")
+    compute_dtype = dtypes.result_type(x.dtype, float)
     if "int" in ori_dtype or ori_dtype == "bool":
         result_dtype = compute_dtype
     else:

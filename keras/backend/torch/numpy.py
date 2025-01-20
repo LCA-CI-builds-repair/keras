@@ -82,7 +82,7 @@ def mean(x, axis=None, keepdims=False):
 
     ori_dtype = standardize_dtype(x.dtype)
     # torch.mean only supports floating point inputs
-    compute_dtype = dtypes.result_type(x.dtype, "float32")
+    compute_dtype = dtypes.result_type(x.dtype, float)
     if "int" in ori_dtype or ori_dtype == "bool":
         result_dtype = compute_dtype
     else:
