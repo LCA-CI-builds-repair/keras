@@ -242,8 +242,14 @@ def ceil(x):
 
 def clip(x, x_min, x_max):
     x = convert_to_tensor(x)
+    x_min = convert_to_tensor(x_min)
+    x_max = convert_to_tensor(x_max)
     if standardize_dtype(x.dtype) == "bool":
         x = cast(x, "int32")
+    if standardize_dtype(x_min.dtype) != standardize_dtype(x.dtype):
+        x_min = cast(x_min, x.dtype)
+    if standardize_dtype(x_max.dtype) != standardize_dtype(x.dtype):
+        x_max = cast(x_max, x.dtype)
     return jnp.clip(x, x_min, x_max)
 
 
