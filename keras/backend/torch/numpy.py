@@ -393,7 +393,7 @@ def clip(x, x_min, x_max):
         x = cast(x, "float32")
         return cast(torch.clip(x, min=x_min, max=x_max), "float16")
 
-    if ori_dtype == "bool":
+    if x.dtype == torch.bool:
         x = cast(x, "int32")
     return torch.clip(x, min=x_min, max=x_max)
 
