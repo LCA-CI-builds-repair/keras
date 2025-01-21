@@ -106,7 +106,7 @@ class EarlyStopping(Callback):
             self.monitor_op = ops.greater
             return
         else:
-            metric_name = self.monitor.removeprefix("val_")
+            metric_name = self.monitor[4:] if self.monitor.startswith("val_") else self.monitor
             if metric_name == "loss":
                 self.monitor_op = ops.less
                 return
@@ -127,9 +127,11 @@ class EarlyStopping(Callback):
                             if m._direction == "up":
                                 self.monitor_op = ops.greater
                                 return
-                            else:
+                            elif m._direction == "down":
                                 self.monitor_op = ops.less
                                 return
+            # Default case if no direction is set
+            self.monitor_op = ops.less
         raise ValueError(
             f"EarlyStopping callback received monitor={self.monitor} "
             "but Keras isn't able to automatically determine whether "
