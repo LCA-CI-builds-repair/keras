@@ -25,7 +25,10 @@ def einsum(subscripts, *operands, **kwargs):
     operands = tree.map_structure(convert_to_tensor, operands)
     dtypes_to_resolve = []
     for x in operands:
-        dtypes_to_resolve.append(getattr(x, "dtype", type(x)))
+        if hasattr(x, 'dtype'):
+            dtypes_to_resolve.append(x.dtype)
+        else:
+            dtypes_to_resolve.append(type(x))
     result_dtype = dtypes.result_type(*dtypes_to_resolve)
     compute_dtype = result_dtype
     # TODO: np.einsum doesn't support bfloat16
