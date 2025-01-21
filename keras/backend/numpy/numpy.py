@@ -876,6 +876,10 @@ def tensordot(x1, x2, axes=2):
     x1 = x1.astype(dtype)
     x2 = x2.astype(dtype)
     return np.tensordot(x1, x2, axes=axes)
+    dtype = dtypes.result_type(x1.dtype, x2.dtype)
+    x1 = x1.astype(dtype)
+    x2 = x2.astype(dtype)
+    return np.tensordot(x1, x2, axes=axes)
 
 
 def round(x, decimals=0):
