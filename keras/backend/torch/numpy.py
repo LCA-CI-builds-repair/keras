@@ -1451,6 +1451,11 @@ def eye(N, M=None, k=None, dtype=None):
 
 def floor_divide(x1, x2):
     x1, x2 = convert_to_tensor(x1), convert_to_tensor(x2)
+    # Ensure both tensors are of compatible types for floor_divide
+    if x1.dtype != x2.dtype:
+        x2 = x2.to(x1.dtype)
+    return torch.floor_divide(x1, x2)
+    x1, x2 = convert_to_tensor(x1), convert_to_tensor(x2)
     return torch.floor_divide(x1, x2)
 
 
