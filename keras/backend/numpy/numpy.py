@@ -1037,6 +1037,8 @@ def eye(N, M=None, k=0, dtype=None):
 
 
 def floor_divide(x1, x2):
+    if np.any(x2 == 0):
+        raise ValueError("Division by zero encountered in floor_divide")
     return np.floor_divide(x1, x2)
 
 
