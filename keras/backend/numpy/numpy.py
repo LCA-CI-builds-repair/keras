@@ -1037,6 +1037,8 @@ def eye(N, M=None, k=0, dtype=None):
 
 
 def floor_divide(x1, x2):
+    x1 = np.asarray(x1, dtype=np.float64)
+    x2 = np.asarray(x2, dtype=np.float64)
     return np.floor_divide(x1, x2)
 
 
