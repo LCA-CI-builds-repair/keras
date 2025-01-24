@@ -1450,6 +1450,8 @@ def eye(N, M=None, k=None, dtype=None):
 
 
 def floor_divide(x1, x2):
+    if torch.any(x2 == 0):
+        raise ValueError("Division by zero is undefined.")
     x1, x2 = convert_to_tensor(x1), convert_to_tensor(x2)
     return torch.floor_divide(x1, x2)
 
